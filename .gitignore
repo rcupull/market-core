@@ -1,6 +1,5 @@
 node_modules/
 build/
-dist/
 .firebase
 .wwebjs_auth
 deploy.tar
