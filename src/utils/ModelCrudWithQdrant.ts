@@ -1,11 +1,9 @@
 import { QdrantClient } from '@qdrant/js-client-rest';
-import { ModelCrudTemplate } from './ModelCrudTemplate'; // tu clase base
-import { AnyRecord, QueryHandle } from '../types/general';
-import { AggregatePaginateModel, FilterQuery, PaginateModel } from 'mongoose';
-import { EMBEDDING_HOST, NODE_ENV, QDRANT_API_KEY, QDRANT_ENV, QDRANT_HOST } from '../config';
-import { compact } from './general';
-import { logger } from '../services/logger';
+import { ModelCrudTemplate, ModelType } from './ModelCrudTemplate';
+import { FilterQuery } from 'mongoose';
+import { compact, Logger } from './general';
 import axios from 'axios';
+import { AnyRecord, QueryHandle } from '../types/general';
 
 export type EmbeddedVector = Array<number>;
 
@@ -24,10 +22,6 @@ interface QdrantSearchPoint<Payload extends AnyRecord = AnyRecord> extends Qdran
   score: number;
 }
 
-const getCollectionName = (customCollectionName: string) => {
-  return `${NODE_ENV}_${QDRANT_ENV}_${customCollectionName}`;
-};
-
 export type GetTextFromDoc<T extends AnyRecord> = (
   doc: T
 ) => Promise<string | null> | string | null;
@@ -41,14 +35,30 @@ export class ModelCrudWithQdrant<
   private qdrantClient: QdrantClient;
 
   constructor(
-    private readonly model: PaginateModel<T> & AggregatePaginateModel<T>,
+    modelGetter: () => ModelType<T>,
     getFilterQuery: (q: Q) => FilterQuery<T> = (q) => q,
-    private readonly payloadFromDoc: (doc: T) => Promise<QdrantPayload> | QdrantPayload
+    private readonly options: {
+      payloadFromDoc: (doc: T) => Promise<QdrantPayload> | QdrantPayload;
+      EMBEDDING_HOST: string;
+      NODE_ENV: string;
+      QDRANT_API_KEY: string;
+      QDRANT_ENV: string;
+      QDRANT_HOST: string;
+      logger?: Logger;
+    }
   ) {
-    super(model, getFilterQuery);
+    super(modelGetter, getFilterQuery);
+
+    const { QDRANT_HOST, QDRANT_API_KEY } = this.options;
 
     this.qdrantClient = new QdrantClient({ url: QDRANT_HOST, apiKey: QDRANT_API_KEY });
   }
+
+  private getCollectionName = (customCollectionName: string) => {
+    const { NODE_ENV, QDRANT_ENV } = this.options;
+
+    return `${NODE_ENV}_${QDRANT_ENV}_${customCollectionName}`;
+  };
 
   private checkCollection: QdrantQueryHandle = async (collectionName) => {
     const existsProductsCollection = await this.qdrantClient.collectionExists(collectionName);
@@ -68,6 +78,7 @@ export class ModelCrudWithQdrant<
       embedding: Array<number>;
     }
   > = async ({ text }) => {
+    const { EMBEDDING_HOST } = this.options;
     try {
       const { data } = await axios({
         method: 'get',
@@ -79,8 +90,8 @@ export class ModelCrudWithQdrant<
         embedding: data.embedding as Array<number>
       };
     } catch (e) {
-      logger.error('Failed call to Embedding provider');
-      logger.error(e);
+      this.options.logger?.error('Failed call to Embedding provider');
+      this.options.logger?.error(e);
 
       return {
         embedding: []
@@ -95,7 +106,7 @@ export class ModelCrudWithQdrant<
        * ///////////////////////////////////////////////////////////////
        * ///////////////////////////////////////////////////////////////
        */
-      const collectionName = getCollectionName(customCollectionName);
+      const collectionName = this.getCollectionName(customCollectionName);
       await this.checkCollection(collectionName);
 
       /**
@@ -117,7 +128,7 @@ export class ModelCrudWithQdrant<
 
           const { embedding } = await this.embed({ text });
 
-          const payload = await this.payloadFromDoc(document);
+          const payload = await this.options.payloadFromDoc(document);
 
           return {
             id: index,
@@ -137,8 +148,8 @@ export class ModelCrudWithQdrant<
           points: compact(points)
         });
       } catch (e) {
-        logger.error('Failed calling upsert to Qdrant');
-        logger.error(JSON.stringify(e, null, 2));
+        this.options.logger?.error('Failed calling upsert to Qdrant');
+        this.options.logger?.error(JSON.stringify(e, null, 2));
       }
     };
 
@@ -151,7 +162,7 @@ export class ModelCrudWithQdrant<
      * ///////////////////////////////////////////////////////////////
      * ///////////////////////////////////////////////////////////////
      */
-    const collectionName = getCollectionName(customCollectionName);
+    const collectionName = this.getCollectionName(customCollectionName);
     await this.checkCollection(collectionName);
 
     /**
@@ -188,8 +199,8 @@ export class ModelCrudWithQdrant<
         payload: payload as QdrantPayload
       }));
     } catch (e) {
-      logger.error('Failed calling search to Qdrant');
-      logger.error(JSON.stringify(e, null, 2));
+      this.options.logger?.error('Failed calling search to Qdrant');
+      this.options.logger?.error(JSON.stringify(e, null, 2));
 
       return [];
     }
@@ -202,7 +213,7 @@ export class ModelCrudWithQdrant<
        * ///////////////////////////////////////////////////////////////
        * ///////////////////////////////////////////////////////////////
        */
-      const collectionName = getCollectionName(customCollectionName);
+      const collectionName = this.getCollectionName(customCollectionName);
       await this.checkCollection(collectionName);
 
       /**
@@ -232,8 +243,8 @@ export class ModelCrudWithQdrant<
 
         return points[0] as QdrantPoint;
       } catch (e) {
-        logger.error('Failed calling qdrantSearchOne to Qdrant');
-        logger.error(JSON.stringify(e, null, 2));
+        this.options.logger?.error('Failed calling qdrantSearchOne to Qdrant');
+        this.options.logger?.error(JSON.stringify(e, null, 2));
 
         return null;
       }

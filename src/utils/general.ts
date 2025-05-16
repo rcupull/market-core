@@ -1,9 +1,7 @@
 import { Schema } from 'mongoose';
-import { AnyRecord, EmptyObjectOf, Nullable, Path, RequestHandler } from '../types/general';
 import dlv from 'dlv';
 import { dset } from 'dset';
-import { User, UserRole } from '../services/user/types';
-import { Access } from '../services/config/types';
+import { AnyRecord, EmptyObjectOf, Nullable, Path, RequestHandler } from '../types/general';
 export const replaceAll = (value: string, match: string, replace: string): string =>
   value.split(match).join(replace);
 
@@ -261,14 +259,6 @@ export const mergeArrays = <T = any>(...allArray: Array<Array<T>>): Array<T> => 
   return allArray.reduce((acc, arr) => [...acc, ...arr], [] as Array<T>);
 };
 
-export const userHasSomeAccess = (user: User | undefined, ...access: Array<Access>): boolean => {
-  return access.map((val) => user?.specialAccess?.includes(val)).some(Boolean);
-};
-
-export const userIsAdmin = (user: User | undefined): boolean => {
-  return user?.role === UserRole.ADMIN;
-};
-
 export const fixToTwoDigits = (number: number): number => Number(number.toFixed(2));
 
 export const isObject = (item: any) => {
@@ -299,3 +289,8 @@ export const mergeDeep = <T extends AnyRecord = AnyRecord>(
   }
   return output;
 };
+
+export interface Logger {
+  error: (e: any) => void;
+  info: (e: any) => void;
+}

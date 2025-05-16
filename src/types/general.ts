@@ -4,12 +4,10 @@ import {
   ApplySchemaOptions,
   DefaultSchemaOptions,
   ObtainDocumentType,
-  PaginateOptions,
   ResolveSchemaOptions,
   Schema
 } from 'mongoose';
 
-import { User as UserApp } from '../services/user/types';
 import { Document } from 'mongoose';
 
 export enum Currency {
@@ -24,16 +22,6 @@ export type UnknownRecord = Record<string, unknown>;
 export interface BaseIdentity {
   _id: Schema.Types.ObjectId;
   createdAt: Date;
-}
-
-declare global {
-  namespace Express {
-    interface User extends UserApp {}
-    interface Request {
-      paginateOptions?: PaginateOptions;
-      browserFingerprint?: string;
-    }
-  }
 }
 
 export interface RequestHandler<

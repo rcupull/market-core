@@ -9,11 +9,14 @@ import {
   QueryOptions,
   UpdateQuery
 } from 'mongoose';
+
 import { AnyRecord, ModelDocument, QueryHandle, QuerySelectType } from '../types/general';
-import { getSortQuery } from './schemas';
 import { UpdateOptions } from 'mongodb';
 import { isEmpty } from './general';
 import { PaginateResult } from '../types/pagination';
+import { getSortQuery } from './schemas';
+
+export type ModelType<T> = PaginateModel<T> & AggregatePaginateModel<T>;
 
 export class ModelCrudTemplate<
   T extends AnyRecord,
@@ -23,30 +26,34 @@ export class ModelCrudTemplate<
   hiddenFields: Array<string> = [];
 
   constructor(
-    private readonly Model: PaginateModel<T> & AggregatePaginateModel<T>,
+    private readonly modelGetter: () => ModelType<T>,
     private readonly getFilterQuery: (q: Q) => FilterQuery<T> = (q) => q
   ) {
     this.init();
   }
 
   private init() {
+    const Model = this.modelGetter();
     /**
      * This is a list of fields that are not returned by default when querying the database.
      * This is useful for fields that are not needed in the response, such as passwords or sensitive information.
      */
-    this.hiddenFields = Object.entries(this.Model.schema.paths)
+    this.hiddenFields = Object.entries(Model.schema.paths)
       .filter(([, path]) => path.options && path.options.select === false)
       .map(([key]) => key);
   }
 
   addOne: QueryHandle<NArgs, ModelDocument<T>> = async (args) => {
-    const out = new this.Model(args);
+    const Model = this.modelGetter();
+
+    const out = new Model(args);
     await out.save();
     return out;
   };
 
   addOneTestingEnv: QueryHandle<Partial<T>, ModelDocument<T>> = async (args) => {
-    const out = new this.Model(args);
+    const Model = this.modelGetter();
+    const out = new Model(args);
     await out.save();
     return out;
   };
@@ -57,7 +64,8 @@ export class ModelCrudTemplate<
     },
     Array<any>
   > = async ({ field }) => {
-    const out = await this.Model.distinct(field as string);
+    const Model = this.modelGetter();
+    const out = await Model.distinct(field as string);
     return out;
   };
 
@@ -67,7 +75,8 @@ export class ModelCrudTemplate<
     },
     boolean
   > = async ({ query }) => {
-    const out = await this.Model.exists(query);
+    const Model = this.modelGetter();
+    const out = await Model.exists(query);
 
     return !!out;
   };
@@ -84,7 +93,8 @@ export class ModelCrudTemplate<
   > = async ({ query, projection, select, options = {}, sort }) => {
     const filterQuery = this.getFilterQuery(query);
 
-    const promise = this.Model.findOne(filterQuery, projection, {
+    const Model = this.modelGetter();
+    const promise = Model.findOne(filterQuery, projection, {
       ...options,
       sort: getSortQuery(sort)
     });
@@ -107,7 +117,8 @@ export class ModelCrudTemplate<
   }> = async ({ query }) => {
     const filterQuery = this.getFilterQuery(query);
 
-    await this.Model.deleteOne(filterQuery);
+    const Model = this.modelGetter();
+    await Model.deleteOne(filterQuery);
   };
 
   deleteMany: QueryHandle<{
@@ -115,7 +126,8 @@ export class ModelCrudTemplate<
   }> = async ({ query }) => {
     const filterQuery = this.getFilterQuery(query);
 
-    await this.Model.deleteMany(filterQuery);
+    const Model = this.modelGetter();
+    await Model.deleteMany(filterQuery);
   };
 
   findAndDelete: QueryHandle<
@@ -127,7 +139,8 @@ export class ModelCrudTemplate<
   > = async ({ query, queryOptions = {} }) => {
     const filterQuery = this.getFilterQuery(query);
 
-    const out = await this.Model.findOneAndDelete(filterQuery, {
+    const Model = this.modelGetter();
+    const out = await Model.findOneAndDelete(filterQuery, {
       returnDocument: 'after',
       ...queryOptions
     });
@@ -147,7 +160,8 @@ export class ModelCrudTemplate<
   > = async ({ query, sort, paginateOptions = {}, projection, select }) => {
     const filterQuery = this.getFilterQuery(query);
 
-    const out = await this.Model.paginate(filterQuery, {
+    const Model = this.modelGetter();
+    const out = await Model.paginate(filterQuery, {
       projection,
       ...paginateOptions,
       sort: getSortQuery(sort),
@@ -167,7 +181,8 @@ export class ModelCrudTemplate<
   > = async ({ query, projection, select }) => {
     const filterQuery = this.getFilterQuery(query);
 
-    const promise = this.Model.find(filterQuery, projection);
+    const Model = this.modelGetter();
+    const promise = Model.find(filterQuery, projection);
 
     if (select) {
       promise.select(
@@ -192,7 +207,8 @@ export class ModelCrudTemplate<
   > = async ({ query, update, options }) => {
     const filterQuery = this.getFilterQuery(query);
 
-    await this.Model.updateOne(filterQuery, update, options);
+    const Model = this.modelGetter();
+    await Model.updateOne(filterQuery, update, options);
   };
 
   updateMany: QueryHandle<
@@ -205,7 +221,8 @@ export class ModelCrudTemplate<
   > = async ({ query, update, options }) => {
     const filterQuery = this.getFilterQuery(query);
 
-    await this.Model.updateMany(filterQuery, update, options);
+    const Model = this.modelGetter();
+    await Model.updateMany(filterQuery, update, options);
   };
 
   findOneAndUpdate: QueryHandle<
@@ -218,7 +235,8 @@ export class ModelCrudTemplate<
   > = async ({ query, update, queryOptions = {} }) => {
     const filterQuery = this.getFilterQuery(query);
 
-    return await this.Model.findOneAndUpdate(filterQuery, update, {
+    const Model = this.modelGetter();
+    return await Model.findOneAndUpdate(filterQuery, update, {
       returnDocument: 'after',
       ...queryOptions
     });
@@ -232,7 +250,8 @@ export class ModelCrudTemplate<
   > = async ({ query }) => {
     const filterQuery = this.getFilterQuery(query);
 
-    return await this.Model.findOne(filterQuery).sort({ createdAt: 1 }).limit(1);
+    const Model = this.modelGetter();
+    return await Model.findOne(filterQuery).sort({ createdAt: 1 }).limit(1);
   };
 
   /**
@@ -276,7 +295,8 @@ export class ModelCrudTemplate<
     select?: QuerySelectType<T>;
   }): Promise<Array<R>> => {
     const { options, pipeline, select } = args;
-    const out = await this.Model.aggregate<R>(
+    const Model = this.modelGetter();
+    const out = await Model.aggregate<R>(
       [...pipeline, this.getPipelineToHidePrivateFields({ select })],
       options
     );
@@ -312,12 +332,13 @@ export class ModelCrudTemplate<
   }): Promise<PaginateResult<R>> => {
     const { options, pipeline, paginateOptions = {}, select } = args;
 
-    const aggregation = this.Model.aggregate<R>(
+    const Model = this.modelGetter();
+    const aggregation = Model.aggregate<R>(
       [...pipeline, this.getPipelineToHidePrivateFields({ select })],
       options
     );
 
-    const out = await this.Model.aggregatePaginate(aggregation, {
+    const out = await Model.aggregatePaginate(aggregation, {
       ...paginateOptions
     });
 

@@ -2,7 +2,7 @@
   "name": "market-services",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "prettier": "prettier --write 'src/**/*.ts'",
@@ -12,7 +12,7 @@
   "keywords": [],
   "author": "Rodobaldo Cupull",
   "license": "ISC",
-  "dependencies": {
+  "peerDependencies": {
     "@aws-sdk/client-s3": "^3.696.0",
     "@aws-sdk/node-http-handler": "^3.374.0",
     "@qdrant/js-client-rest": "^1.14.0",
@@ -59,6 +59,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.4.0",
+    "@types/axios": "^0.14.4",
     "@types/bcrypt": "^5.0.2",
     "@types/big.js": "^6.2.2",
     "@types/connect-mongodb-session": "^2.4.7",
