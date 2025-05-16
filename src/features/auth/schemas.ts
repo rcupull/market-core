@@ -5,9 +5,9 @@ import { getMongoose } from '../../db';
 let AuthSessionModel: ReturnType<typeof getMongoModel<AuthSession>>;
 
 export const modelGetter = () => {
-  const { Schema } = getMongoose();
-
   if (!AuthSessionModel) {
+    const { Schema } = getMongoose();
+
     const AuthSessionShema = new Schema<AuthSession>({
       ...createdAtSchemaDefinition,
       refreshToken: { type: String, required: true, unique: true },
