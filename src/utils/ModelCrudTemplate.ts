@@ -23,22 +23,18 @@ export class ModelCrudTemplate<
   NArgs extends Partial<T>,
   Q extends FilterQuery<T>
 > {
-  hiddenFields: Array<string> = [];
-
   constructor(
     private readonly modelGetter: () => ModelType<T>,
     private readonly getFilterQuery: (q: Q) => FilterQuery<T> = (q) => q
-  ) {
-    this.init();
-  }
+  ) {}
 
-  private init() {
+  private getHiddenFields() {
     const Model = this.modelGetter();
     /**
      * This is a list of fields that are not returned by default when querying the database.
      * This is useful for fields that are not needed in the response, such as passwords or sensitive information.
      */
-    this.hiddenFields = Object.entries(Model.schema.paths)
+    return Object.entries(Model.schema.paths)
       .filter(([, path]) => path.options && path.options.select === false)
       .map(([key]) => key);
   }
@@ -271,7 +267,7 @@ export class ModelCrudTemplate<
      * objectFields has the field that with need to hide in the aggregation
      * and the value is 0, so it will be hidden in the aggregation
      */
-    const objectFields = this.hiddenFields.reduce((acc, field) => {
+    const objectFields = this.getHiddenFields().reduce((acc, field) => {
       const exists = field in select;
       return exists ? acc : { ...acc, [field]: 0 };
     }, {});

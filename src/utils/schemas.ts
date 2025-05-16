@@ -1,7 +1,6 @@
 import {
   AggregatePaginateModel,
   FilterQuery,
-  model,
   PaginateModel,
   Schema,
   SchemaDefinition,
@@ -11,6 +10,7 @@ import {
 import mongoosePaginate from 'mongoose-paginate-v2';
 import aggregatePaginate from 'mongoose-aggregate-paginate-v2';
 import { Address, AnyRecord, BankAccount } from '../types/general';
+import { getMongoose } from '../db';
 
 export const createdAtSchemaDefinition: SchemaDefinition = {
   createdAt: { type: Date, required: true, default: Date.now }
@@ -27,6 +27,8 @@ export const getMongoModel = <T extends AnyRecord>(
   schema: Schema,
   collectionName: string
 ) => {
+  const { model } = getMongoose();
+
   schema.plugin(mongoosePaginate);
   schema.plugin(aggregatePaginate);
 
