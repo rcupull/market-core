@@ -20,4 +20,10 @@ export * from './src/features/agenda/services';
 export * from './src/features/review/types';
 export * from './src/features/review/services';
 
+export * from './src/features/post/types';
+export * from './src/features/post/services';
+
+export * from './src/features/business/types';
+export * from './src/features/business/services';
+
 export * from './src/db';

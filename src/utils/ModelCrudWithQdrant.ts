@@ -26,6 +26,16 @@ export type GetTextFromDoc<T extends AnyRecord> = (
   doc: T
 ) => Promise<string | null> | string | null;
 
+export interface ModelCrudWithQdrantOptions<T extends AnyRecord, QdrantPayload extends AnyRecord> {
+  payloadFromDoc: (doc: T) => Promise<QdrantPayload> | QdrantPayload;
+  EMBEDDING_HOST: string;
+  NODE_ENV: string;
+  QDRANT_API_KEY: string;
+  QDRANT_ENV: string;
+  QDRANT_HOST: string;
+  logger?: Logger;
+}
+
 export class ModelCrudWithQdrant<
   T extends AnyRecord,
   NArgs extends Partial<T>,
@@ -37,15 +47,7 @@ export class ModelCrudWithQdrant<
   constructor(
     modelGetter: () => ModelType<T>,
     getFilterQuery: (q: Q) => FilterQuery<T> = (q) => q,
-    private readonly options: {
-      payloadFromDoc: (doc: T) => Promise<QdrantPayload> | QdrantPayload;
-      EMBEDDING_HOST: string;
-      NODE_ENV: string;
-      QDRANT_API_KEY: string;
-      QDRANT_ENV: string;
-      QDRANT_HOST: string;
-      logger?: Logger;
-    }
+    private readonly options: ModelCrudWithQdrantOptions<T, QdrantPayload>
   ) {
     super(modelGetter, getFilterQuery);
 

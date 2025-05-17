@@ -13,18 +13,19 @@ interface QdrantSearchPoint<Payload extends AnyRecord = AnyRecord> extends Qdran
     score: number;
 }
 export type GetTextFromDoc<T extends AnyRecord> = (doc: T) => Promise<string | null> | string | null;
+export interface ModelCrudWithQdrantOptions<T extends AnyRecord, QdrantPayload extends AnyRecord> {
+    payloadFromDoc: (doc: T) => Promise<QdrantPayload> | QdrantPayload;
+    EMBEDDING_HOST: string;
+    NODE_ENV: string;
+    QDRANT_API_KEY: string;
+    QDRANT_ENV: string;
+    QDRANT_HOST: string;
+    logger?: Logger;
+}
 export declare class ModelCrudWithQdrant<T extends AnyRecord, NArgs extends Partial<T>, Q extends FilterQuery<T>, QdrantPayload extends AnyRecord> extends ModelCrudTemplate<T, NArgs, Q> {
     private readonly options;
     private qdrantClient;
-    constructor(modelGetter: () => ModelType<T>, getFilterQuery: ((q: Q) => FilterQuery<T>) | undefined, options: {
-        payloadFromDoc: (doc: T) => Promise<QdrantPayload> | QdrantPayload;
-        EMBEDDING_HOST: string;
-        NODE_ENV: string;
-        QDRANT_API_KEY: string;
-        QDRANT_ENV: string;
-        QDRANT_HOST: string;
-        logger?: Logger;
-    });
+    constructor(modelGetter: () => ModelType<T>, getFilterQuery: ((q: Q) => FilterQuery<T>) | undefined, options: ModelCrudWithQdrantOptions<T, QdrantPayload>);
     private getCollectionName;
     private checkCollection;
     private embed;

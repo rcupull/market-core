@@ -12,6 +12,13 @@ import aggregatePaginate from 'mongoose-aggregate-paginate-v2';
 import { Address, AnyRecord, BankAccount } from '../types/general';
 import { getMongoose } from '../db';
 import { getFlattenUndefinedJson, isEmpty } from './general';
+import { Commission, CommissionMode, Commissions } from '../types/commision';
+import {
+  DeliveryConfig,
+  DeliveryConfigType,
+  PostCardLayout,
+  PostLayoutShoppingMethod
+} from '../features/business/types';
 
 export const createdAtSchemaDefinition: SchemaDefinition = {
   createdAt: { type: Date, required: true, default: Date.now }
@@ -141,3 +148,76 @@ export const getFilterQueryFactory = <
 
   return out;
 };
+
+const commissionSchemaDefinition: SchemaDefinition<Commission> = {
+  mode: {
+    _id: false,
+    type: String,
+    enum: Object.values(CommissionMode)
+  },
+  value: {
+    _id: false,
+    type: Number
+  }
+};
+
+export const commissionsSchemaDefinition: SchemaDefinition<Commissions> = {
+  marketOperation: {
+    _id: false,
+    type: commissionSchemaDefinition
+  },
+  systemUse: {
+    _id: false,
+    type: commissionSchemaDefinition
+  }
+};
+
+export const DeliveryConfigDefinition: SchemaDefinitionProperty<DeliveryConfig> = {
+  type: {
+    type: String,
+    enum: Object.values(DeliveryConfigType),
+    default: DeliveryConfigType.NONE
+  },
+  minPrice: { type: Number, default: 0 },
+  priceByKm: { type: Number, default: 0 }
+};
+
+const PostLayoutShoppingMethodDefinition: SchemaDefinitionProperty<PostLayoutShoppingMethod> = {
+  type: String,
+  enum: ['none', 'shoppingCart']
+};
+
+export const PostCardLayoutSchema = new Schema<PostCardLayout>({
+  images: {
+    type: String,
+    enum: ['static', 'hoverZoom', 'slider', 'switch', 'rounded'],
+    default: 'static'
+  },
+  size: {
+    type: String,
+    enum: ['small', 'medium', 'long'],
+    default: 'medium'
+  },
+  metaLayout: {
+    type: String,
+    enum: ['basic', 'verticalCentered'],
+    default: 'basic'
+  },
+  name: {
+    type: String,
+    enum: ['none', 'basic'],
+    required: true,
+    default: 'basic'
+  },
+  price: {
+    type: String,
+    enum: ['none', 'basic', 'smallerCurrency', 'usdCurrencySymbol'],
+    default: 'basic'
+  },
+  discount: {
+    type: String,
+    enum: ['none', 'savedPercent', 'savedMoney'],
+    default: 'none'
+  },
+  shoppingMethod: PostLayoutShoppingMethodDefinition
+});

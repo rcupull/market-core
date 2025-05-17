@@ -29,4 +29,8 @@ __exportStar(require("./src/features/agenda/types"), exports);
 __exportStar(require("./src/features/agenda/services"), exports);
 __exportStar(require("./src/features/review/types"), exports);
 __exportStar(require("./src/features/review/services"), exports);
+__exportStar(require("./src/features/post/types"), exports);
+__exportStar(require("./src/features/post/services"), exports);
+__exportStar(require("./src/features/business/types"), exports);
+__exportStar(require("./src/features/business/services"), exports);
 __exportStar(require("./src/db"), exports);
