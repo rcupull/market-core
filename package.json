@@ -12,7 +12,7 @@
   "keywords": [],
   "author": "Rodobaldo Cupull",
   "license": "ISC",
-  "peerDependencies": {
+  "dependencies": {
     "@aws-sdk/client-s3": "^3.696.0",
     "@aws-sdk/node-http-handler": "^3.374.0",
     "@qdrant/js-client-rest": "^1.14.0",
