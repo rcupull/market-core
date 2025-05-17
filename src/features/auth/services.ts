@@ -1,12 +1,12 @@
 import { ModelDocument, QueryHandle } from '../../types/general';
 import { FilterQuery } from 'mongoose';
 import { modelGetter } from './schemas';
-import { AuthSession, AuthSessionState } from './types';
+import { AuthenticateCallback, AuthSession, AuthSessionState } from './types';
 import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
 import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcrypt';
 import passportJWT from 'passport-jwt';
-import passport, { AuthenticateCallback } from 'passport';
+import passport from 'passport';
 import { UserServices } from '../user/services';
 import { ValidationCodeServices } from '../validation-code/services';
 import { Logger } from '../../utils/general';

@@ -1,8 +1,7 @@
 import { ModelDocument, QueryHandle } from '../../types/general';
 import { FilterQuery } from 'mongoose';
-import { AuthSession } from './types';
+import { AuthenticateCallback, AuthSession } from './types';
 import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
-import { AuthenticateCallback } from 'passport';
 import { UserServices } from '../user/services';
 import { ValidationCodeServices } from '../validation-code/services';
 import { Logger } from '../../utils/general';

@@ -1,5 +1,6 @@
 import { Schema } from 'mongoose';
 import { BaseIdentity } from '../../types/general';
+import { User } from '../user/types';
 
 export enum TYPE_DEVICE {
   NATIVE = 'NATIVE',
@@ -21,3 +22,10 @@ export interface AuthSession extends BaseIdentity {
   closedAt?: Date;
   firebaseToken?: string;
 }
+
+export type AuthenticateCallback = (
+  err: any,
+  user?: User,
+  info?: object | string | Array<string | undefined>,
+  status?: number | Array<number | undefined>
+) => any;
