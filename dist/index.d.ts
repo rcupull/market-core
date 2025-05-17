@@ -21,4 +21,6 @@ export * from './src/features/notifications/types';
 export * from './src/features/notifications/services';
 export * from './src/features/nlp/types';
 export * from './src/features/nlp/services';
+export * from './src/features/config/types';
+export * from './src/features/config/services';
 export * from './src/db';

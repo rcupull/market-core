@@ -37,4 +37,6 @@ __exportStar(require("./src/features/notifications/types"), exports);
 __exportStar(require("./src/features/notifications/services"), exports);
 __exportStar(require("./src/features/nlp/types"), exports);
 __exportStar(require("./src/features/nlp/services"), exports);
+__exportStar(require("./src/features/config/types"), exports);
+__exportStar(require("./src/features/config/services"), exports);
 __exportStar(require("./src/db"), exports);
