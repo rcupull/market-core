@@ -17,4 +17,7 @@ export * from './src/features/validation-code/services';
 export * from './src/features/agenda/types';
 export * from './src/features/agenda/services';
 
+export * from './src/features/review/types';
+export * from './src/features/review/services';
+
 export * from './src/db';
