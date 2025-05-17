@@ -19,4 +19,6 @@ export * from './src/features/business/types';
 export * from './src/features/business/services';
 export * from './src/features/notifications/types';
 export * from './src/features/notifications/services';
+export * from './src/features/nlp/types';
+export * from './src/features/nlp/services';
 export * from './src/db';

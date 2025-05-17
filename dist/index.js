@@ -35,4 +35,6 @@ __exportStar(require("./src/features/business/types"), exports);
 __exportStar(require("./src/features/business/services"), exports);
 __exportStar(require("./src/features/notifications/types"), exports);
 __exportStar(require("./src/features/notifications/services"), exports);
+__exportStar(require("./src/features/nlp/types"), exports);
+__exportStar(require("./src/features/nlp/services"), exports);
 __exportStar(require("./src/db"), exports);
