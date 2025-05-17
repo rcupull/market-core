@@ -22,6 +22,7 @@ export class PostServices extends ModelCrudWithQdrant<
   Pick<
     Post,
     | 'hidden'
+    | 'hiddenBusiness'
     | 'description'
     | 'images'
     | 'price'

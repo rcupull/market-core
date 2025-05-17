@@ -9,7 +9,7 @@ interface PostQdrantPayload {
     productId: string;
     productName: string;
 }
-export declare class PostServices extends ModelCrudWithQdrant<Post, Pick<Post, 'hidden' | 'description' | 'images' | 'price' | 'currency' | 'currenciesOfSale' | 'routeName' | 'name' | 'postSlug' | 'clothingSizes' | 'colors' | 'details' | 'highlights' | 'createdBy' | 'postCategoriesLabels' | 'categoryIds' | 'postType' | 'postLink' | 'discount'>, GetAllPostArgs, PostQdrantPayload> {
+export declare class PostServices extends ModelCrudWithQdrant<Post, Pick<Post, 'hidden' | 'hiddenBusiness' | 'description' | 'images' | 'price' | 'currency' | 'currenciesOfSale' | 'routeName' | 'name' | 'postSlug' | 'clothingSizes' | 'colors' | 'details' | 'highlights' | 'createdBy' | 'postCategoriesLabels' | 'categoryIds' | 'postType' | 'postLink' | 'discount'>, GetAllPostArgs, PostQdrantPayload> {
     private readonly userServices;
     private readonly reviewServices;
     constructor(userServices: UserServices, reviewServices: ReviewServices, options: ModelCrudWithQdrantOptions<Post, PostQdrantPayload>);

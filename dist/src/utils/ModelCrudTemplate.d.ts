@@ -8,6 +8,7 @@ export declare class ModelCrudTemplate<T extends AnyRecord, NArgs extends Partia
     private readonly getFilterQuery;
     constructor(modelGetter: () => ModelType<T>, getFilterQuery?: (q: Q) => FilterQuery<T>);
     private getHiddenFields;
+    createOne: QueryHandle<NArgs, ModelDocument<T>>;
     addOne: QueryHandle<NArgs, ModelDocument<T>>;
     addOneTestingEnv: QueryHandle<Partial<T>, ModelDocument<T>>;
     distinct: QueryHandle<{

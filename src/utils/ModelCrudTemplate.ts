@@ -39,10 +39,17 @@ export class ModelCrudTemplate<
       .map(([key]) => key);
   }
 
-  addOne: QueryHandle<NArgs, ModelDocument<T>> = async (args) => {
+  createOne: QueryHandle<NArgs, ModelDocument<T>> = async (args) => {
+    /**
+     * create a model but don't save
+     */
     const Model = this.modelGetter();
-
     const out = new Model(args);
+    return out;
+  };
+
+  addOne: QueryHandle<NArgs, ModelDocument<T>> = async (args) => {
+    const out = await this.createOne(args);
     await out.save();
     return out;
   };

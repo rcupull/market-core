@@ -7,9 +7,16 @@ class ModelCrudTemplate {
     constructor(modelGetter, getFilterQuery = (q) => q) {
         this.modelGetter = modelGetter;
         this.getFilterQuery = getFilterQuery;
-        this.addOne = async (args) => {
+        this.createOne = async (args) => {
+            /**
+             * create a model but don't save
+             */
             const Model = this.modelGetter();
             const out = new Model(args);
+            return out;
+        };
+        this.addOne = async (args) => {
+            const out = await this.createOne(args);
             await out.save();
             return out;
         };

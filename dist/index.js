@@ -33,4 +33,6 @@ __exportStar(require("./src/features/post/types"), exports);
 __exportStar(require("./src/features/post/services"), exports);
 __exportStar(require("./src/features/business/types"), exports);
 __exportStar(require("./src/features/business/services"), exports);
+__exportStar(require("./src/features/notifications/types"), exports);
+__exportStar(require("./src/features/notifications/services"), exports);
 __exportStar(require("./src/db"), exports);
