@@ -7,4 +7,6 @@ export * from './src/features/categories/types';
 export * from './src/features/categories/services';
 export * from './src/features/user/types';
 export * from './src/features/user/services';
+export * from './src/features/validation-code/types';
+export * from './src/features/validation-code/services';
 export * from './src/db';

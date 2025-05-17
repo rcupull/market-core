@@ -23,4 +23,6 @@ __exportStar(require("./src/features/categories/types"), exports);
 __exportStar(require("./src/features/categories/services"), exports);
 __exportStar(require("./src/features/user/types"), exports);
 __exportStar(require("./src/features/user/services"), exports);
+__exportStar(require("./src/features/validation-code/types"), exports);
+__exportStar(require("./src/features/validation-code/services"), exports);
 __exportStar(require("./src/db"), exports);
