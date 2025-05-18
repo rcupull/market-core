@@ -1,4 +1,5 @@
-import { getAllFilterQuery, GetAllPostArgs, getPostSlug } from './utils';
+import { GetAllPostArgs } from './types';
+import { getAllFilterQuery, getPostSlugFromName } from './utils';
 
 describe('getAllFilterQuery', () => {
   it('some', () => {
@@ -76,7 +77,7 @@ describe('getAllFilterQuery', () => {
   });
 });
 
-describe('getPostSlug', () => {
+describe('getPostSlugFromName', () => {
   it('render', () => {
     expect(
       [
@@ -90,7 +91,7 @@ describe('getPostSlug', () => {
         'Guantes talla L - Anti-deslizante - rojo',
         'Rueda 27.5 x 2.40 Maxxis Minion DHR II',
         'Kit de freno hidráulico Shimano (delantero + trasero)'
-      ].map(getPostSlug)
+      ].map(getPostSlugFromName)
     ).toMatchInlineSnapshot(`
       [
         "suspension-fox-275-con-tratamiento-kashima",

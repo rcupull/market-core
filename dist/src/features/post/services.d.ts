@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 import { ModelDocument, QueryHandle } from '../../types/general';
-import { Post, PostReviewDto, PostReviewSummary } from './types';
-import { GetAllPostArgs } from './utils';
+import { GetAllPostArgs, Post, PostReviewDto, PostReviewSummary } from './types';
+import { getPostSlugFromName } from './utils';
 import { ModelCrudWithQdrant, ModelCrudWithQdrantOptions } from '../../utils/ModelCrudWithQdrant';
 import { UserServices } from '../user/services';
 import { ReviewServices } from '../review/services';
@@ -13,6 +13,7 @@ export declare class PostServices extends ModelCrudWithQdrant<Post, Pick<Post, '
     private readonly userServices;
     private readonly reviewServices;
     constructor(userServices: UserServices, reviewServices: ReviewServices, options: ModelCrudWithQdrantOptions<Post, PostQdrantPayload>);
+    getPostSlugFromName: typeof getPostSlugFromName;
     changeStock: QueryHandle<{
         postId: Schema.Types.ObjectId;
         amount: number;

@@ -11,6 +11,7 @@ class PostServices extends ModelCrudWithQdrant_1.ModelCrudWithQdrant {
         super(schemas_1.modelGetter, utils_1.getAllFilterQuery, options);
         this.userServices = userServices;
         this.reviewServices = reviewServices;
+        this.getPostSlugFromName = (name) => (0, utils_1.getPostSlugFromName)(name);
         this.changeStock = async ({ postId, amount, updatedByShopping, updatedByUser }) => {
             const out = await this.findOneAndUpdate({
                 query: {

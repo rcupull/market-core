@@ -22,7 +22,6 @@ export * from './src/features/review/services';
 
 export * from './src/features/post/types';
 export * from './src/features/post/services';
-export { getPostSlug } from './src/features/post/utils';
 
 export * from './src/features/business/types';
 export * from './src/features/business/services';

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPostSlug = exports.getAllFilterQuery = void 0;
+exports.getPostSlugFromName = exports.getAllFilterQuery = void 0;
 const schemas_1 = require("../../utils/schemas");
 exports.getAllFilterQuery = (0, schemas_1.getFilterQueryFactory)(({ routeNames, postsIds, search, postCategoriesLabels, postCategoriesMethod, ...filterQuery }) => {
     if (search) {
@@ -31,7 +31,7 @@ exports.getAllFilterQuery = (0, schemas_1.getFilterQueryFactory)(({ routeNames, 
     }
     return filterQuery;
 });
-const getPostSlug = (name) => {
+const getPostSlugFromName = (name) => {
     return name
         .toLowerCase()
         .normalize('NFD') // Elimina tildes y diacríticos
@@ -41,4 +41,4 @@ const getPostSlug = (name) => {
         .replace(/\s+/g, '-') // Reemplaza espacios por guiones
         .replace(/-+/g, '-');
 };
-exports.getPostSlug = getPostSlug;
+exports.getPostSlugFromName = getPostSlugFromName;

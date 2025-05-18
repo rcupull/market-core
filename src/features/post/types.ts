@@ -85,3 +85,11 @@ export interface PostDto extends Post {
 export interface DeletePostQuery extends FilterQuery<Post> {
   postIds?: Array<string>;
 }
+
+export interface GetAllPostArgs extends FilterQuery<Post> {
+  routeNames?: Array<string>;
+  postsIds?: Array<string>;
+  search?: string;
+  postCategoriesLabels?: Array<string>;
+  postCategoriesMethod?: 'some' | 'every';
+}

@@ -14,7 +14,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPostSlug = void 0;
 __exportStar(require("./src/utils/ModelCrudTemplate"), exports);
 __exportStar(require("./src/utils/ModelCrudWithQdrant"), exports);
 __exportStar(require("./src/utils/general"), exports);
@@ -32,8 +31,6 @@ __exportStar(require("./src/features/review/types"), exports);
 __exportStar(require("./src/features/review/services"), exports);
 __exportStar(require("./src/features/post/types"), exports);
 __exportStar(require("./src/features/post/services"), exports);
-var utils_1 = require("./src/features/post/utils");
-Object.defineProperty(exports, "getPostSlug", { enumerable: true, get: function () { return utils_1.getPostSlug; } });
 __exportStar(require("./src/features/business/types"), exports);
 __exportStar(require("./src/features/business/services"), exports);
 __exportStar(require("./src/features/business/utils"), exports);

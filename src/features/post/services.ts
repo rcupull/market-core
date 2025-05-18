@@ -1,9 +1,9 @@
 import { Schema } from 'mongoose';
 import { ModelDocument, QueryHandle } from '../../types/general';
 import { modelGetter } from './schemas';
-import { Post, PostReviewDto, PostReviewSummary } from './types';
+import { GetAllPostArgs, Post, PostReviewDto, PostReviewSummary } from './types';
 
-import { GetAllPostArgs, getAllFilterQuery } from './utils';
+import { getAllFilterQuery, getPostSlugFromName } from './utils';
 import { deepJsonCopy, isEqualIds, isNumber } from '../../utils/general';
 import { getInArrayQuery } from '../../utils/schemas';
 
@@ -52,6 +52,8 @@ export class PostServices extends ModelCrudWithQdrant<
   ) {
     super(modelGetter, getAllFilterQuery, options);
   }
+
+  getPostSlugFromName: typeof getPostSlugFromName = (name) => getPostSlugFromName(name);
 
   changeStock: QueryHandle<
     {

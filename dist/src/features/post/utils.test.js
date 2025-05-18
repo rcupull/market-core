@@ -73,7 +73,7 @@ describe('getAllFilterQuery', () => {
     `);
     });
 });
-describe('getPostSlug', () => {
+describe('getPostSlugFromName', () => {
     it('render', () => {
         expect([
             'Suspensión FOX 27.5” con Tratamiento Kashima!',
@@ -86,7 +86,7 @@ describe('getPostSlug', () => {
             'Guantes talla L - Anti-deslizante - rojo',
             'Rueda 27.5 x 2.40 Maxxis Minion DHR II',
             'Kit de freno hidráulico Shimano (delantero + trasero)'
-        ].map(utils_1.getPostSlug)).toMatchInlineSnapshot(`
+        ].map(utils_1.getPostSlugFromName)).toMatchInlineSnapshot(`
       [
         "suspension-fox-275-con-tratamiento-kashima",
         "bicicleta-mtb-rodado-29-aluminio",

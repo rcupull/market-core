@@ -1,14 +1,5 @@
-import { FilterQuery } from 'mongoose';
-import { Post } from './types';
 import { getFilterQueryFactory, getSearchRegexQuery } from '../../utils/schemas';
-
-export interface GetAllPostArgs extends FilterQuery<Post> {
-  routeNames?: Array<string>;
-  postsIds?: Array<string>;
-  search?: string;
-  postCategoriesLabels?: Array<string>;
-  postCategoriesMethod?: 'some' | 'every';
-}
+import { GetAllPostArgs } from './types';
 
 export const getAllFilterQuery = getFilterQueryFactory<GetAllPostArgs>(
   ({
@@ -54,7 +45,7 @@ export const getAllFilterQuery = getFilterQueryFactory<GetAllPostArgs>(
   }
 );
 
-export const getPostSlug = (name: string) => {
+export const getPostSlugFromName = (name: string) => {
   return name
     .toLowerCase()
     .normalize('NFD') // Elimina tildes y diacríticos
