@@ -4,18 +4,17 @@ exports.modelGetter = void 0;
 const schemas_1 = require("../../utils/schemas");
 const types_1 = require("./types");
 const schemas_2 = require("../../utils/schemas");
-const db_1 = require("../../db");
+const mongoose_1 = require("mongoose");
 const types_2 = require("../business/types");
 ///////////////////////////////////////////////////////////////////////////////
 let AdminConfigModel;
 const modelGetter = () => {
     if (!AdminConfigModel) {
-        const { Schema } = (0, db_1.getMongoose)();
         const commissionsByBusinessTypeSchemaDefinition = Object.values(types_2.BusinessType).reduce((acc, type) => ({
             ...acc,
             [type]: { _id: false, type: schemas_1.commissionsSchemaDefinition, required: true, select: false }
         }), {});
-        const AdminConfigShema = new Schema({
+        const AdminConfigShema = new mongoose_1.Schema({
             ...schemas_1.createdAtSchemaDefinition,
             bankAccountCUP: {
                 _id: false,

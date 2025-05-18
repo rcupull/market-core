@@ -1,14 +1,12 @@
 import { Post } from './types';
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
 import { Currency } from '../../types/general';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 
 let PostModel: ReturnType<typeof getMongoModel<Post>>;
 
 export const modelGetter = () => {
   if (!PostModel) {
-    const { Schema } = getMongoose();
-
     const PostSchema = new Schema<Post>({
       ...createdAtSchemaDefinition,
       routeName: { type: String, required: true },

@@ -1,13 +1,11 @@
 import { Promo, PromoEntityType } from './types';
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 
 let PromoModel: ReturnType<typeof getMongoModel<Promo>>;
 
 export const modelGetter = () => {
   if (!PromoModel) {
-    const { Schema } = getMongoose();
-
     const PromoSchema = new Schema<Promo>({
       ...createdAtSchemaDefinition,
       name: { type: String, required: true },

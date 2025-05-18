@@ -7,12 +7,11 @@ exports.modelGetter = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const types_1 = require("./types");
 const schemas_1 = require("../../utils/schemas");
-const db_1 = require("../../db");
+const mongoose_1 = require("mongoose");
 let UserModel;
 const modelGetter = () => {
     if (!UserModel) {
-        const { Schema } = (0, db_1.getMongoose)();
-        const UserSchema = new Schema({
+        const UserSchema = new mongoose_1.Schema({
             ...schemas_1.createdAtSchemaDefinition,
             name: { type: String, required: true },
             phone: { type: String, unique: true, required: true },
@@ -32,7 +31,7 @@ const modelGetter = () => {
             specialAccess: { type: [String], default: [] },
             defaultAddressIndex: { type: Number },
             addresses: [schemas_1.AddressDefinition],
-            checks: { type: Schema.Types.Mixed },
+            checks: { type: mongoose_1.Schema.Types.Mixed },
             lastGeolocation: {
                 lat: { type: Number },
                 lon: { type: Number }

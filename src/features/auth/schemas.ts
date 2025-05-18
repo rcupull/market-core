@@ -1,13 +1,11 @@
 import { AuthSession, AuthSessionState, TYPE_DEVICE } from './types';
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 
 let AuthSessionModel: ReturnType<typeof getMongoModel<AuthSession>>;
 
 export const modelGetter = () => {
   if (!AuthSessionModel) {
-    const { Schema } = getMongoose();
-
     const AuthSessionShema = new Schema<AuthSession>({
       ...createdAtSchemaDefinition,
       refreshToken: { type: String, required: true, unique: true },

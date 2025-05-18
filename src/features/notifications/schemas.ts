@@ -1,4 +1,4 @@
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
 import { PushNotification } from './types';
 
@@ -6,8 +6,6 @@ let PushNotificationModel: ReturnType<typeof getMongoModel<PushNotification>>;
 
 export const modelGetter = () => {
   if (!PushNotificationModel) {
-    const { Schema } = getMongoose();
-
     const PushNotificationShema = new Schema<PushNotification>({
       ...createdAtSchemaDefinition,
       type: { type: String, required: true },

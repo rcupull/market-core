@@ -4,12 +4,11 @@ exports.modelGetter = void 0;
 const schemas_1 = require("../../utils/schemas");
 const types_1 = require("./types");
 const utils_1 = require("./utils");
-const db_1 = require("../../db");
+const mongoose_1 = require("mongoose");
 const types_2 = require("../business/types");
 let ShoppingModel;
 const modelGetter = () => {
     if (!ShoppingModel) {
-        const { Schema } = (0, db_1.getMongoose)();
         const shoppingState = {
             type: String,
             enum: Object.values(types_1.ShoppingState),
@@ -25,7 +24,7 @@ const modelGetter = () => {
                 type: String
             }
         };
-        const ShoppingSchema = new Schema({
+        const ShoppingSchema = new mongoose_1.Schema({
             ...schemas_1.createdAtSchemaDefinition,
             posts: {
                 type: [
@@ -41,7 +40,7 @@ const modelGetter = () => {
                     }
                 ]
             },
-            purchaserId: { type: Schema.Types.ObjectId, ref: 'User' },
+            purchaserId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User' },
             browserFingerprint: { type: String, select: false },
             payOnPickUp: { type: Boolean, default: false },
             //
@@ -79,13 +78,13 @@ const modelGetter = () => {
                     salePrice: { type: Number, required: true },
                     commissions: { _id: false, type: schemas_1.commissionsSchemaDefinition, required: true },
                     //
-                    deliveryManId: { type: Schema.Types.ObjectId },
+                    deliveryManId: { type: mongoose_1.Schema.Types.ObjectId },
                     state: { type: String, enum: Object.values(types_1.ShoppingDeliveryState) },
                     messengersHistory: {
                         _id: false,
                         type: [
                             {
-                                messengerId: { type: Schema.Types.ObjectId, required: true },
+                                messengerId: { type: mongoose_1.Schema.Types.ObjectId, required: true },
                                 lastUpdatedDate: { type: Date, required: true }
                             }
                         ],
@@ -94,14 +93,14 @@ const modelGetter = () => {
                 }
             },
             cancellation: {
-                requestedBy: { type: Schema.Types.ObjectId, ref: 'User', require: true },
+                requestedBy: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', require: true },
                 requestedAt: { type: Date, require: true },
-                wasReturnedMoneyBy: { type: Schema.Types.ObjectId, ref: 'User' },
+                wasReturnedMoneyBy: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User' },
                 wasReturnedMoneyAt: { type: Date }
             },
             cashSettlement: {
                 createdAt: { type: Date },
-                createdBy: { type: Schema.Types.ObjectId, ref: 'User' }
+                createdBy: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User' }
             }
         });
         ShoppingModel = (0, schemas_1.getMongoModel)('Shopping', ShoppingSchema, 'shopping');

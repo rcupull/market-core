@@ -2,19 +2,18 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.modelGetter = void 0;
 const schemas_1 = require("../../utils/schemas");
-const db_1 = require("../../db");
+const mongoose_1 = require("mongoose");
 let UserActivityModel;
 const modelGetter = () => {
     if (!UserActivityModel) {
-        const { Schema } = (0, db_1.getMongoose)();
-        const UserActivitySchema = new Schema({
+        const UserActivitySchema = new mongoose_1.Schema({
             ...schemas_1.createdAtSchemaDefinition,
             identifier: { type: String, unique: true, required: true },
             products: {
                 _id: false,
                 type: [
                     {
-                        productId: { type: Schema.Types.ObjectId, ref: 'Post', required: true },
+                        productId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Post', required: true },
                         score: { type: Number, required: true }
                     }
                 ],

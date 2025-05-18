@@ -8,7 +8,7 @@ import {
 } from '../../utils/schemas';
 import { Shopping, ShoppingState, ShoppingDeliveryState } from './types';
 import { getShoppingCode } from './utils';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 import { PostPurshaseNotes } from '../post/types';
 import { BusinessType } from '../business/types';
 
@@ -16,8 +16,6 @@ let ShoppingModel: ReturnType<typeof getMongoModel<Shopping>>;
 
 export const modelGetter = () => {
   if (!ShoppingModel) {
-    const { Schema } = getMongoose();
-
     const shoppingState = {
       type: String,
       enum: Object.values(ShoppingState),

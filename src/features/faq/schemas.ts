@@ -1,13 +1,11 @@
 import { Faq, InterestingForUser } from './types';
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 
 let FaqModel: ReturnType<typeof getMongoModel<Faq>>;
 
 export const modelGetter = () => {
   if (!FaqModel) {
-    const { Schema } = getMongoose();
-
     const FaqSchema = new Schema<Faq>({
       ...createdAtSchemaDefinition,
       question: { type: String, required: true },

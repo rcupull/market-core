@@ -2,15 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.modelGetter = void 0;
 const schemas_1 = require("../../utils/schemas");
-const db_1 = require("../../db");
+const mongoose_1 = require("mongoose");
 let ReviewModel;
 const modelGetter = () => {
     if (!ReviewModel) {
-        const { Schema } = (0, db_1.getMongoose)();
-        const ReviewSchema = new Schema({
+        const ReviewSchema = new mongoose_1.Schema({
             ...schemas_1.createdAtSchemaDefinition,
-            reviewerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-            postId: { type: Schema.Types.ObjectId, ref: 'Post', required: true },
+            reviewerId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true },
+            postId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Post', required: true },
             comment: { type: String, required: true },
             star: { type: Number, required: true }
         });

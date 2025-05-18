@@ -2,13 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.modelGetter = void 0;
 const schemas_1 = require("../../utils/schemas");
-const db_1 = require("../../db");
+const mongoose_1 = require("mongoose");
 ///////////////////////////////////////////////////////////////////////////////
 let CategoryModel;
 const modelGetter = () => {
     if (!CategoryModel) {
-        const { Schema } = (0, db_1.getMongoose)();
-        const CategoryShema = new Schema({
+        const CategoryShema = new mongoose_1.Schema({
             ...schemas_1.createdAtSchemaDefinition,
             label: { type: String, required: true, unique: true },
             subCategories: {

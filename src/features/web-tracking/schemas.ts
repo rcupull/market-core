@@ -1,4 +1,4 @@
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
 
 import { WebTracking, webTrackingTypeRecord } from './types';
@@ -7,8 +7,6 @@ let WebTrackingModel: ReturnType<typeof getMongoModel<WebTracking>>;
 
 export const modelGetter = () => {
   if (!WebTrackingModel) {
-    const { Schema } = getMongoose();
-
     const WebTrackingSchema = new Schema<WebTracking>({
       ...createdAtSchemaDefinition,
       type: { type: String, enum: Object.values(webTrackingTypeRecord), required: true },

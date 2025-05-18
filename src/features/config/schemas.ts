@@ -7,7 +7,7 @@ import {
 import { AdminConfig, CommissionsByBusinessType, FeatureKey } from './types';
 import { AddressDefinition, DeliveryConfigDefinition } from '../../utils/schemas';
 import { SchemaDefinition } from '../../types/general';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 import { BusinessType } from '../business/types';
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,8 +16,6 @@ let AdminConfigModel: ReturnType<typeof getMongoModel<AdminConfig>>;
 
 export const modelGetter = () => {
   if (!AdminConfigModel) {
-    const { Schema } = getMongoose();
-
     const commissionsByBusinessTypeSchemaDefinition: SchemaDefinition<CommissionsByBusinessType> =
       Object.values(BusinessType).reduce(
         (acc, type) => ({

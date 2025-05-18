@@ -1,13 +1,11 @@
 import { UserActivity } from './types';
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 
 let UserActivityModel: ReturnType<typeof getMongoModel<UserActivity>>;
 
 export const modelGetter = () => {
   if (!UserActivityModel) {
-    const { Schema } = getMongoose();
-
     const UserActivitySchema = new Schema<UserActivity>({
       ...createdAtSchemaDefinition,
       identifier: { type: String, unique: true, required: true },

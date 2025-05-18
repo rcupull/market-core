@@ -5,12 +5,11 @@ const types_1 = require("./types");
 const schemas_1 = require("../../utils/schemas");
 const schemas_2 = require("../post/schemas");
 const general_1 = require("../../types/general");
-const db_1 = require("../../db");
+const mongoose_1 = require("mongoose");
 let BusinessModel;
 const modelGetter = () => {
     if (!BusinessModel) {
-        const { Schema } = (0, db_1.getMongoose)();
-        const BusinessSchema = new Schema({
+        const BusinessSchema = new mongoose_1.Schema({
             ...schemas_1.createdAtSchemaDefinition,
             name: { type: String, required: true },
             routeName: { type: String, required: true, unique: true },
@@ -30,7 +29,7 @@ const modelGetter = () => {
                 enum: Object.values(types_1.BusinessType),
                 default: types_1.BusinessType.BUSINESS_FULL
             },
-            createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+            createdBy: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true },
             postCategories: {
                 type: [
                     {
@@ -177,8 +176,8 @@ const modelGetter = () => {
             },
             addresses: [schemas_1.AddressDefinition],
             deliveryConfig: schemas_1.DeliveryConfigDefinition,
-            favoritesUserIds: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-            checks: { type: Schema.Types.Mixed },
+            favoritesUserIds: [{ type: mongoose_1.Schema.Types.ObjectId, ref: 'User' }],
+            checks: { type: mongoose_1.Schema.Types.Mixed },
             bankAccountCUP: {
                 _id: false,
                 type: schemas_1.BankAccountDefinition

@@ -4,13 +4,12 @@ exports.modelGetter = void 0;
 const types_1 = require("./types");
 const schemas_1 = require("../../utils/schemas");
 const general_1 = require("../../types/general");
-const db_1 = require("../../db");
+const mongoose_1 = require("mongoose");
 const types_2 = require("../payment/types");
 let BillModel;
 const modelGetter = () => {
     if (!BillModel) {
-        const { Schema } = (0, db_1.getMongoose)();
-        const BillSchema = new Schema({
+        const BillSchema = new mongoose_1.Schema({
             ...schemas_1.createdAtSchemaDefinition,
             number: { type: Number, required: true },
             routeName: { type: String, required: true },
@@ -45,7 +44,7 @@ const modelGetter = () => {
                     {
                         _id: false,
                         shoppingCode: { type: String, required: true },
-                        shoppingId: { type: Schema.Types.ObjectId, required: true },
+                        shoppingId: { type: mongoose_1.Schema.Types.ObjectId, required: true },
                         amount: { type: Number, required: true }
                     }
                 ],

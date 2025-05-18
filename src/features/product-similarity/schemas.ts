@@ -1,13 +1,11 @@
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
 import { ProductSimilarity } from './types';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 
 let ProductSimilarityModel: ReturnType<typeof getMongoModel<ProductSimilarity>>;
 
 export const modelGetter = () => {
   if (!ProductSimilarityModel) {
-    const { Schema } = getMongoose();
-
     const ProductSimilaritySchema = new Schema<ProductSimilarity>({
       ...createdAtSchemaDefinition,
       productId: { type: Schema.Types.ObjectId, ref: 'Post', required: true, unique: true },

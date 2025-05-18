@@ -2,12 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.modelGetter = void 0;
 const schemas_1 = require("../../utils/schemas");
-const db_1 = require("../../db");
+const mongoose_1 = require("mongoose");
 let SearchSuggestionModel;
 const modelGetter = () => {
     if (!SearchSuggestionModel) {
-        const { Schema } = (0, db_1.getMongoose)();
-        const SearchSuggestionSchema = new Schema({
+        const SearchSuggestionSchema = new mongoose_1.Schema({
             ...schemas_1.createdAtSchemaDefinition,
             search: { type: String, required: true, unique: true }
         });

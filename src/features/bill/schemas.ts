@@ -6,15 +6,13 @@ import {
   postDataSchemaDefinition
 } from '../../utils/schemas';
 import { Currency } from '../../types/general';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 import { PaymentWay } from '../payment/types';
 
 let BillModel: ReturnType<typeof getMongoModel<Bill>>;
 
 export const modelGetter = () => {
   if (!BillModel) {
-    const { Schema } = getMongoose();
-
     const BillSchema = new Schema<Bill>({
       ...createdAtSchemaDefinition,
       number: { type: Number, required: true },

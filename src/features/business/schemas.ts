@@ -11,14 +11,12 @@ import {
 import { modelGetter as postModelGetter } from '../post/schemas';
 
 import { Currency } from '../../types/general';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 
 let BusinessModel: ReturnType<typeof getMongoModel<Business>>;
 
 export const modelGetter = () => {
   if (!BusinessModel) {
-    const { Schema } = getMongoose();
-
     const BusinessSchema = new Schema<Business>({
       ...createdAtSchemaDefinition,
       name: { type: String, required: true },

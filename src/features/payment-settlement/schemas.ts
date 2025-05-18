@@ -1,13 +1,11 @@
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
 import { PaymentSettlement, PaymentSettlementState, PaymentSettlementType } from './types';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 
 let PaymentSettlementModel: ReturnType<typeof getMongoModel<PaymentSettlement>>;
 
 export const modelGetter = () => {
   if (!PaymentSettlementModel) {
-    const { Schema } = getMongoose();
-
     const PaymentSettlementSchema = new Schema<PaymentSettlement>({
       ...createdAtSchemaDefinition,
       state: { type: String, enum: Object.values(PaymentSettlementState), required: true },

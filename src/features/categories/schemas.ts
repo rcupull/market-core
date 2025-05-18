@@ -1,6 +1,6 @@
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
 import { Category } from './types';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -8,8 +8,6 @@ let CategoryModel: ReturnType<typeof getMongoModel<Category>>;
 
 export const modelGetter = () => {
   if (!CategoryModel) {
-    const { Schema } = getMongoose();
-
     const CategoryShema = new Schema<Category>({
       ...createdAtSchemaDefinition,
       label: { type: String, required: true, unique: true },

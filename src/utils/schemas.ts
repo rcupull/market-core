@@ -1,6 +1,7 @@
 import {
   AggregatePaginateModel,
   FilterQuery,
+  model,
   PaginateModel,
   Schema,
   SchemaDefinition,
@@ -17,7 +18,6 @@ import {
   CreatedDateRangeQueryType,
   Currency
 } from '../types/general';
-import { getMongoose } from '../db';
 import { getFlattenUndefinedJson, isEmpty } from './general';
 import { Commission, CommissionMode, Commissions } from '../types/commision';
 import {
@@ -50,8 +50,6 @@ export const getMongoModel = <T extends AnyRecord>(
   schema: Schema,
   collectionName: string
 ) => {
-  const { model } = getMongoose();
-
   schema.plugin(mongoosePaginate);
   schema.plugin(aggregatePaginate);
 

@@ -1,14 +1,18 @@
-import { Mongoose } from 'mongoose';
+import { connect } from 'mongoose';
+import { Logger } from 'winston';
 
-let sharedMongoose: Mongoose;
+export const connectCoreDB = async ({
+  MONGO_DB_URL,
+  logger
+}: {
+  MONGO_DB_URL: string;
+  logger: Logger;
+}) => {
+  try {
+    await connect(MONGO_DB_URL);
 
-export const injectMongoose = (m: Mongoose) => {
-  sharedMongoose = m;
-};
-
-export const getMongoose = (): Mongoose => {
-  if (!sharedMongoose) {
-    throw new Error('Mongoose not injected');
+    logger.info('DB Connected');
+  } catch (e) {
+    logger.info(`DB Error: ${JSON.stringify(e)}`);
   }
-  return sharedMongoose;
 };

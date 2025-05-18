@@ -1,13 +1,11 @@
 import { Review } from './types';
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 
 let ReviewModel: ReturnType<typeof getMongoModel<Review>>;
 
 export const modelGetter = () => {
   if (!ReviewModel) {
-    const { Schema } = getMongoose();
-
     const ReviewSchema = new Schema<Review>({
       ...createdAtSchemaDefinition,
       reviewerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },

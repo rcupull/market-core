@@ -8,7 +8,6 @@ const mongoose_1 = require("mongoose");
 const mongoose_paginate_v2_1 = __importDefault(require("mongoose-paginate-v2"));
 const mongoose_aggregate_paginate_v2_1 = __importDefault(require("mongoose-aggregate-paginate-v2"));
 const general_1 = require("../types/general");
-const db_1 = require("../db");
 const general_2 = require("./general");
 const commision_1 = require("../types/commision");
 const types_1 = require("../features/business/types");
@@ -25,10 +24,9 @@ const getSearchRegexQuery = (search = '') => {
 };
 exports.getSearchRegexQuery = getSearchRegexQuery;
 const getMongoModel = (ref, schema, collectionName) => {
-    const { model } = (0, db_1.getMongoose)();
     schema.plugin(mongoose_paginate_v2_1.default);
     schema.plugin(mongoose_aggregate_paginate_v2_1.default);
-    return model(ref, schema, collectionName);
+    return (0, mongoose_1.model)(ref, schema, collectionName);
 };
 exports.getMongoModel = getMongoModel;
 exports.lastUpQuerySort = '-createdAt';

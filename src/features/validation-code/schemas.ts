@@ -1,14 +1,12 @@
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
 import { ValidationCode } from './types';
 import { v4 as uuid } from 'uuid';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 
 let ValidationCodeModel: ReturnType<typeof getMongoModel<ValidationCode>>;
 
 export const modelGetter = () => {
   if (!ValidationCodeModel) {
-    const { Schema } = getMongoose();
-
     const ValidationCodeShema = new Schema<ValidationCode>({
       ...createdAtSchemaDefinition,
       code: { type: String, default: () => uuid(), required: true, unique: true },

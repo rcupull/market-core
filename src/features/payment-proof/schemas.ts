@@ -1,14 +1,12 @@
 import { PaymentProof } from './types';
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
 import { getPaymentProofCode } from './utils';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 
 let PaymentProofModel: ReturnType<typeof getMongoModel<PaymentProof>>;
 
 export const modelGetter = () => {
   if (!PaymentProofModel) {
-    const { Schema } = getMongoose();
-
     const PaymentProofSchema = new Schema<PaymentProof>({
       ...createdAtSchemaDefinition,
       //

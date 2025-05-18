@@ -6,14 +6,12 @@ import {
   createdAtSchemaDefinition,
   getMongoModel
 } from '../../utils/schemas';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 
 let UserModel: ReturnType<typeof getMongoModel<User>>;
 
 export const modelGetter = () => {
   if (!UserModel) {
-    const { Schema } = getMongoose();
-
     const UserSchema = new Schema<User>({
       ...createdAtSchemaDefinition,
       name: { type: String, required: true },

@@ -3,21 +3,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.modelGetter = void 0;
 const schemas_1 = require("../../utils/schemas");
 const general_1 = require("../../types/general");
-const db_1 = require("../../db");
+const mongoose_1 = require("mongoose");
 let PostModel;
 const modelGetter = () => {
     if (!PostModel) {
-        const { Schema } = (0, db_1.getMongoose)();
-        const PostSchema = new Schema({
+        const PostSchema = new mongoose_1.Schema({
             ...schemas_1.createdAtSchemaDefinition,
             routeName: { type: String, required: true },
             description: { type: String },
             details: { type: String },
             hidden: { type: Boolean, default: false },
             hiddenBusiness: { type: Boolean, default: false },
-            createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+            createdBy: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true },
             postCategoriesLabels: { type: [String] },
-            categoryIds: { type: [Schema.Types.ObjectId] },
+            categoryIds: { type: [mongoose_1.Schema.Types.ObjectId] },
             images: {
                 type: [
                     {
@@ -57,8 +56,8 @@ const modelGetter = () => {
                     {
                         amount: { type: Number, required: true },
                         updatedAt: { type: Date, required: true },
-                        updatedByUser: { type: Schema.Types.ObjectId, ref: 'User' },
-                        updatedByShopping: { type: Schema.Types.ObjectId, ref: 'Shopping' }
+                        updatedByUser: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User' },
+                        updatedByShopping: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Shopping' }
                     }
                 ],
                 select: false,

@@ -1,14 +1,12 @@
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
 import { Currency } from '../../types/general';
 import { Payment, PaymentWay } from './types';
-import { getMongoose } from '../../db';
+import { Schema } from 'mongoose';
 
 let PaymentModel: ReturnType<typeof getMongoModel<Payment>>;
 
 export const modelGetter = () => {
   if (!PaymentModel) {
-    const { Schema } = getMongoose();
-
     const PaymentSchema = new Schema<Payment>({
       ...createdAtSchemaDefinition,
       bankAccountNumberFrom: { type: String },
