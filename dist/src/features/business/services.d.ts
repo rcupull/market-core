@@ -1,6 +1,22 @@
-import { Business } from './types';
+import { Business, BusinessType, DeliveryConfig } from './types';
 import { GetAllBusinessArgs } from './utils';
 import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
+import { Address, Currency, QueryHandle } from '../../types/general';
 export declare class BusinessServices extends ModelCrudTemplate<Business, Pick<Business, 'createdBy' | 'routeName' | 'name'>, GetAllBusinessArgs> {
     constructor();
+    getBusinessDataFrom: QueryHandle<{
+        query: GetAllBusinessArgs;
+    }, {
+        getOneBusinessData: (args: {
+            routeName: string | undefined;
+        }) => {
+            businessName: string | undefined;
+            businessAddress: Address | undefined;
+            businessType: BusinessType | undefined;
+            businessDeliveryConfig: DeliveryConfig | undefined;
+            businessCurrency: Currency | undefined;
+            businessAllowedOnlyCUPinCash: boolean | undefined;
+            businessTermsAndConditions: string | undefined;
+        };
+    }>;
 }
