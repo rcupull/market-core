@@ -56,4 +56,5 @@ __exportStar(require("./src/features/payment-distribution/services"), exports);
 __exportStar(require("./src/features/payment-distribution/types"), exports);
 __exportStar(require("./src/features/payment-proof/services"), exports);
 __exportStar(require("./src/features/payment-proof/types"), exports);
+__exportStar(require("./src/features/dtos/services"), exports);
 __exportStar(require("./src/db"), exports);
