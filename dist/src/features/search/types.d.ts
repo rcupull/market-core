@@ -1,3 +1,4 @@
+import { EmbeddedVector } from '../../utils/ModelCrudWithQdrant';
 import { PostDto } from '../post/types';
 export declare enum NlpSearchReturnType {
     BUSINESS = "BUSINESS",
@@ -12,7 +13,6 @@ export interface ProductScore {
     score: number;
     productName: string;
 }
-export type EmbeddedVector = Array<number>;
 export interface EmbeddedProductScore extends ProductScore {
     productId: string;
     vector: EmbeddedVector;
