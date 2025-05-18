@@ -76,6 +76,9 @@ export * from './src/features/search/services';
 export * from './src/features/search/services-embedding';
 export * from './src/features/search/services-nlp';
 
+export * from './src/features/search-suggestion/services';
+export * from './src/features/search-suggestion/types';
+
 export * from './src/features/dtos/services';
 export * from './src/features/google-images/services';
 
