@@ -1,10 +1,12 @@
 import { Schema } from 'mongoose';
 import { ModelDocument, QueryHandle } from '../../types/general';
-import { GetAllPostArgs, Post, PostReviewDto, PostReviewSummary } from './types';
+import { GetAllPostArgs, Post, PostDto, PostReviewDto, PostReviewSummary } from './types';
 import { getPostSlugFromName } from './utils';
 import { ModelCrudWithQdrant, ModelCrudWithQdrantOptions } from '../../utils/ModelCrudWithQdrant';
 import { UserServices } from '../user/services';
 import { ReviewServices } from '../review/services';
+import { ShoppingPostData } from '../shopping/types';
+import { ConfigServices } from '../config/services';
 interface PostQdrantPayload {
     productId: string;
     productName: string;
@@ -12,7 +14,8 @@ interface PostQdrantPayload {
 export declare class PostServices extends ModelCrudWithQdrant<Post, Pick<Post, 'hidden' | 'hiddenBusiness' | 'description' | 'images' | 'price' | 'currency' | 'currenciesOfSale' | 'routeName' | 'name' | 'postSlug' | 'clothingSizes' | 'colors' | 'details' | 'highlights' | 'createdBy' | 'postCategoriesLabels' | 'categoryIds' | 'postType' | 'postLink' | 'discount'>, GetAllPostArgs, PostQdrantPayload> {
     private readonly userServices;
     private readonly reviewServices;
-    constructor(userServices: UserServices, reviewServices: ReviewServices, options: ModelCrudWithQdrantOptions<Post, PostQdrantPayload>);
+    private readonly configServices;
+    constructor(userServices: UserServices, reviewServices: ReviewServices, configServices: ConfigServices, options: ModelCrudWithQdrantOptions<Post, PostQdrantPayload>);
     getPostSlugFromName: typeof getPostSlugFromName;
     changeStock: QueryHandle<{
         postId: Schema.Types.ObjectId;
@@ -34,5 +37,14 @@ export declare class PostServices extends ModelCrudWithQdrant<Post, Pick<Post, '
             reviewSummary: PostReviewSummary;
         };
     }>;
+    useGetCopyAndFlattenPost: () => Promise<{
+        getCopyAndFlattenPost: (post: Post, options: {
+            transformCurrenciesOfSale: boolean;
+            transformCurrencyAndPrice: boolean;
+        }) => PostDto;
+    }>;
+    getPostDataToShopping: QueryHandle<{
+        post: Post;
+    }, ShoppingPostData>;
 }
 export {};

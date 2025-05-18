@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
-import { ModelDocument, QueryHandle } from '../../types/general';
+import { Currency, ModelDocument, QueryHandle } from '../../types/general';
 import { modelGetter } from './schemas';
-import { GetAllPostArgs, Post, PostReviewDto, PostReviewSummary } from './types';
+import { GetAllPostArgs, Post, PostDto, PostReviewDto, PostReviewSummary } from './types';
 
 import { getAllFilterQuery, getPostSlugFromName } from './utils';
 import { deepJsonCopy, isEqualIds, isNumber } from '../../utils/general';
@@ -11,6 +11,10 @@ import { ModelCrudWithQdrant, ModelCrudWithQdrantOptions } from '../../utils/Mod
 import { User } from '../user/types';
 import { UserServices } from '../user/services';
 import { ReviewServices } from '../review/services';
+import { ShoppingPostData } from '../shopping/types';
+import { ConfigServices } from '../config/services';
+import { AdminConfig, FeatureKey } from '../config/types';
+import { getConvertedPrice } from '../../utils/price';
 
 interface PostQdrantPayload {
   productId: string;
@@ -48,6 +52,7 @@ export class PostServices extends ModelCrudWithQdrant<
   constructor(
     private readonly userServices: UserServices,
     private readonly reviewServices: ReviewServices,
+    private readonly configServices: ConfigServices,
     options: ModelCrudWithQdrantOptions<Post, PostQdrantPayload>
   ) {
     super(modelGetter, getAllFilterQuery, options);
@@ -162,6 +167,176 @@ export class PostServices extends ModelCrudWithQdrant<
 
         return { reviewSummary };
       }
+    };
+  };
+
+  useGetCopyAndFlattenPost = async () => {
+    const { getEnabledFeature } = await this.configServices.features();
+
+    /**
+     * TODO improve this query
+     */
+    const config: Pick<AdminConfig, 'exchangeRates'> | null =
+      await this.configServices.adminConfigServicesGetOne({
+        projection: {
+          exchangeRates: 1
+        }
+      });
+
+    const getCopyAndFlattenPost = (
+      post: Post,
+      options: {
+        transformCurrenciesOfSale: boolean;
+        transformCurrencyAndPrice: boolean;
+      }
+    ): PostDto => {
+      const { transformCurrenciesOfSale, transformCurrencyAndPrice } = options || {};
+
+      const out: PostDto = {
+        ...deepJsonCopy(post),
+        amountInProcess: undefined,
+        reviews: undefined,
+        stockAmountAvailable: undefined,
+        reviewSummary: undefined,
+        businessType: undefined,
+        businessName: undefined,
+        businessAllowedOnlyCUPinCash: undefined
+      };
+      if (transformCurrenciesOfSale) {
+        /**
+         * ////////////////////////////////////////////////////////////////
+         * Remove USD from currencies of sale if the feature is disabled
+         * ////////////////////////////////////////////////////////////////
+         */
+
+        if (
+          !getEnabledFeature(FeatureKey.ALLOW_PAYMENT_USD) &&
+          out.currenciesOfSale?.includes(Currency.USD)
+        ) {
+          out.currenciesOfSale = out.currenciesOfSale.filter((c) => c !== Currency.USD);
+        }
+
+        /**
+         * ////////////////////////////////////////////////////////////////
+         * Remove MLC from currencies of sale if the feature is disabled
+         * ////////////////////////////////////////////////////////////////
+         */
+
+        if (
+          !getEnabledFeature(FeatureKey.ALLOW_PAYMENT_TRANSFERMOVIL_MLC) &&
+          out.currenciesOfSale?.includes(Currency.MLC)
+        ) {
+          out.currenciesOfSale = out.currenciesOfSale.filter((c) => c !== Currency.MLC);
+        }
+      }
+
+      if (transformCurrencyAndPrice) {
+        /**
+         * ////////////////////////////////////////////////////////////
+         * Transform price to the first currency of sale if the feature is enabled
+         * ////////////////////////////////////////////////////////////
+         */
+
+        if (!getEnabledFeature(FeatureKey.ALLOW_PAYMENT_USD) && out.currency === Currency.USD) {
+          const newCurrency = (() => {
+            if (out.currenciesOfSale?.includes(Currency.MLC)) {
+              return Currency.MLC;
+            }
+
+            if (out.currenciesOfSale?.includes(Currency.CUP)) {
+              return Currency.CUP;
+            }
+
+            return null;
+          })();
+
+          if (newCurrency) {
+            out.price = getConvertedPrice({
+              price: out.price || 0,
+              currentCurrency: out.currency,
+              desiredCurrency: newCurrency,
+              exchangeRates: config?.exchangeRates
+            });
+
+            out.currency = newCurrency;
+          } else {
+            out.hiddenToCustomers = true;
+          }
+        }
+
+        if (
+          !getEnabledFeature(FeatureKey.ALLOW_PAYMENT_TRANSFERMOVIL_MLC) &&
+          out.currency === Currency.MLC
+        ) {
+          const newCurrency = (() => {
+            if (out.currenciesOfSale?.includes(Currency.USD)) {
+              return Currency.USD;
+            }
+
+            if (out.currenciesOfSale?.includes(Currency.CUP)) {
+              return Currency.CUP;
+            }
+
+            return null;
+          })();
+
+          if (newCurrency) {
+            out.price = getConvertedPrice({
+              price: out.price || 0,
+              currentCurrency: out.currency,
+              desiredCurrency: newCurrency,
+              exchangeRates: config?.exchangeRates
+            });
+
+            out.currency = newCurrency;
+          } else {
+            out.hiddenToCustomers = true;
+          }
+        }
+      }
+
+      /**
+       * ////////////////////////////////////////////////////////////////
+       * ////////////////////////////////////////////////////////////////
+       * ////////////////////////////////////////////////////////////////
+       */
+      return out;
+    };
+
+    return {
+      getCopyAndFlattenPost
+    };
+  };
+
+  getPostDataToShopping: QueryHandle<
+    {
+      post: Post;
+    },
+    ShoppingPostData
+  > = async ({ post }) => {
+    const { getCommissionsForProduct } = await this.configServices.adminConfigExangesRatesUtils();
+
+    const { getCopyAndFlattenPost } = await this.useGetCopyAndFlattenPost();
+
+    const { _id, price, images, routeName, name, currency, currenciesOfSale } =
+      getCopyAndFlattenPost(post, {
+        transformCurrenciesOfSale: true,
+        transformCurrencyAndPrice: true
+      });
+
+    const { commissions } = getCommissionsForProduct(post);
+
+    return {
+      _id,
+      name,
+      routeName,
+      images,
+      //
+      salePrice: price || 0,
+      currency,
+      currenciesOfSale,
+      //
+      commissions
     };
   };
 }
