@@ -17,6 +17,9 @@ export declare class ModelCrudTemplate<T extends AnyRecord, NArgs extends Partia
     exists: QueryHandle<{
         query: FilterQuery<T>;
     }, boolean>;
+    count: QueryHandle<{
+        query: Q;
+    }, number>;
     getOne: QueryHandle<{
         query: Q;
         projection?: ProjectionType<T>;

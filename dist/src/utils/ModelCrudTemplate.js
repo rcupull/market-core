@@ -36,6 +36,12 @@ class ModelCrudTemplate {
             const out = await Model.exists(query);
             return !!out;
         };
+        this.count = async ({ query }) => {
+            const Model = this.modelGetter();
+            const filterQuery = this.getFilterQuery(query);
+            const out = await Model.countDocuments(filterQuery);
+            return out;
+        };
         this.getOne = async ({ query, projection, select, options = {}, sort }) => {
             const filterQuery = this.getFilterQuery(query);
             const Model = this.modelGetter();

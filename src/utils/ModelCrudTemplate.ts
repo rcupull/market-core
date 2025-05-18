@@ -84,6 +84,20 @@ export class ModelCrudTemplate<
     return !!out;
   };
 
+  count: QueryHandle<
+    {
+      query: Q;
+    },
+    number
+  > = async ({ query }) => {
+    const Model = this.modelGetter();
+    const filterQuery = this.getFilterQuery(query);
+
+    const out = await Model.countDocuments(filterQuery);
+
+    return out;
+  };
+
   getOne: QueryHandle<
     {
       query: Q;
