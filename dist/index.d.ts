@@ -45,6 +45,8 @@ export * from './src/features/payment-settlement/services';
 export * from './src/features/payment-settlement/types';
 export * from './src/features/product-similarity/services';
 export * from './src/features/product-similarity/types';
+export * from './src/features/promo/services';
+export * from './src/features/promo/types';
 export * from './src/features/dtos/services';
 export * from './src/features/google-images/services';
 export * from './src/db';
