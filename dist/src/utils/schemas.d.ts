@@ -1,5 +1,5 @@
 import { AggregatePaginateModel, FilterQuery, PaginateModel, Schema, SchemaDefinition, SchemaDefinitionProperty } from 'mongoose';
-import { Address, AnyRecord, BankAccount, BaseIdentity } from '../types/general';
+import { Address, AnyRecord, BankAccount, BaseIdentity, CreatedDateRangeQueryType } from '../types/general';
 import { Commissions } from '../types/commision';
 import { DeliveryConfig, PostCardLayout } from '../features/business/types';
 import { ShoppingPostData } from '../features/shopping/types';
@@ -31,4 +31,5 @@ export declare const setFilterQueryWithDates: <T extends BaseIdentity = BaseIden
     dateTo?: string;
     filterQuery: FilterQuery<T>;
 }) => void;
+export declare const getCreatedLastMonthQuery: () => CreatedDateRangeQueryType;
 export {};

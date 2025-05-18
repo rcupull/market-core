@@ -79,6 +79,12 @@ export * from './src/features/search/services-nlp';
 export * from './src/features/search-suggestion/services';
 export * from './src/features/search-suggestion/types';
 
+export * from './src/features/user-activity/services';
+export * from './src/features/user-activity/types';
+
+export * from './src/features/web-tracking/services';
+export * from './src/features/web-tracking/types';
+
 export * from './src/features/dtos/services';
 export * from './src/features/google-images/services';
 

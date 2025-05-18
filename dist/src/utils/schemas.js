@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setFilterQueryWithDates = exports.postDataSchemaDefinition = exports.getBooleanQuery = exports.PostCardLayoutSchema = exports.DeliveryConfigDefinition = exports.commissionsSchemaDefinition = exports.getFilterQueryFactory = exports.BankAccountDefinition = exports.AddressDefinition = exports.getSortQuery = exports.lastUpQuerySort = exports.getMongoModel = exports.getSearchRegexQuery = exports.getInArrayQuery = exports.createdAtSchemaDefinition = void 0;
+exports.getCreatedLastMonthQuery = exports.setFilterQueryWithDates = exports.postDataSchemaDefinition = exports.getBooleanQuery = exports.PostCardLayoutSchema = exports.DeliveryConfigDefinition = exports.commissionsSchemaDefinition = exports.getFilterQueryFactory = exports.BankAccountDefinition = exports.AddressDefinition = exports.getSortQuery = exports.lastUpQuerySort = exports.getMongoModel = exports.getSearchRegexQuery = exports.getInArrayQuery = exports.createdAtSchemaDefinition = void 0;
 const mongoose_1 = require("mongoose");
 const mongoose_paginate_v2_1 = __importDefault(require("mongoose-paginate-v2"));
 const mongoose_aggregate_paginate_v2_1 = __importDefault(require("mongoose-aggregate-paginate-v2"));
@@ -12,6 +12,7 @@ const db_1 = require("../db");
 const general_2 = require("./general");
 const commision_1 = require("../types/commision");
 const types_1 = require("../features/business/types");
+const date_fns_1 = require("date-fns");
 exports.createdAtSchemaDefinition = {
     createdAt: { type: Date, required: true, default: Date.now }
 };
@@ -217,3 +218,14 @@ const setFilterQueryWithDates = ({ filterQuery, dateFrom, dateTo }) => {
     }
 };
 exports.setFilterQueryWithDates = setFilterQueryWithDates;
+const getCreatedLastMonthQuery = () => {
+    const now = new Date();
+    const lastMonth = (0, date_fns_1.subMonths)(now, 1);
+    return {
+        createdAt: {
+            $gte: lastMonth,
+            $lt: now
+        }
+    };
+};
+exports.getCreatedLastMonthQuery = getCreatedLastMonthQuery;

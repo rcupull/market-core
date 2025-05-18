@@ -9,7 +9,14 @@ import {
 
 import mongoosePaginate from 'mongoose-paginate-v2';
 import aggregatePaginate from 'mongoose-aggregate-paginate-v2';
-import { Address, AnyRecord, BankAccount, BaseIdentity, Currency } from '../types/general';
+import {
+  Address,
+  AnyRecord,
+  BankAccount,
+  BaseIdentity,
+  CreatedDateRangeQueryType,
+  Currency
+} from '../types/general';
 import { getMongoose } from '../db';
 import { getFlattenUndefinedJson, isEmpty } from './general';
 import { Commission, CommissionMode, Commissions } from '../types/commision';
@@ -20,6 +27,7 @@ import {
   PostLayoutShoppingMethod
 } from '../features/business/types';
 import { ShoppingPostData } from '../features/shopping/types';
+import { subMonths } from 'date-fns';
 
 export const createdAtSchemaDefinition: SchemaDefinition = {
   createdAt: { type: Date, required: true, default: Date.now }
@@ -273,4 +281,16 @@ export const setFilterQueryWithDates = <T extends BaseIdentity = BaseIdentity>({
     //@ts-expect-error ts(2345)
     set(filterQuery, 'createdAt.$lte', new Date(dateTo));
   }
+};
+
+export const getCreatedLastMonthQuery = (): CreatedDateRangeQueryType => {
+  const now = new Date();
+  const lastMonth = subMonths(now, 1);
+
+  return {
+    createdAt: {
+      $gte: lastMonth,
+      $lt: now
+    }
+  };
 };
