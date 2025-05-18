@@ -58,4 +58,7 @@ export * from './src/features/bill/types';
 export * from './src/features/payment-distribution/services';
 export * from './src/features/payment-distribution/types';
 
+export * from './src/features/payment-proof/services';
+export * from './src/features/payment-proof/types';
+
 export * from './src/db';
