@@ -9,7 +9,7 @@ import {
 
 import mongoosePaginate from 'mongoose-paginate-v2';
 import aggregatePaginate from 'mongoose-aggregate-paginate-v2';
-import { Address, AnyRecord, BankAccount } from '../types/general';
+import { Address, AnyRecord, BankAccount, BaseIdentity, Currency } from '../types/general';
 import { getMongoose } from '../db';
 import { getFlattenUndefinedJson, isEmpty } from './general';
 import { Commission, CommissionMode, Commissions } from '../types/commision';
@@ -19,6 +19,7 @@ import {
   PostCardLayout,
   PostLayoutShoppingMethod
 } from '../features/business/types';
+import { ShoppingPostData } from '../features/shopping/types';
 
 export const createdAtSchemaDefinition: SchemaDefinition = {
   createdAt: { type: Date, required: true, default: Date.now }
@@ -229,4 +230,47 @@ export const getBooleanQuery = <T extends AnyRecord = AnyRecord>(
    * when value ===false include false, null or undefined,all except true => { $ne: true }
    */
   return value ? { $eq: true } : { $ne: true };
+};
+
+export const postDataSchemaDefinition: SchemaDefinition<ShoppingPostData> = {
+  _id: { type: String, required: true },
+  images: {
+    type: [
+      {
+        src: { type: String, required: true },
+        width: { type: Number, required: true },
+        height: { type: Number, required: true }
+      }
+    ]
+  },
+  name: { type: String, required: true },
+  commissions: { _id: false, type: commissionsSchemaDefinition, required: true },
+  salePrice: { type: Number, required: true },
+  routeName: { type: String, required: true },
+  currency: { type: String, enum: Object.values(Currency) },
+  currenciesOfSale: {
+    _id: false,
+    type: [{ type: String, enum: Object.values(Currency) }],
+    default: []
+  }
+};
+
+export const setFilterQueryWithDates = <T extends BaseIdentity = BaseIdentity>({
+  filterQuery,
+  dateFrom,
+  dateTo
+}: {
+  dateFrom?: string;
+  dateTo?: string;
+  filterQuery: FilterQuery<T>;
+}): void => {
+  if (dateFrom) {
+    //@ts-expect-error ts(2345)
+    set(filterQuery, 'createdAt.$gte', new Date(dateFrom));
+  }
+
+  if (dateTo) {
+    //@ts-expect-error ts(2345)
+    set(filterQuery, 'createdAt.$lte', new Date(dateTo));
+  }
 };

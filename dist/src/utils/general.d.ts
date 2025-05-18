@@ -42,3 +42,4 @@ export interface Logger {
     error: (e: any) => void;
     info: (e: any) => void;
 }
+export declare const getStrongPassword: () => string;

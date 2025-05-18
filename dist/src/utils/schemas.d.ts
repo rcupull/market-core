@@ -1,7 +1,8 @@
 import { AggregatePaginateModel, FilterQuery, PaginateModel, Schema, SchemaDefinition, SchemaDefinitionProperty } from 'mongoose';
-import { Address, AnyRecord, BankAccount } from '../types/general';
+import { Address, AnyRecord, BankAccount, BaseIdentity } from '../types/general';
 import { Commissions } from '../types/commision';
 import { DeliveryConfig, PostCardLayout } from '../features/business/types';
+import { ShoppingPostData } from '../features/shopping/types';
 export declare const createdAtSchemaDefinition: SchemaDefinition;
 export declare const getInArrayQuery: <T extends AnyRecord = AnyRecord>(anyArray: Array<string | number | Schema.Types.ObjectId>) => FilterQuery<T>;
 export declare const getSearchRegexQuery: <T extends AnyRecord = AnyRecord>(search?: string) => FilterQuery<T>;
@@ -24,4 +25,10 @@ export declare const PostCardLayoutSchema: Schema<PostCardLayout, import("mongoo
     __v: number;
 }>;
 export declare const getBooleanQuery: <T extends AnyRecord = AnyRecord>(value: boolean) => FilterQuery<T>;
+export declare const postDataSchemaDefinition: SchemaDefinition<ShoppingPostData>;
+export declare const setFilterQueryWithDates: <T extends BaseIdentity = BaseIdentity>({ filterQuery, dateFrom, dateTo }: {
+    dateFrom?: string;
+    dateTo?: string;
+    filterQuery: FilterQuery<T>;
+}) => void;
 export {};

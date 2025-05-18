@@ -3,12 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBooleanQuery = exports.PostCardLayoutSchema = exports.DeliveryConfigDefinition = exports.commissionsSchemaDefinition = exports.getFilterQueryFactory = exports.BankAccountDefinition = exports.AddressDefinition = exports.getSortQuery = exports.lastUpQuerySort = exports.getMongoModel = exports.getSearchRegexQuery = exports.getInArrayQuery = exports.createdAtSchemaDefinition = void 0;
+exports.setFilterQueryWithDates = exports.postDataSchemaDefinition = exports.getBooleanQuery = exports.PostCardLayoutSchema = exports.DeliveryConfigDefinition = exports.commissionsSchemaDefinition = exports.getFilterQueryFactory = exports.BankAccountDefinition = exports.AddressDefinition = exports.getSortQuery = exports.lastUpQuerySort = exports.getMongoModel = exports.getSearchRegexQuery = exports.getInArrayQuery = exports.createdAtSchemaDefinition = void 0;
 const mongoose_1 = require("mongoose");
 const mongoose_paginate_v2_1 = __importDefault(require("mongoose-paginate-v2"));
 const mongoose_aggregate_paginate_v2_1 = __importDefault(require("mongoose-aggregate-paginate-v2"));
+const general_1 = require("../types/general");
 const db_1 = require("../db");
-const general_1 = require("./general");
+const general_2 = require("./general");
 const commision_1 = require("../types/commision");
 const types_1 = require("../features/business/types");
 exports.createdAtSchemaDefinition = {
@@ -97,13 +98,13 @@ const getFilterQueryFactory = (callback) => {
          * ///////////////////////////////////////////////////////////////////
          * ///////////////////////////////////////////////////////////////////
          */
-        if ((0, general_1.isEmpty)(filterQuery.$or)) {
+        if ((0, general_2.isEmpty)(filterQuery.$or)) {
             delete filterQuery.$or;
         }
-        if ((0, general_1.isEmpty)(filterQuery.$and)) {
+        if ((0, general_2.isEmpty)(filterQuery.$and)) {
             delete filterQuery.$and;
         }
-        return (0, general_1.getFlattenUndefinedJson)(filterQuery);
+        return (0, general_2.getFlattenUndefinedJson)(filterQuery);
     };
     return out;
 };
@@ -183,3 +184,36 @@ const getBooleanQuery = (value) => {
     return value ? { $eq: true } : { $ne: true };
 };
 exports.getBooleanQuery = getBooleanQuery;
+exports.postDataSchemaDefinition = {
+    _id: { type: String, required: true },
+    images: {
+        type: [
+            {
+                src: { type: String, required: true },
+                width: { type: Number, required: true },
+                height: { type: Number, required: true }
+            }
+        ]
+    },
+    name: { type: String, required: true },
+    commissions: { _id: false, type: exports.commissionsSchemaDefinition, required: true },
+    salePrice: { type: Number, required: true },
+    routeName: { type: String, required: true },
+    currency: { type: String, enum: Object.values(general_1.Currency) },
+    currenciesOfSale: {
+        _id: false,
+        type: [{ type: String, enum: Object.values(general_1.Currency) }],
+        default: []
+    }
+};
+const setFilterQueryWithDates = ({ filterQuery, dateFrom, dateTo }) => {
+    if (dateFrom) {
+        //@ts-expect-error ts(2345)
+        set(filterQuery, 'createdAt.$gte', new Date(dateFrom));
+    }
+    if (dateTo) {
+        //@ts-expect-error ts(2345)
+        set(filterQuery, 'createdAt.$lte', new Date(dateTo));
+    }
+};
+exports.setFilterQueryWithDates = setFilterQueryWithDates;

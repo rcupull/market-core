@@ -22,9 +22,11 @@ export * from './src/features/review/services';
 
 export * from './src/features/post/types';
 export * from './src/features/post/services';
+export { getPostSlug } from './src/features/post/utils';
 
 export * from './src/features/business/types';
 export * from './src/features/business/services';
+export * from './src/features/business/utils';
 
 export * from './src/features/notifications/types';
 export * from './src/features/notifications/services';
@@ -47,5 +49,8 @@ export * from './src/features/faq/types';
 
 export * from './src/features/classifier/services';
 export * from './src/features/classifier/types';
+
+export * from './src/features/shopping/services';
+export * from './src/features/shopping/types';
 
 export * from './src/db';

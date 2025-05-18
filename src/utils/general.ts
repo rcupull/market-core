@@ -294,3 +294,9 @@ export interface Logger {
   error: (e: any) => void;
   info: (e: any) => void;
 }
+
+export const getStrongPassword = (): string => {
+  const [c0, c1, c2] = getCharCode(4);
+  const [n0, n1, n2] = baseConversion(getRandomNumber(0, 10000), 4, '0123456789');
+  return `*${n0}${c0.toUpperCase()}${n1}${c1}${n2}${c2.toLowerCase()}#`;
+};

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mergeDeep = exports.isObject = exports.fixToTwoDigits = exports.mergeArrays = exports.baseConversion = exports.getNumberCode = exports.getCharCode = exports.getRandomNumber = exports.excludeRepetedValues = exports.numberExtract = exports.stringExtract = exports.getFlattenUndefinedJson = exports.getFlattenJson = exports.deepJsonCopy = exports.getRandomHash = exports.addStringToUniqueArray = exports.movRow = exports.addRow = exports.compact = exports.isNullOrUndefinedOrEmptyString = exports.isArray = exports.isBoolean = exports.isString = exports.isNumber = exports.isNullOrUndefined = exports.set = exports.get = exports.isEmpty = exports.combineMiddleware = exports.isEqualObj = exports.isEqual = exports.includesId = exports.line = exports.range = exports.isFunction = exports.isEqualIds = exports.idToString = exports.replaceAll = void 0;
+exports.getStrongPassword = exports.mergeDeep = exports.isObject = exports.fixToTwoDigits = exports.mergeArrays = exports.baseConversion = exports.getNumberCode = exports.getCharCode = exports.getRandomNumber = exports.excludeRepetedValues = exports.numberExtract = exports.stringExtract = exports.getFlattenUndefinedJson = exports.getFlattenJson = exports.deepJsonCopy = exports.getRandomHash = exports.addStringToUniqueArray = exports.movRow = exports.addRow = exports.compact = exports.isNullOrUndefinedOrEmptyString = exports.isArray = exports.isBoolean = exports.isString = exports.isNumber = exports.isNullOrUndefined = exports.set = exports.get = exports.isEmpty = exports.combineMiddleware = exports.isEqualObj = exports.isEqual = exports.includesId = exports.line = exports.range = exports.isFunction = exports.isEqualIds = exports.idToString = exports.replaceAll = void 0;
 const dlv_1 = __importDefault(require("dlv"));
 const dset_1 = require("dset");
 const replaceAll = (value, match, replace) => value.split(match).join(replace);
@@ -263,3 +263,9 @@ const mergeDeep = (target, source, mergeCallback) => {
     return output;
 };
 exports.mergeDeep = mergeDeep;
+const getStrongPassword = () => {
+    const [c0, c1, c2] = (0, exports.getCharCode)(4);
+    const [n0, n1, n2] = (0, exports.baseConversion)((0, exports.getRandomNumber)(0, 10000), 4, '0123456789');
+    return `*${n0}${c0.toUpperCase()}${n1}${c1}${n2}${c2.toLowerCase()}#`;
+};
+exports.getStrongPassword = getStrongPassword;
