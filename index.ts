@@ -14,7 +14,6 @@ export * from './src/features/user/services';
 export * from './src/features/validation-code/types';
 export * from './src/features/validation-code/services';
 
-export * from './src/features/agenda/types';
 export * from './src/features/agenda/services';
 
 export * from './src/features/review/types';
