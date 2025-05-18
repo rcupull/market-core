@@ -8,9 +8,15 @@ const firebase_admin_1 = __importDefault(require("firebase-admin"));
 const schemas_1 = require("./schemas");
 const utils_1 = require("./utils");
 const ModelCrudTemplate_1 = require("../../utils/ModelCrudTemplate");
+const schemas_2 = require("../../utils/schemas");
+const types_1 = require("../auth/types");
+const general_1 = require("../../utils/general");
 class NotificationsServices extends ModelCrudTemplate_1.ModelCrudTemplate {
-    constructor() {
+    constructor(businessServices, userServices, authServices) {
         super(schemas_1.modelGetter, utils_1.getAllFilterQuery);
+        this.businessServices = businessServices;
+        this.userServices = userServices;
+        this.authServices = authServices;
         this.firebaseInstance = firebase_admin_1.default;
         this.notificationsServicesInit = () => {
             firebase_admin_1.default.initializeApp({
@@ -41,6 +47,51 @@ class NotificationsServices extends ModelCrudTemplate_1.ModelCrudTemplate {
                     body
                 }
             });
+        };
+        this.getBusinessData = async ({ routeName }) => {
+            const businessData = await this.businessServices.getOne({
+                query: {
+                    routeName
+                },
+                projection: {
+                    name: 1,
+                    notificationFlags: 1,
+                    createdBy: 1
+                }
+            });
+            if (!businessData) {
+                return null;
+            }
+            return {
+                businessName: businessData.name,
+                routeName,
+                notificationFlags: businessData.notificationFlags,
+                createdBy: businessData.createdBy
+            };
+        };
+        this.getUsersData = async ({ query }) => {
+            const users = await this.userServices.getAll({
+                query,
+                projection: {
+                    _id: 1,
+                    phone: 1
+                }
+            });
+            const sessions = (await this.authServices.getAll({
+                query: {
+                    userId: (0, schemas_2.getInArrayQuery)(users.map((user) => user._id.toString())),
+                    state: types_1.AuthSessionState.OPEN
+                },
+                projection: {
+                    firebaseToken: 1,
+                    userId: 1
+                }
+            }));
+            return users.map((user) => ({
+                firebaseTokens: (0, general_1.compact)(sessions.filter((s) => (0, general_1.isEqualIds)(s.userId, user._id)).map((s) => s.firebaseToken)),
+                userId: user._id,
+                phone: user.phone
+            }));
         };
         this.notificationsServicesInit();
     }
