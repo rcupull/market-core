@@ -4,6 +4,7 @@ exports.BusinessServices = void 0;
 const schemas_1 = require("./schemas");
 const utils_1 = require("./utils");
 const ModelCrudTemplate_1 = require("../../utils/ModelCrudTemplate");
+const general_1 = require("../../utils/general");
 class BusinessServices extends ModelCrudTemplate_1.ModelCrudTemplate {
     constructor() {
         super(schemas_1.modelGetter, utils_1.getAllFilterQuery);
@@ -36,6 +37,33 @@ class BusinessServices extends ModelCrudTemplate_1.ModelCrudTemplate {
                         businessDeliveryConfig: oneBusinessData === null || oneBusinessData === void 0 ? void 0 : oneBusinessData.deliveryConfig,
                         businessTermsAndConditions: (_b = oneBusinessData === null || oneBusinessData === void 0 ? void 0 : oneBusinessData.shoppingMeta) === null || _b === void 0 ? void 0 : _b.termsAndConditions
                     };
+                }
+            };
+        };
+        this.getBusinessFavoritesData = async ({ query }) => {
+            const businessData = await this.getAll({
+                query,
+                projection: {
+                    name: 1,
+                    routeName: 1,
+                    favoritesUserIds: 1
+                }
+            });
+            return {
+                getFavoritesBusiness: ({ userId }) => {
+                    return businessData.reduce((acc, { favoritesUserIds = [], name, routeName }) => {
+                        const isFavorite = (0, general_1.includesId)(favoritesUserIds, userId);
+                        if (isFavorite) {
+                            return [
+                                ...acc,
+                                {
+                                    name,
+                                    routeName
+                                }
+                            ];
+                        }
+                        return acc;
+                    }, []);
                 }
             };
         };

@@ -4,6 +4,8 @@ import { modelGetter } from './schemas';
 import { GetAllBusinessArgs, getAllFilterQuery } from './utils';
 import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
 import { Address, Currency, QueryHandle } from '../../types/general';
+import { includesId } from '../../utils/general';
+import { Schema } from 'mongoose';
 
 export class BusinessServices extends ModelCrudTemplate<
   Business,
@@ -73,6 +75,53 @@ export class BusinessServices extends ModelCrudTemplate<
           businessDeliveryConfig: oneBusinessData?.deliveryConfig,
           businessTermsAndConditions: oneBusinessData?.shoppingMeta?.termsAndConditions
         };
+      }
+    };
+  };
+
+  getBusinessFavoritesData: QueryHandle<
+    {
+      query: GetAllBusinessArgs;
+    },
+    {
+      getFavoritesBusiness: (args: { userId: Schema.Types.ObjectId }) => Array<{
+        name: string;
+        routeName: string;
+      }>;
+    }
+  > = async ({ query }) => {
+    const businessData: Array<Pick<Business, 'routeName' | 'name' | 'favoritesUserIds'>> =
+      await this.getAll({
+        query,
+        projection: {
+          name: 1,
+          routeName: 1,
+          favoritesUserIds: 1
+        }
+      });
+
+    return {
+      getFavoritesBusiness: ({ userId }) => {
+        return businessData.reduce<
+          Array<{
+            name: string;
+            routeName: string;
+          }>
+        >((acc, { favoritesUserIds = [], name, routeName }) => {
+          const isFavorite = includesId(favoritesUserIds, userId);
+
+          if (isFavorite) {
+            return [
+              ...acc,
+              {
+                name,
+                routeName
+              }
+            ];
+          }
+
+          return acc;
+        }, []);
       }
     };
   };
