@@ -1,0 +1,33 @@
+import { QueryHandle } from '../../types/general';
+import { CategoriesServices } from '../categories/services';
+import { PostServices } from '../post/services';
+import { EmbeddedProductScore } from './types';
+export declare class SearchServicesEmbeddings {
+    private readonly postServices;
+    private readonly categoriesServices;
+    constructor(postServices: PostServices, categoriesServices: CategoriesServices);
+    /**
+     * //////////////////////////////////////////////////////////////////////////
+     * //////////////////////////////////////////////////////////////////////////
+     * Searching
+     * //////////////////////////////////////////////////////////////////////////
+     * //////////////////////////////////////////////////////////////////////////
+     */
+    searchInMarketplace: QueryHandle<{
+        search: string;
+        limit?: number;
+    }, Array<EmbeddedProductScore>>;
+    searchSimilarProducts: QueryHandle<{
+        productScore?: EmbeddedProductScore;
+        productId?: string;
+        limit?: number;
+    }, Array<EmbeddedProductScore>>;
+    /**
+     * //////////////////////////////////////////////////////////////////////////
+     * //////////////////////////////////////////////////////////////////////////
+     * Training
+     * //////////////////////////////////////////////////////////////////////////
+     * //////////////////////////////////////////////////////////////////////////
+     */
+    trainingMarketplace: QueryHandle;
+}
