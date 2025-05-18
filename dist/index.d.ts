@@ -27,4 +27,6 @@ export * from './src/features/sms/services';
 export * from './src/features/notifications-data/services';
 export * from './src/features/notifications-data/types';
 export * from './src/features/files/services';
+export * from './src/features/faq/services';
+export * from './src/features/faq/types';
 export * from './src/db';

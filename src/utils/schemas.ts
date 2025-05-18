@@ -221,3 +221,12 @@ export const PostCardLayoutSchema = new Schema<PostCardLayout>({
   },
   shoppingMethod: PostLayoutShoppingMethodDefinition
 });
+
+export const getBooleanQuery = <T extends AnyRecord = AnyRecord>(
+  value: boolean
+): FilterQuery<T> => {
+  /**
+   * when value ===false include false, null or undefined,all except true => { $ne: true }
+   */
+  return value ? { $eq: true } : { $ne: true };
+};

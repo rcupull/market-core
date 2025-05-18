@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostCardLayoutSchema = exports.DeliveryConfigDefinition = exports.commissionsSchemaDefinition = exports.getFilterQueryFactory = exports.BankAccountDefinition = exports.AddressDefinition = exports.getSortQuery = exports.lastUpQuerySort = exports.getMongoModel = exports.getSearchRegexQuery = exports.getInArrayQuery = exports.createdAtSchemaDefinition = void 0;
+exports.getBooleanQuery = exports.PostCardLayoutSchema = exports.DeliveryConfigDefinition = exports.commissionsSchemaDefinition = exports.getFilterQueryFactory = exports.BankAccountDefinition = exports.AddressDefinition = exports.getSortQuery = exports.lastUpQuerySort = exports.getMongoModel = exports.getSearchRegexQuery = exports.getInArrayQuery = exports.createdAtSchemaDefinition = void 0;
 const mongoose_1 = require("mongoose");
 const mongoose_paginate_v2_1 = __importDefault(require("mongoose-paginate-v2"));
 const mongoose_aggregate_paginate_v2_1 = __importDefault(require("mongoose-aggregate-paginate-v2"));
@@ -176,3 +176,10 @@ exports.PostCardLayoutSchema = new mongoose_1.Schema({
     },
     shoppingMethod: PostLayoutShoppingMethodDefinition
 });
+const getBooleanQuery = (value) => {
+    /**
+     * when value ===false include false, null or undefined,all except true => { $ne: true }
+     */
+    return value ? { $eq: true } : { $ne: true };
+};
+exports.getBooleanQuery = getBooleanQuery;

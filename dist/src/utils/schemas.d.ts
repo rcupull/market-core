@@ -23,4 +23,5 @@ export declare const PostCardLayoutSchema: Schema<PostCardLayout, import("mongoo
 } & {
     __v: number;
 }>;
+export declare const getBooleanQuery: <T extends AnyRecord = AnyRecord>(value: boolean) => FilterQuery<T>;
 export {};
