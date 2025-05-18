@@ -43,6 +43,8 @@ export * from './src/features/payment-proof/services';
 export * from './src/features/payment-proof/types';
 export * from './src/features/payment-settlement/services';
 export * from './src/features/payment-settlement/types';
+export * from './src/features/product-similarity/services';
+export * from './src/features/product-similarity/types';
 export * from './src/features/dtos/services';
 export * from './src/features/google-images/services';
 export * from './src/db';
