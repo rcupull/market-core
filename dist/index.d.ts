@@ -34,4 +34,8 @@ export * from './src/features/shopping/services';
 export * from './src/features/shopping/types';
 export * from './src/features/payment/services';
 export * from './src/features/payment/types';
+export * from './src/features/bill/services';
+export * from './src/features/bill/types';
+export * from './src/features/payment-distribution/services';
+export * from './src/features/payment-distribution/types';
 export * from './src/db';

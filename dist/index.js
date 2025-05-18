@@ -50,4 +50,8 @@ __exportStar(require("./src/features/shopping/services"), exports);
 __exportStar(require("./src/features/shopping/types"), exports);
 __exportStar(require("./src/features/payment/services"), exports);
 __exportStar(require("./src/features/payment/types"), exports);
+__exportStar(require("./src/features/bill/services"), exports);
+__exportStar(require("./src/features/bill/types"), exports);
+__exportStar(require("./src/features/payment-distribution/services"), exports);
+__exportStar(require("./src/features/payment-distribution/types"), exports);
 __exportStar(require("./src/db"), exports);
