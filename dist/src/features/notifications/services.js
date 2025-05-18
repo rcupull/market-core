@@ -93,6 +93,12 @@ class NotificationsServices extends ModelCrudTemplate_1.ModelCrudTemplate {
                 phone: user.phone
             }));
         };
+        this.getUsersIdsFromUsersData = (usersData) => {
+            return usersData.map((user) => user.userId);
+        };
+        this.getTokensFromUsersData = (usersData) => {
+            return (0, general_1.excludeRepetedValues)(usersData.map((user) => user.firebaseTokens).flat());
+        };
         this.notificationsServicesInit();
     }
 }

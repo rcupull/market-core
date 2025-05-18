@@ -26,4 +26,6 @@ export declare class NotificationsServices extends ModelCrudTemplate<PushNotific
     getUsersData: QueryHandle<{
         query: FilterQuery<User>;
     }, Array<NotificationUserData>>;
+    getUsersIdsFromUsersData: (usersData: Array<NotificationUserData>) => import("mongoose").Schema.Types.ObjectId[];
+    getTokensFromUsersData: (usersData: Array<NotificationUserData>) => string[];
 }

@@ -14,7 +14,7 @@ import { FilterQuery } from 'mongoose';
 import { User } from '../user/types';
 import { getInArrayQuery } from '../../utils/schemas';
 import { AuthSession, AuthSessionState } from '../auth/types';
-import { compact, isEqualIds } from '../../utils/general';
+import { compact, excludeRepetedValues, isEqualIds } from '../../utils/general';
 
 export class NotificationsServices extends ModelCrudTemplate<
   PushNotification,
@@ -149,5 +149,13 @@ export class NotificationsServices extends ModelCrudTemplate<
       userId: user._id,
       phone: user.phone
     }));
+  };
+
+  getUsersIdsFromUsersData = (usersData: Array<NotificationUserData>) => {
+    return usersData.map((user) => user.userId);
+  };
+
+  getTokensFromUsersData = (usersData: Array<NotificationUserData>) => {
+    return excludeRepetedValues(usersData.map((user) => user.firebaseTokens).flat());
   };
 }
