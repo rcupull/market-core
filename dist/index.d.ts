@@ -42,4 +42,5 @@ export * from './src/features/payment-distribution/types';
 export * from './src/features/payment-proof/services';
 export * from './src/features/payment-proof/types';
 export * from './src/features/dtos/services';
+export * from './src/features/google-images/services';
 export * from './src/db';
