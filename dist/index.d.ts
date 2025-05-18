@@ -55,3 +55,4 @@ export * from './src/features/search-suggestion/types';
 export * from './src/features/dtos/services';
 export * from './src/features/google-images/services';
 export * from './src/db';
+export * from './src/utils/constants';

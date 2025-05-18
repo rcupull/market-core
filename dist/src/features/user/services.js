@@ -28,6 +28,17 @@ class UserServices extends ModelCrudTemplate_1.ModelCrudTemplate {
                 }
             };
         };
+        this.getUserAddress = (user, addressIndex) => {
+            /**
+             * if addressIndex is not defined, then we return the default address, or the first address if there is no default
+             */
+            const { addresses, defaultAddressIndex } = user;
+            const index = (0, general_1.isNumber)(addressIndex) ? addressIndex : defaultAddressIndex;
+            if ((0, general_1.isNumber)(index)) {
+                return (addresses === null || addresses === void 0 ? void 0 : addresses[index]) || (addresses === null || addresses === void 0 ? void 0 : addresses[0]);
+            }
+            return addresses === null || addresses === void 0 ? void 0 : addresses[0];
+        };
     }
 }
 exports.UserServices = UserServices;

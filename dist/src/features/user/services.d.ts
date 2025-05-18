@@ -20,4 +20,5 @@ export declare class UserServices extends ModelCrudTemplate<User, {
             purchaserPhone?: string;
         } | null;
     }>;
+    getUserAddress: (user: User, addressIndex?: number) => Address | undefined;
 }

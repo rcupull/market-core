@@ -4,7 +4,7 @@ import { getAllFilterQuery, GetAllUsersArgs } from './utils';
 import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
 import { Address, QueryHandle } from '../../types/general';
 import { Schema } from 'mongoose';
-import { isEqualIds } from '../../utils/general';
+import { isEqualIds, isNumber } from '../../utils/general';
 
 export class UserServices extends ModelCrudTemplate<
   User,
@@ -50,5 +50,21 @@ export class UserServices extends ModelCrudTemplate<
         return null;
       }
     };
+  };
+
+  getUserAddress = (user: User, addressIndex?: number) => {
+    /**
+     * if addressIndex is not defined, then we return the default address, or the first address if there is no default
+     */
+
+    const { addresses, defaultAddressIndex } = user;
+
+    const index = isNumber(addressIndex) ? addressIndex : defaultAddressIndex;
+
+    if (isNumber(index)) {
+      return addresses?.[index] || addresses?.[0];
+    }
+
+    return addresses?.[0];
   };
 }
