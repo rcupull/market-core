@@ -19,6 +19,9 @@ export * from './src/features/agenda/services';
 export * from './src/features/review/types';
 export * from './src/features/review/services';
 
+export * from './src/features/geolocation/types';
+export * from './src/features/geolocation/services';
+
 export * from './src/features/post/types';
 export * from './src/features/post/services';
 

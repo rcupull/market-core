@@ -28,6 +28,8 @@ __exportStar(require("./src/features/validation-code/services"), exports);
 __exportStar(require("./src/features/agenda/services"), exports);
 __exportStar(require("./src/features/review/types"), exports);
 __exportStar(require("./src/features/review/services"), exports);
+__exportStar(require("./src/features/geolocation/types"), exports);
+__exportStar(require("./src/features/geolocation/services"), exports);
 __exportStar(require("./src/features/post/types"), exports);
 __exportStar(require("./src/features/post/services"), exports);
 __exportStar(require("./src/features/business/types"), exports);
