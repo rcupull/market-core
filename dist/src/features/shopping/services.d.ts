@@ -5,6 +5,7 @@ import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
 import { User } from '../user/types';
 import { getShoppingInfo } from './getShoppingInfo';
 import { BusinessType, DeliveryConfig } from '../business/types';
+import { Schema } from 'mongoose';
 export type NArgsShopping = Pick<Shopping, 'state' | 'purchaserId' | 'browserFingerprint' | 'routeName' | 'businessType' | 'requestedDelivery' | 'posts' | 'exchangeRates'>;
 export declare class ShoppingServices extends ModelCrudTemplate<Shopping, NArgsShopping, GetAllShoppingArgs> {
     constructor();
@@ -33,4 +34,14 @@ export declare class ShoppingServices extends ModelCrudTemplate<Shopping, NArgsS
         adminDeliveryConfig: DeliveryConfig | undefined;
     }) => DeliveryConfig | undefined;
     getShoppingInfo: typeof getShoppingInfo;
+    getShoppingSummary: QueryHandle<{
+        query: GetAllShoppingArgs;
+    }, {
+        getOneShoppingSummary: (args: {
+            shoppingId: Schema.Types.ObjectId | string;
+        }) => {
+            code: string;
+            state: ShoppingState;
+        } | undefined;
+    }>;
 }

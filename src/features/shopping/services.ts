@@ -8,6 +8,7 @@ import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
 import { User } from '../user/types';
 import { getShoppingInfo } from './getShoppingInfo';
 import { BusinessType, DeliveryConfig, DeliveryConfigType } from '../business/types';
+import { Schema } from 'mongoose';
 
 export type NArgsShopping = Pick<
   Shopping,
@@ -164,4 +165,42 @@ export class ShoppingServices extends ModelCrudTemplate<
   };
 
   getShoppingInfo: typeof getShoppingInfo = (shopping) => getShoppingInfo(shopping);
+
+  getShoppingSummary: QueryHandle<
+    {
+      query: GetAllShoppingArgs;
+    },
+    {
+      getOneShoppingSummary: (args: { shoppingId: Schema.Types.ObjectId | string }) =>
+        | {
+            code: string;
+            state: ShoppingState;
+          }
+        | undefined;
+    }
+  > = async ({ query }) => {
+    const allShoppings: Array<Pick<Shopping, '_id' | 'code' | 'state'>> = await this.getAll({
+      query,
+      projection: {
+        code: 1,
+        state: 1,
+        _id: 1
+      }
+    });
+
+    return {
+      getOneShoppingSummary: ({ shoppingId }) => {
+        const shopping = allShoppings.find((s) => isEqualIds(s._id, shoppingId));
+
+        if (!shopping) {
+          return undefined;
+        }
+
+        return {
+          code: shopping?.code,
+          state: shopping?.state
+        };
+      }
+    };
+  };
 }

@@ -99,6 +99,28 @@ class ShoppingServices extends ModelCrudTemplate_1.ModelCrudTemplate {
             return adminDeliveryConfig;
         };
         this.getShoppingInfo = (shopping) => (0, getShoppingInfo_1.getShoppingInfo)(shopping);
+        this.getShoppingSummary = async ({ query }) => {
+            const allShoppings = await this.getAll({
+                query,
+                projection: {
+                    code: 1,
+                    state: 1,
+                    _id: 1
+                }
+            });
+            return {
+                getOneShoppingSummary: ({ shoppingId }) => {
+                    const shopping = allShoppings.find((s) => (0, general_1.isEqualIds)(s._id, shoppingId));
+                    if (!shopping) {
+                        return undefined;
+                    }
+                    return {
+                        code: shopping === null || shopping === void 0 ? void 0 : shopping.code,
+                        state: shopping === null || shopping === void 0 ? void 0 : shopping.state
+                    };
+                }
+            };
+        };
     }
 }
 exports.ShoppingServices = ShoppingServices;
