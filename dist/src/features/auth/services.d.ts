@@ -5,6 +5,7 @@ import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
 import { UserServices } from '../user/services';
 import { ValidationCodeServices } from '../validation-code/services';
 import { Logger } from '../../utils/general';
+import { User } from '../user/types';
 export declare class AuthServices extends ModelCrudTemplate<AuthSession, Pick<AuthSession, 'refreshToken' | 'userId' | 'typeDevice' | 'descriptionDevice'>, FilterQuery<AuthSession>> {
     private readonly userServices;
     private readonly validationCodeServices;
@@ -34,5 +35,6 @@ export declare class AuthServices extends ModelCrudTemplate<AuthSession, Pick<Au
     }, ModelDocument<AuthSession> | null>;
     passportMiddlewareAutenticateLocal: (callback: AuthenticateCallback) => any;
     passportMiddlewareAutenticateJWT: (callback: AuthenticateCallback) => any;
+    changePasswordValidated: (user: User, newPassword: any) => Promise<boolean>;
     passportMiddlewareInitialize: import("express").Handler;
 }
