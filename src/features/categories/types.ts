@@ -7,7 +7,7 @@ export interface SubCategory extends BaseIdentity {
 
 export interface Category extends BaseIdentity {
   label: string;
-  categoryImage?: Image | null;
+  categoryImages?: Array<Image> | null;
   subCategories: Array<SubCategory>;
   subProductsAmounts: Array<number>;
 }

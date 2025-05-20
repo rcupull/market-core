@@ -20,7 +20,7 @@ export const modelGetter = () => {
         ],
         default: []
       },
-      categoryImage: {
+      categoryImages: {
         type: [
           {
             _id: false,
