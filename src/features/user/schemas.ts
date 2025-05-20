@@ -70,7 +70,7 @@ export const modelGetter = () => {
             if (err) return reject(err);
 
             user.password = hash;
-            user.passwordHistory.push({password: hash, createdAt: new Date()})
+            user.passwordHistory.push({ password: hash, createdAt: new Date() });
             resolve();
           });
         });

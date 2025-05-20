@@ -260,15 +260,15 @@ export class AuthServices extends ModelCrudTemplate<
         passwordHistory: 1
       }
     });
-    
+
     const passwordHistory = userPasswordHistory?.passwordHistory || [];
 
     const results = await Promise.all(
-      passwordHistory.map(password => bcrypt.compare(newPassword, password.password))
+      passwordHistory.map((password) => bcrypt.compare(newPassword, password.password))
     );
-    const passwordWasUsed = results.some(result => result)
+    const passwordWasUsed = results.some((result) => result);
 
     return passwordWasUsed;
-  }
+  };
   passportMiddlewareInitialize = passport.initialize();
 }

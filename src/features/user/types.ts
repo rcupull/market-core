@@ -10,9 +10,9 @@ export interface UserChecks {
   requestUserTypeWhenStart?: boolean;
   doneMyFirstBusiness?: boolean;
 }
-export interface passwordHistory{
-    password: string;
-    createdAt: Date
+export interface passwordHistory {
+  password: string;
+  createdAt: Date;
 }
 export interface User extends BaseIdentity {
   name: string;
