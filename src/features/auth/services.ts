@@ -248,13 +248,10 @@ export class AuthServices extends ModelCrudTemplate<
       callback
     );
   };
-  changePasswordValidated = async (user: User, newPassword: any) => {
+  isDeprecatedPassword = async (user: User, newPassword: string) => {
     const userPasswordHistory = await this.userServices.getOne({
       query: {
         _id: user._id
-      },
-      select: {
-        passwordHistory: true
       },
       projection: {
         passwordHistory: 1

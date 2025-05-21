@@ -35,6 +35,6 @@ export declare class AuthServices extends ModelCrudTemplate<AuthSession, Pick<Au
     }, ModelDocument<AuthSession> | null>;
     passportMiddlewareAutenticateLocal: (callback: AuthenticateCallback) => any;
     passportMiddlewareAutenticateJWT: (callback: AuthenticateCallback) => any;
-    changePasswordValidated: (user: User, newPassword: any) => Promise<boolean>;
+    isDeprecatedPassword: (user: User, newPassword: string) => Promise<boolean>;
     passportMiddlewareInitialize: import("express").Handler;
 }
