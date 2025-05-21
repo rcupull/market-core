@@ -542,7 +542,7 @@ class DtosServices {
                 const { stockAmountAvailable } = getOnePostShoppingData(post);
                 const { reviewSummary } = getReviewSummary(post);
                 const { reviews } = getReviews(post);
-                const { businessType } = getOneBusinessData({
+                const { businessType, businessName } = getOneBusinessData({
                     routeName: post.routeName
                 });
                 return {
@@ -552,6 +552,7 @@ class DtosServices {
                     }),
                     stockAmountAvailable,
                     businessType,
+                    businessName,
                     reviewSummary,
                     reviews
                 };
