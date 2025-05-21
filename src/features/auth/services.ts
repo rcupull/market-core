@@ -11,6 +11,7 @@ import { UserServices } from '../user/services';
 import { ValidationCodeServices } from '../validation-code/services';
 import { Logger } from '../../utils/general';
 import jwt from 'jsonwebtoken';
+import { User } from '../user/types';
 
 const { Strategy: JWTStrategy, ExtractJwt } = passportJWT;
 
@@ -247,6 +248,24 @@ export class AuthServices extends ModelCrudTemplate<
       callback
     );
   };
+  isDeprecatedPassword = async (user: User, newPassword: string) => {
+    const userPasswordHistory = await this.userServices.getOne({
+      query: {
+        _id: user._id
+      },
+      projection: {
+        passwordHistory: 1
+      }
+    });
 
+    const passwordHistory = userPasswordHistory?.passwordHistory || [];
+
+    const results = await Promise.all(
+      passwordHistory.map((password) => bcrypt.compare(newPassword, password.password))
+    );
+    const passwordWasUsed = results.some((result) => result);
+
+    return passwordWasUsed;
+  };
   passportMiddlewareInitialize = passport.initialize();
 }

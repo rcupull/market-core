@@ -18,6 +18,12 @@ export const modelGetter = () => {
       phone: { type: String, unique: true, required: true },
       email: { type: String, default: null },
       password: { type: String, required: true, select: false },
+      passwordHistory: [
+        {
+          password: { type: String, required: true, select: false },
+          createdAt: { type: Date, default: Date.now }
+        }
+      ],
       role: { type: String, enum: Object.values(UserRole), default: UserRole.USER },
       validated: { type: Boolean, default: false },
       profileImage: {
@@ -64,6 +70,7 @@ export const modelGetter = () => {
             if (err) return reject(err);
 
             user.password = hash;
+            user.passwordHistory.push({ password: hash, createdAt: new Date() });
             resolve();
           });
         });

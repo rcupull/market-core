@@ -10,12 +10,16 @@ export interface UserChecks {
   requestUserTypeWhenStart?: boolean;
   doneMyFirstBusiness?: boolean;
 }
-
+export interface passwordHistory {
+  password: string;
+  createdAt: Date;
+}
 export interface User extends BaseIdentity {
   name: string;
   email?: string;
   phone: string;
   password: string;
+  passwordHistory: Array<passwordHistory>;
   role: UserRole;
   validated: boolean;
   profileImage?: Image;

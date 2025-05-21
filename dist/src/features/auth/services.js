@@ -167,6 +167,20 @@ class AuthServices extends ModelCrudTemplate_1.ModelCrudTemplate {
                 session: false
             }, callback);
         };
+        this.isDeprecatedPassword = async (user, newPassword) => {
+            const userPasswordHistory = await this.userServices.getOne({
+                query: {
+                    _id: user._id
+                },
+                projection: {
+                    passwordHistory: 1
+                }
+            });
+            const passwordHistory = (userPasswordHistory === null || userPasswordHistory === void 0 ? void 0 : userPasswordHistory.passwordHistory) || [];
+            const results = await Promise.all(passwordHistory.map((password) => bcrypt_1.default.compare(newPassword, password.password)));
+            const passwordWasUsed = results.some((result) => result);
+            return passwordWasUsed;
+        };
         this.passportMiddlewareInitialize = passport_1.default.initialize();
         this.steat = this.options.steat;
         this.init();
