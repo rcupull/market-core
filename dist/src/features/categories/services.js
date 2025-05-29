@@ -7,6 +7,9 @@ const utils_1 = require("./utils");
 class CategoriesServices extends ModelCrudTemplate_1.ModelCrudTemplate {
     constructor() {
         super(schemas_1.modelGetter, utils_1.getAllFilterQuery);
+        this.getCategorySlugFromLabel = (name) => {
+            return (0, utils_1.getCategorySlugFromLabel)(name);
+        };
     }
 }
 exports.CategoriesServices = CategoriesServices;
