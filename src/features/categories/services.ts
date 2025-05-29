@@ -5,7 +5,7 @@ import { GetAllCategoriesArgs, getAllFilterQuery } from './utils';
 
 export class CategoriesServices extends ModelCrudTemplate<
   Category,
-  Pick<Category, 'label' | 'categoryImages'>,
+  Pick<Category, 'label' | 'categoryImages' | 'categorySlug'>,
   GetAllCategoriesArgs
 > {
   constructor() {

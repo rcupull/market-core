@@ -20,6 +20,7 @@ export const modelGetter = () => {
         ],
         default: []
       },
+      categorySlug: { type: String, required: true, unique: true },
       categoryImages: {
         type: [
           {
