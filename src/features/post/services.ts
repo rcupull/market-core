@@ -13,7 +13,7 @@ import { UserServices } from '../user/services';
 import { ReviewServices } from '../review/services';
 import { ShoppingPostData } from '../shopping/types';
 import { ConfigServices } from '../config/services';
-import { AdminConfig, FeatureKey } from '../config/types';
+import { AdminConfig } from '../config/types';
 import { getConvertedPrice } from '../../utils/price';
 
 interface PostQdrantPayload {
@@ -210,7 +210,7 @@ export class PostServices extends ModelCrudWithQdrant<
          */
 
         if (
-          !getEnabledFeature(FeatureKey.ALLOW_PAYMENT_USD) &&
+          !getEnabledFeature('ALLOW_PAYMENT_USD') &&
           out.currenciesOfSale?.includes(Currency.USD)
         ) {
           out.currenciesOfSale = out.currenciesOfSale.filter((c) => c !== Currency.USD);
@@ -223,7 +223,7 @@ export class PostServices extends ModelCrudWithQdrant<
          */
 
         if (
-          !getEnabledFeature(FeatureKey.ALLOW_PAYMENT_TRANSFERMOVIL_MLC) &&
+          !getEnabledFeature('ALLOW_PAYMENT_TRANSFERMOVIL_MLC') &&
           out.currenciesOfSale?.includes(Currency.MLC)
         ) {
           out.currenciesOfSale = out.currenciesOfSale.filter((c) => c !== Currency.MLC);
@@ -237,7 +237,7 @@ export class PostServices extends ModelCrudWithQdrant<
          * ////////////////////////////////////////////////////////////
          */
 
-        if (!getEnabledFeature(FeatureKey.ALLOW_PAYMENT_USD) && out.currency === Currency.USD) {
+        if (!getEnabledFeature('ALLOW_PAYMENT_USD') && out.currency === Currency.USD) {
           const newCurrency = (() => {
             if (out.currenciesOfSale?.includes(Currency.MLC)) {
               return Currency.MLC;
@@ -265,7 +265,7 @@ export class PostServices extends ModelCrudWithQdrant<
         }
 
         if (
-          !getEnabledFeature(FeatureKey.ALLOW_PAYMENT_TRANSFERMOVIL_MLC) &&
+          !getEnabledFeature('ALLOW_PAYMENT_TRANSFERMOVIL_MLC') &&
           out.currency === Currency.MLC
         ) {
           const newCurrency = (() => {

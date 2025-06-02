@@ -1,6 +1,6 @@
 import { FilterQuery, ProjectionType, UpdateQuery } from 'mongoose';
 import { ModelDocument, QueryHandle } from '../../types/general';
-import { AdminConfig, FeatureKey } from './types';
+import { AdminConfig } from './types';
 import { modelGetter } from './schemas';
 import { CommissionMode, Commissions } from '../../types/commision';
 import { deepJsonCopy, get, mergeDeep } from '../../utils/general';
@@ -171,7 +171,7 @@ export class ConfigServices extends ModelCrudTemplate<
     })) as ModelDocument<Pick<AdminConfig, 'features'>> | null;
 
     return {
-      getEnabledFeature: (featureKey: FeatureKey) => {
+      getEnabledFeature: (featureKey: string) => {
         return (
           adminConfig?.features?.find((feature) => feature.key === featureKey)?.enabled ?? false
         );

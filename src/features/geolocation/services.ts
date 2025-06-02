@@ -9,7 +9,6 @@ import {
   OsrmResponse
 } from './types';
 import { getOsrmEndpoint } from './utils';
-import { FeatureKey } from '../config/types';
 
 /**
  * doc in https://project-osrm.org/docs/v5.24.0/api/#route-object
@@ -139,7 +138,7 @@ export class GeolocationServices {
 
     const { getEnabledFeature } = await this.configServices.features();
 
-    if (getEnabledFeature(FeatureKey.COMPUTE_DELIVERY_DISTANCE_USING_OSRM_SERVICES)) {
+    if (getEnabledFeature('COMPUTE_DELIVERY_DISTANCE_USING_OSRM_SERVICES')) {
       return await this.getOSRMGeolocationDistance({ fromAddress, toAddress });
     }
 

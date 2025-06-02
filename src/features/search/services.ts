@@ -6,7 +6,6 @@ import { SearchServicesNLP } from './services-nlp';
 import { SearchServicesEmbeddings } from './services-embedding';
 import { ProductSimilarityServices } from '../product-similarity/services';
 import { ConfigServices } from '../config/services';
-import { FeatureKey } from '../config/types';
 
 export class SearchServices {
   constructor(
@@ -37,13 +36,13 @@ export class SearchServices {
      * //////////////////////////////////////////////////////////////////////
      * //////////////////////////////////////////////////////////////////////
      */
-    if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_NLP)) {
+    if (getEnabledFeature('MAIN_SEARCH_USING_NLP')) {
       const productScores = await this.searchServicesNLP.searchInMarketplace({ search });
 
       return {
         productScores,
         similarProductScores: await (async () => {
-          if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_PRODUCT_SIMILARITY)) {
+          if (getEnabledFeature('MAIN_SEARCH_USING_PRODUCT_SIMILARITY')) {
             const out = await this.productSimilarityServices.getAll({
               query: {
                 productName: getInArrayQuery(productScores.map(({ productName }) => productName))
@@ -64,7 +63,7 @@ export class SearchServices {
      * //////////////////////////////////////////////////////////////////////
      */
 
-    if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+    if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
       const products = await this.searchServicesEmbeddings.searchInMarketplace({
         search,
         limit: 1
@@ -107,7 +106,7 @@ export class SearchServices {
      * //////////////////////////////////////////////////////////////////////
      * //////////////////////////////////////////////////////////////////////
      */
-    if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_NLP)) {
+    if (getEnabledFeature('MAIN_SEARCH_USING_NLP')) {
       const productScores = await this.productSimilarityServices.getOne({
         query: {
           productId: postId
@@ -137,7 +136,7 @@ export class SearchServices {
      * //////////////////////////////////////////////////////////////////////
      */
 
-    if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+    if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
       const similar = await this.searchServicesEmbeddings.searchSimilarProducts({
         productId: postId
       });
@@ -174,7 +173,7 @@ export class SearchServices {
      * //////////////////////////////////////////////////////////////////////
      * //////////////////////////////////////////////////////////////////////
      */
-    if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_NLP)) {
+    if (getEnabledFeature('MAIN_SEARCH_USING_NLP')) {
       const productScores = await this.searchServicesNLP.searchInBusiness({
         search,
         routeName
@@ -192,7 +191,7 @@ export class SearchServices {
      * //////////////////////////////////////////////////////////////////////
      */
 
-    if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+    if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
       return {
         productScores: [],
         similarProductScores: []
@@ -221,11 +220,11 @@ export class SearchServices {
   trainingMarketplace: QueryHandle = async () => {
     const { getEnabledFeature } = await this.configServices.features();
 
-    if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_NLP)) {
+    if (getEnabledFeature('MAIN_SEARCH_USING_NLP')) {
       return await this.searchServicesNLP.trainingMarketplace();
     }
 
-    if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+    if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
       return await this.searchServicesEmbeddings.trainingMarketplace();
     }
 
@@ -235,11 +234,11 @@ export class SearchServices {
   trainingOneBusiness = async (routeName: string) => {
     const { getEnabledFeature } = await this.configServices.features();
 
-    if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_NLP)) {
+    if (getEnabledFeature('MAIN_SEARCH_USING_NLP')) {
       return await this.searchServicesNLP.trainingOneBusiness(routeName);
     }
 
-    if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+    if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
       //TODO
       return;
     }
@@ -250,11 +249,11 @@ export class SearchServices {
   trainingAllBusiness = async () => {
     const { getEnabledFeature } = await this.configServices.features();
 
-    if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_NLP)) {
+    if (getEnabledFeature('MAIN_SEARCH_USING_NLP')) {
       return await this.searchServicesNLP.trainingAllBusiness();
     }
 
-    if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+    if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
       //TODO
       return;
     }

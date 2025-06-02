@@ -4,7 +4,7 @@ import {
   createdAtSchemaDefinition,
   getMongoModel
 } from '../../utils/schemas';
-import { AdminConfig, CommissionsByBusinessType, FeatureKey } from './types';
+import { AdminConfig, CommissionsByBusinessType } from './types';
 import { AddressDefinition, DeliveryConfigDefinition } from '../../utils/schemas';
 import { SchemaDefinition } from '../../types/general';
 import { Schema } from 'mongoose';
@@ -84,7 +84,7 @@ export const modelGetter = () => {
         type: [
           {
             _id: false,
-            key: { type: String, enum: Object.values(FeatureKey), unique: true },
+            key: { type: String, unique: true },
             enabled: { type: Boolean },
             description: { type: String }
           }

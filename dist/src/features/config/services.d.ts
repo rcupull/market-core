@@ -1,6 +1,6 @@
 import { FilterQuery, ProjectionType, UpdateQuery } from 'mongoose';
 import { ModelDocument, QueryHandle } from '../../types/general';
-import { AdminConfig, FeatureKey } from './types';
+import { AdminConfig } from './types';
 import { Commissions } from '../../types/commision';
 import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
 import { BusinessServices } from '../business/services';
@@ -34,6 +34,6 @@ export declare class ConfigServices extends ModelCrudTemplate<AdminConfig, never
         marketAddress: import("../../types/general").Address | undefined;
     }>;
     features: () => Promise<{
-        getEnabledFeature: (featureKey: FeatureKey) => boolean;
+        getEnabledFeature: (featureKey: string) => boolean;
     }>;
 }
