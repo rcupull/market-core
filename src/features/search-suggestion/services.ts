@@ -1,14 +1,69 @@
-import { SearchSuggestion } from './types';
-import { FilterQuery } from 'mongoose';
-import { modelGetter } from './schemas';
-import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
+import { QueryHandle } from '../../types/general';
 
-export class SearchSuggestionServices extends ModelCrudTemplate<
-  SearchSuggestion,
-  Pick<SearchSuggestion, 'search'>,
-  FilterQuery<SearchSuggestion>
-> {
-  constructor() {
-    super(modelGetter);
-  }
+import { ProductScore } from '../search/types';
+
+import { ConfigServices } from '../config/services';
+import { SearchEmbeddingSuggestionServices } from './services-embedding';
+
+import { FeatureKey } from '../config/types';
+
+
+export class SearchSuggestionServices{
+  constructor(
+    private readonly configServices: ConfigServices,
+    private readonly searchEmbeddingSuggestionServices: SearchEmbeddingSuggestionServices
+  )
+  {}
+  
+  searchSuggestionProducts: QueryHandle<
+    { search: string | undefined },
+    {
+      productScores: Array<ProductScore>;
+      similarProductScores: Array<ProductScore>;
+    }
+  > = async ({ search }) => {
+    if (!search) {
+      return {
+        productScores: [],
+        similarProductScores: []
+      };
+    }
+
+    const { getEnabledFeature } = await this.configServices.features();
+
+    /**
+     * //////////////////////////////////////////////////////////////////////
+     * //////////////////////////////////////////////////////////////////////
+     * //////////////////////////////////////////////////////////////////////
+     */
+
+    if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+      const products = await this.searchEmbeddingSuggestionServices.searchSuggestionProducts({
+        search,
+        limit: 1
+      });
+
+      const similar = await Promise.all(
+        products.map((productScore) => {
+          return this.searchEmbeddingSuggestionServices.searchSimilarSuggestionProducts({
+            productScore,
+            limit: 20
+          });
+        })
+      );
+
+      return {
+        productScores: products.map(({ productName, score }) => ({ score, productName })),
+        similarProductScores: similar.flat().map(({ productName, score }) => ({
+          score,
+          productName
+        }))
+      };
+    }
+
+    return {
+      productScores: [],
+      similarProductScores: []
+    };
+  };
 }
