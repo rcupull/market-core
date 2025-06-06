@@ -2,15 +2,12 @@ import { QueryHandle } from '../../types/general';
 import { line, compact } from '../../utils/general';
 import { EmbeddedProductScore } from '../search/types';
 
-
 import { PostServices } from '../post/services';
 
 const allProductsCollectionName = 'allProductsSearchSuggestions';
 
 export class SearchEmbeddingSuggestionServices {
-  constructor(
-    private readonly postServices: PostServices
-  ) {}
+  constructor(private readonly postServices: PostServices) {}
 
   searchSuggestionProducts: QueryHandle<
     { search: string; limit?: number },
@@ -51,13 +48,12 @@ export class SearchEmbeddingSuggestionServices {
         limit
       });
 
-      return out
-        .map((s) => ({
-          score: s.score,
-          vector: s.vector,
-          productName: s.payload.productName,
-          productId: s.payload.productId
-        }));
+      return out.map((s) => ({
+        score: s.score,
+        vector: s.vector,
+        productName: s.payload.productName,
+        productId: s.payload.productId
+      }));
     }
 
     /**
@@ -80,13 +76,12 @@ export class SearchEmbeddingSuggestionServices {
           limit
         });
 
-        return compact(out)
-          .map((s) => ({
-            score: s.score,
-            vector: s.vector,
-            productName: s.payload.productName,
-            productId: s.payload.productId
-          }));
+        return compact(out).map((s) => ({
+          score: s.score,
+          vector: s.vector,
+          productName: s.payload.productName,
+          productId: s.payload.productId
+        }));
       }
     }
 
@@ -94,23 +89,22 @@ export class SearchEmbeddingSuggestionServices {
   };
 
   trainingSearchSuggestions: QueryHandle = async () => {
+    await this.postServices.qdrantUpdateAllVectors(allProductsCollectionName, {
+      query: {
+        hidden: false,
+        hiddenBusiness: false
+      },
+      getTextFromDoc: (post) => {
+        const { name } = post;
 
-  await this.postServices.qdrantUpdateAllVectors(allProductsCollectionName, {
-    query: {
-      hidden: false,
-      hiddenBusiness: false
-    },
-    getTextFromDoc: (post) => {
-    const { name } = post;
-    
-    if (!name) return null;
+        if (!name) return null;
 
-    let out = `${line(5, name).join('.')}`;
-    
-    out = `${out}`;
-    
-    return out;
-    }
-  });
-  }
+        let out = `${line(5, name).join('.')}`;
+
+        out = `${out}`;
+
+        return out;
+      }
+    });
+  };
 }

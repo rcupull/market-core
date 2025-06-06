@@ -5,13 +5,12 @@ import { ProductScore } from '../search/types';
 import { ConfigServices } from '../config/services';
 import { SearchEmbeddingSuggestionServices } from './services-embedding';
 
-export class SearchSuggestionServices{
+export class SearchSuggestionServices {
   constructor(
     private readonly configServices: ConfigServices,
     private readonly searchEmbeddingSuggestionServices: SearchEmbeddingSuggestionServices
-  )
-  {}
-  
+  ) {}
+
   searchSuggestionProducts: QueryHandle<
     { search: string | undefined },
     {
@@ -34,8 +33,7 @@ export class SearchSuggestionServices{
      * //////////////////////////////////////////////////////////////////////
      */
 
-    if (getEnabledFeature("MAIN_SEARCH_USING_EMBEDDING")) {
-
+    if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
       const products = await this.searchEmbeddingSuggestionServices.searchSuggestionProducts({
         search,
         limit: 1
@@ -64,13 +62,13 @@ export class SearchSuggestionServices{
       similarProductScores: []
     };
   };
-  trainingSearchSuggestions: QueryHandle = async () =>{
-        const { getEnabledFeature } = await this.configServices.features();
+  trainingSearchSuggestions: QueryHandle = async () => {
+    const { getEnabledFeature } = await this.configServices.features();
 
-            if (getEnabledFeature("MAIN_SEARCH_USING_EMBEDDING")) {
+    if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
       return await this.searchEmbeddingSuggestionServices.trainingSearchSuggestions();
     }
 
     return;
-  }
+  };
 }
