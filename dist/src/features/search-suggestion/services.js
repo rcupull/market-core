@@ -13,11 +13,6 @@ class SearchSuggestionServices {
                 };
             }
             const { getEnabledFeature } = await this.configServices.features();
-            /**
-             * //////////////////////////////////////////////////////////////////////
-             * //////////////////////////////////////////////////////////////////////
-             * //////////////////////////////////////////////////////////////////////
-             */
             if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
                 const products = await this.searchEmbeddingSuggestionServices.searchSuggestionProducts({
                     search,

@@ -19,13 +19,6 @@ class SearchEmbeddingSuggestionServices {
             }));
         };
         this.searchSimilarSuggestionProducts = async ({ productScore, limit, productId }) => {
-            /**
-             * //////////////////////////////////////////////////////////////////////
-             * //////////////////////////////////////////////////////////////////////
-             * searchin similar producst using vectors
-             * //////////////////////////////////////////////////////////////////////
-             * //////////////////////////////////////////////////////////////////////
-             */
             if (productScore) {
                 const { vector } = productScore;
                 const out = await this.postServices.qdrantSearch(allProductsCollectionName, {
@@ -39,13 +32,6 @@ class SearchEmbeddingSuggestionServices {
                     productId: s.payload.productId
                 }));
             }
-            /**
-             * //////////////////////////////////////////////////////////////////////
-             * //////////////////////////////////////////////////////////////////////
-             * searchin similar products using postIds
-             * //////////////////////////////////////////////////////////////////////
-             * //////////////////////////////////////////////////////////////////////
-             */
             if (productId) {
                 const point = await this.postServices.qdrantSearchOne(allProductsCollectionName, {
                     query: { productId }
