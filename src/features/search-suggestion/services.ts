@@ -5,9 +5,6 @@ import { ProductScore } from '../search/types';
 import { ConfigServices } from '../config/services';
 import { SearchEmbeddingSuggestionServices } from './services-embedding';
 
-import { FeatureKey } from '../config/types';
-
-
 export class SearchSuggestionServices{
   constructor(
     private readonly configServices: ConfigServices,
@@ -37,7 +34,7 @@ export class SearchSuggestionServices{
      * //////////////////////////////////////////////////////////////////////
      */
 
-    if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+    if (getEnabledFeature("MAIN_SEARCH_USING_EMBEDDING")) {
 
       const products = await this.searchEmbeddingSuggestionServices.searchSuggestionProducts({
         search,
@@ -70,7 +67,7 @@ export class SearchSuggestionServices{
   trainingSearchSuggestions: QueryHandle = async () =>{
         const { getEnabledFeature } = await this.configServices.features();
 
-            if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+            if (getEnabledFeature("MAIN_SEARCH_USING_EMBEDDING")) {
       return await this.searchEmbeddingSuggestionServices.trainingSearchSuggestions();
     }
 
