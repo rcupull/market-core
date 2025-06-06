@@ -68,6 +68,7 @@ __exportStar(require("./src/features/search/services-embedding"), exports);
 __exportStar(require("./src/features/search/services-nlp"), exports);
 __exportStar(require("./src/features/search/types"), exports);
 __exportStar(require("./src/features/search-suggestion/services"), exports);
+__exportStar(require("./src/features/search-suggestion/services-embedding"), exports);
 __exportStar(require("./src/features/search-suggestion/types"), exports);
 __exportStar(require("./src/features/user-activity/services"), exports);
 __exportStar(require("./src/features/user-activity/types"), exports);

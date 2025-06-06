@@ -78,6 +78,7 @@ export * from './src/features/search/services-nlp';
 export * from './src/features/search/types';
 
 export * from './src/features/search-suggestion/services';
+export * from './src/features/search-suggestion/services-embedding';
 export * from './src/features/search-suggestion/types';
 
 export * from './src/features/user-activity/services';

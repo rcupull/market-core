@@ -38,6 +38,7 @@ export class SearchSuggestionServices{
      */
 
     if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+
       const products = await this.searchEmbeddingSuggestionServices.searchSuggestionProducts({
         search,
         limit: 1
@@ -66,4 +67,13 @@ export class SearchSuggestionServices{
       similarProductScores: []
     };
   };
+  trainingSearchSuggestions: QueryHandle = async () =>{
+        const { getEnabledFeature } = await this.configServices.features();
+
+            if (getEnabledFeature(FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+      return await this.searchEmbeddingSuggestionServices.trainingSearchSuggestions();
+    }
+
+    return;
+  }
 }

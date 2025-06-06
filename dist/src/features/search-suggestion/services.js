@@ -43,6 +43,13 @@ class SearchSuggestionServices {
                 similarProductScores: []
             };
         };
+        this.trainingSearchSuggestions = async () => {
+            const { getEnabledFeature } = await this.configServices.features();
+            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+                return await this.searchEmbeddingSuggestionServices.trainingSearchSuggestions();
+            }
+            return;
+        };
     }
 }
 exports.SearchSuggestionServices = SearchSuggestionServices;

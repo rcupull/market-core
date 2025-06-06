@@ -12,4 +12,5 @@ export declare class SearchSuggestionServices {
         productScores: Array<ProductScore>;
         similarProductScores: Array<ProductScore>;
     }>;
+    trainingSearchSuggestions: QueryHandle;
 }
