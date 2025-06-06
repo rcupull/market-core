@@ -32,8 +32,7 @@ class SearchEmbeddingSuggestionServices {
                     vector,
                     limit
                 });
-                return out
-                    .map((s) => ({
+                return out.map((s) => ({
                     score: s.score,
                     vector: s.vector,
                     productName: s.payload.productName,
@@ -57,8 +56,7 @@ class SearchEmbeddingSuggestionServices {
                         vector,
                         limit
                     });
-                    return (0, general_1.compact)(out)
-                        .map((s) => ({
+                    return (0, general_1.compact)(out).map((s) => ({
                         score: s.score,
                         vector: s.vector,
                         productName: s.payload.productName,

@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SearchSuggestionServices = void 0;
-const types_1 = require("../config/types");
 class SearchSuggestionServices {
     constructor(configServices, searchEmbeddingSuggestionServices) {
         this.configServices = configServices;
@@ -19,7 +18,7 @@ class SearchSuggestionServices {
              * //////////////////////////////////////////////////////////////////////
              * //////////////////////////////////////////////////////////////////////
              */
-            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+            if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
                 const products = await this.searchEmbeddingSuggestionServices.searchSuggestionProducts({
                     search,
                     limit: 1
@@ -45,7 +44,7 @@ class SearchSuggestionServices {
         };
         this.trainingSearchSuggestions = async () => {
             const { getEnabledFeature } = await this.configServices.features();
-            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+            if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
                 return await this.searchEmbeddingSuggestionServices.trainingSearchSuggestions();
             }
             return;
