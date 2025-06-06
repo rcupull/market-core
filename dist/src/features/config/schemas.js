@@ -2,15 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.modelGetter = void 0;
 const schemas_1 = require("../../utils/schemas");
-const types_1 = require("./types");
 const schemas_2 = require("../../utils/schemas");
 const mongoose_1 = require("mongoose");
-const types_2 = require("../business/types");
+const types_1 = require("../business/types");
 ///////////////////////////////////////////////////////////////////////////////
 let AdminConfigModel;
 const modelGetter = () => {
     if (!AdminConfigModel) {
-        const commissionsByBusinessTypeSchemaDefinition = Object.values(types_2.BusinessType).reduce((acc, type) => ({
+        const commissionsByBusinessTypeSchemaDefinition = Object.values(types_1.BusinessType).reduce((acc, type) => ({
             ...acc,
             [type]: { _id: false, type: schemas_1.commissionsSchemaDefinition, required: true, select: false }
         }), {});
@@ -73,7 +72,7 @@ const modelGetter = () => {
                 type: [
                     {
                         _id: false,
-                        key: { type: String, enum: Object.values(types_1.FeatureKey), unique: true },
+                        key: { type: String, unique: true },
                         enabled: { type: Boolean },
                         description: { type: String }
                     }

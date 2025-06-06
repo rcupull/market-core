@@ -7,7 +7,6 @@ exports.GeolocationServices = void 0;
 const axios_1 = __importDefault(require("axios"));
 const general_1 = require("../../utils/general");
 const utils_1 = require("./utils");
-const types_1 = require("../config/types");
 /**
  * doc in https://project-osrm.org/docs/v5.24.0/api/#route-object
  */
@@ -95,7 +94,7 @@ class GeolocationServices {
                 };
             }
             const { getEnabledFeature } = await this.configServices.features();
-            if (getEnabledFeature(types_1.FeatureKey.COMPUTE_DELIVERY_DISTANCE_USING_OSRM_SERVICES)) {
+            if (getEnabledFeature('COMPUTE_DELIVERY_DISTANCE_USING_OSRM_SERVICES')) {
                 return await this.getOSRMGeolocationDistance({ fromAddress, toAddress });
             }
             return await this.getAproximatedDistance({ fromAddress, toAddress });

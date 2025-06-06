@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SearchServices = void 0;
 const schemas_1 = require("../../utils/schemas");
-const types_1 = require("../config/types");
 class SearchServices {
     constructor(configServices, productSimilarityServices, searchServicesNLP, searchServicesEmbeddings) {
         this.configServices = configServices;
@@ -22,12 +21,12 @@ class SearchServices {
              * //////////////////////////////////////////////////////////////////////
              * //////////////////////////////////////////////////////////////////////
              */
-            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_NLP)) {
+            if (getEnabledFeature('MAIN_SEARCH_USING_NLP')) {
                 const productScores = await this.searchServicesNLP.searchInMarketplace({ search });
                 return {
                     productScores,
                     similarProductScores: await (async () => {
-                        if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_PRODUCT_SIMILARITY)) {
+                        if (getEnabledFeature('MAIN_SEARCH_USING_PRODUCT_SIMILARITY')) {
                             const out = await this.productSimilarityServices.getAll({
                                 query: {
                                     productName: (0, schemas_1.getInArrayQuery)(productScores.map(({ productName }) => productName))
@@ -44,7 +43,7 @@ class SearchServices {
              * //////////////////////////////////////////////////////////////////////
              * //////////////////////////////////////////////////////////////////////
              */
-            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+            if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
                 const products = await this.searchServicesEmbeddings.searchInMarketplace({
                     search,
                     limit: 1
@@ -75,7 +74,7 @@ class SearchServices {
              * //////////////////////////////////////////////////////////////////////
              * //////////////////////////////////////////////////////////////////////
              */
-            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_NLP)) {
+            if (getEnabledFeature('MAIN_SEARCH_USING_NLP')) {
                 const productScores = await this.productSimilarityServices.getOne({
                     query: {
                         productId: postId
@@ -98,7 +97,7 @@ class SearchServices {
              * //////////////////////////////////////////////////////////////////////
              * //////////////////////////////////////////////////////////////////////
              */
-            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+            if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
                 const similar = await this.searchServicesEmbeddings.searchSimilarProducts({
                     productId: postId
                 });
@@ -126,7 +125,7 @@ class SearchServices {
              * //////////////////////////////////////////////////////////////////////
              * //////////////////////////////////////////////////////////////////////
              */
-            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_NLP)) {
+            if (getEnabledFeature('MAIN_SEARCH_USING_NLP')) {
                 const productScores = await this.searchServicesNLP.searchInBusiness({
                     search,
                     routeName
@@ -141,7 +140,7 @@ class SearchServices {
              * //////////////////////////////////////////////////////////////////////
              * //////////////////////////////////////////////////////////////////////
              */
-            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+            if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
                 return {
                     productScores: [],
                     similarProductScores: []
@@ -163,20 +162,20 @@ class SearchServices {
         };
         this.trainingMarketplace = async () => {
             const { getEnabledFeature } = await this.configServices.features();
-            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_NLP)) {
+            if (getEnabledFeature('MAIN_SEARCH_USING_NLP')) {
                 return await this.searchServicesNLP.trainingMarketplace();
             }
-            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+            if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
                 return await this.searchServicesEmbeddings.trainingMarketplace();
             }
             return;
         };
         this.trainingOneBusiness = async (routeName) => {
             const { getEnabledFeature } = await this.configServices.features();
-            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_NLP)) {
+            if (getEnabledFeature('MAIN_SEARCH_USING_NLP')) {
                 return await this.searchServicesNLP.trainingOneBusiness(routeName);
             }
-            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+            if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
                 //TODO
                 return;
             }
@@ -184,10 +183,10 @@ class SearchServices {
         };
         this.trainingAllBusiness = async () => {
             const { getEnabledFeature } = await this.configServices.features();
-            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_NLP)) {
+            if (getEnabledFeature('MAIN_SEARCH_USING_NLP')) {
                 return await this.searchServicesNLP.trainingAllBusiness();
             }
-            if (getEnabledFeature(types_1.FeatureKey.MAIN_SEARCH_USING_EMBEDDING)) {
+            if (getEnabledFeature('MAIN_SEARCH_USING_EMBEDDING')) {
                 //TODO
                 return;
             }

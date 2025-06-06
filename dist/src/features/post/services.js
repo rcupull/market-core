@@ -7,7 +7,6 @@ const utils_1 = require("./utils");
 const general_2 = require("../../utils/general");
 const schemas_2 = require("../../utils/schemas");
 const ModelCrudWithQdrant_1 = require("../../utils/ModelCrudWithQdrant");
-const types_1 = require("../config/types");
 const price_1 = require("../../utils/price");
 class PostServices extends ModelCrudWithQdrant_1.ModelCrudWithQdrant {
     constructor(userServices, reviewServices, configServices, options) {
@@ -119,7 +118,7 @@ class PostServices extends ModelCrudWithQdrant_1.ModelCrudWithQdrant {
                      * Remove USD from currencies of sale if the feature is disabled
                      * ////////////////////////////////////////////////////////////////
                      */
-                    if (!getEnabledFeature(types_1.FeatureKey.ALLOW_PAYMENT_USD) &&
+                    if (!getEnabledFeature('ALLOW_PAYMENT_USD') &&
                         ((_a = out.currenciesOfSale) === null || _a === void 0 ? void 0 : _a.includes(general_1.Currency.USD))) {
                         out.currenciesOfSale = out.currenciesOfSale.filter((c) => c !== general_1.Currency.USD);
                     }
@@ -128,7 +127,7 @@ class PostServices extends ModelCrudWithQdrant_1.ModelCrudWithQdrant {
                      * Remove MLC from currencies of sale if the feature is disabled
                      * ////////////////////////////////////////////////////////////////
                      */
-                    if (!getEnabledFeature(types_1.FeatureKey.ALLOW_PAYMENT_TRANSFERMOVIL_MLC) &&
+                    if (!getEnabledFeature('ALLOW_PAYMENT_TRANSFERMOVIL_MLC') &&
                         ((_b = out.currenciesOfSale) === null || _b === void 0 ? void 0 : _b.includes(general_1.Currency.MLC))) {
                         out.currenciesOfSale = out.currenciesOfSale.filter((c) => c !== general_1.Currency.MLC);
                     }
@@ -139,7 +138,7 @@ class PostServices extends ModelCrudWithQdrant_1.ModelCrudWithQdrant {
                      * Transform price to the first currency of sale if the feature is enabled
                      * ////////////////////////////////////////////////////////////
                      */
-                    if (!getEnabledFeature(types_1.FeatureKey.ALLOW_PAYMENT_USD) && out.currency === general_1.Currency.USD) {
+                    if (!getEnabledFeature('ALLOW_PAYMENT_USD') && out.currency === general_1.Currency.USD) {
                         const newCurrency = (() => {
                             var _a, _b;
                             if ((_a = out.currenciesOfSale) === null || _a === void 0 ? void 0 : _a.includes(general_1.Currency.MLC)) {
@@ -163,7 +162,7 @@ class PostServices extends ModelCrudWithQdrant_1.ModelCrudWithQdrant {
                             out.hiddenToCustomers = true;
                         }
                     }
-                    if (!getEnabledFeature(types_1.FeatureKey.ALLOW_PAYMENT_TRANSFERMOVIL_MLC) &&
+                    if (!getEnabledFeature('ALLOW_PAYMENT_TRANSFERMOVIL_MLC') &&
                         out.currency === general_1.Currency.MLC) {
                         const newCurrency = (() => {
                             var _a, _b;
