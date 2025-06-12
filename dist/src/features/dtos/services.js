@@ -7,7 +7,7 @@ const types_1 = require("../auth/types");
 const types_2 = require("../business/types");
 const types_3 = require("../search/types");
 class DtosServices {
-    constructor(businessServices, authServices, userServices, paymentServices, paymentProofServices, configServices, shoppingServices, postServices) {
+    constructor(businessServices, authServices, userServices, paymentServices, paymentProofServices, configServices, shoppingServices, postServices, helperServices) {
         this.businessServices = businessServices;
         this.authServices = authServices;
         this.userServices = userServices;
@@ -16,6 +16,7 @@ class DtosServices {
         this.configServices = configServices;
         this.shoppingServices = shoppingServices;
         this.postServices = postServices;
+        this.helperServices = helperServices;
         /**
          * //////////////////////////////////////////////////////////////
          * //////////////////////////////////////////////////////////////
@@ -582,6 +583,39 @@ class DtosServices {
             const promises = posts.map(getPostDto);
             const out = await Promise.all(promises);
             return out;
+        };
+        /**
+         * //////////////////////////////////////////////////////////////
+         * //////////////////////////////////////////////////////////////
+         * //////////////////////////HELPER///////////////////////////////
+         * //////////////////////////////////////////////////////////////
+         * //////////////////////////////////////////////////////////////
+         */
+        this.getHelperDto = async (helpers) => {
+            const allRelated = await this.helperServices.getAll({
+                query: {
+                    _id: (0, schemas_1.getInArrayQuery)(helpers.map((helper) => helper.relatedIds || []).flat())
+                }
+            });
+            const getDto = (helper) => {
+                return {
+                    ...(0, general_1.deepJsonCopy)(helper),
+                    relatedHelpers: (0, general_1.compact)((helper.relatedIds || []).map((relatedId) => {
+                        const relatedHelper = allRelated.find((faq) => (0, general_1.isEqualIds)(faq.id, relatedId));
+                        if (!relatedHelper) {
+                            return undefined;
+                        }
+                        if (relatedHelper.hidden) {
+                            return undefined;
+                        }
+                        return {
+                            helperSlug: relatedHelper.helperSlug,
+                            title: relatedHelper.title
+                        };
+                    }))
+                };
+            };
+            return helpers.map(getDto);
         };
     }
 }

@@ -6,6 +6,8 @@ import { BusinessServices } from '../business/services';
 import { BusinessType } from '../business/types';
 import { ConfigServices } from '../config/services';
 import { AdminConfig } from '../config/types';
+import { HelperServices } from '../helper/services';
+import { Helper, HelperDto } from '../helper/types';
 import { PaymentProofServices } from '../payment-proof/services';
 import { PaymentProof, PaymentProofDto } from '../payment-proof/types';
 import { PaymentServices } from '../payment/services';
@@ -26,7 +28,8 @@ export class DtosServices {
     private readonly paymentProofServices: PaymentProofServices,
     private readonly configServices: ConfigServices,
     private readonly shoppingServices: ShoppingServices,
-    private readonly postServices: PostServices
+    private readonly postServices: PostServices,
+    private readonly helperServices: HelperServices
   ) {}
 
   /**
@@ -753,5 +756,47 @@ export class DtosServices {
     const out = await Promise.all(promises);
 
     return out;
+  };
+
+  /**
+   * //////////////////////////////////////////////////////////////
+   * //////////////////////////////////////////////////////////////
+   * //////////////////////////HELPER///////////////////////////////
+   * //////////////////////////////////////////////////////////////
+   * //////////////////////////////////////////////////////////////
+   */
+
+  getHelperDto = async (helpers: Array<Helper>): Promise<Array<HelperDto>> => {
+    const allRelated = await this.helperServices.getAll({
+      query: {
+        _id: getInArrayQuery(helpers.map((helper) => helper.relatedIds || []).flat())
+      }
+    });
+
+    const getDto = (helper: Helper): HelperDto => {
+      return {
+        ...deepJsonCopy(helper),
+        relatedHelpers: compact(
+          (helper.relatedIds || []).map((relatedId) => {
+            const relatedHelper = allRelated.find((faq) => isEqualIds(faq.id, relatedId));
+
+            if (!relatedHelper) {
+              return undefined;
+            }
+
+            if (relatedHelper.hidden) {
+              return undefined;
+            }
+
+            return {
+              helperSlug: relatedHelper.helperSlug,
+              title: relatedHelper.title
+            };
+          })
+        )
+      };
+    };
+
+    return helpers.map(getDto);
   };
 }

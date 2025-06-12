@@ -1,6 +1,8 @@
 import { AuthServices } from '../auth/services';
 import { BusinessServices } from '../business/services';
 import { ConfigServices } from '../config/services';
+import { HelperServices } from '../helper/services';
+import { Helper, HelperDto } from '../helper/types';
 import { PaymentProofServices } from '../payment-proof/services';
 import { PaymentProof, PaymentProofDto } from '../payment-proof/types';
 import { PaymentServices } from '../payment/services';
@@ -20,7 +22,8 @@ export declare class DtosServices {
     private readonly configServices;
     private readonly shoppingServices;
     private readonly postServices;
-    constructor(businessServices: BusinessServices, authServices: AuthServices, userServices: UserServices, paymentServices: PaymentServices, paymentProofServices: PaymentProofServices, configServices: ConfigServices, shoppingServices: ShoppingServices, postServices: PostServices);
+    private readonly helperServices;
+    constructor(businessServices: BusinessServices, authServices: AuthServices, userServices: UserServices, paymentServices: PaymentServices, paymentProofServices: PaymentProofServices, configServices: ConfigServices, shoppingServices: ShoppingServices, postServices: PostServices, helperServices: HelperServices);
     /**
      * //////////////////////////////////////////////////////////////
      * //////////////////////////////////////////////////////////////
@@ -63,4 +66,12 @@ export declare class DtosServices {
     getSearchDto: (posts: Array<Post>) => Promise<Array<SearchDto>>;
     getPostsDto: (posts: Array<Post>) => Promise<Array<PostDto>>;
     getPostsOwnerDto: (posts: Array<Post>) => Promise<Array<PostDto>>;
+    /**
+     * //////////////////////////////////////////////////////////////
+     * //////////////////////////////////////////////////////////////
+     * //////////////////////////HELPER///////////////////////////////
+     * //////////////////////////////////////////////////////////////
+     * //////////////////////////////////////////////////////////////
+     */
+    getHelperDto: (helpers: Array<Helper>) => Promise<Array<HelperDto>>;
 }

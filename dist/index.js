@@ -61,6 +61,8 @@ __exportStar(require("./src/features/payment-settlement/services"), exports);
 __exportStar(require("./src/features/payment-settlement/types"), exports);
 __exportStar(require("./src/features/product-similarity/services"), exports);
 __exportStar(require("./src/features/product-similarity/types"), exports);
+__exportStar(require("./src/features/helper/services"), exports);
+__exportStar(require("./src/features/helper/types"), exports);
 __exportStar(require("./src/features/promo/services"), exports);
 __exportStar(require("./src/features/promo/types"), exports);
 __exportStar(require("./src/features/search/services"), exports);
