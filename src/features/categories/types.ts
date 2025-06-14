@@ -12,3 +12,7 @@ export interface Category extends BaseIdentity {
   subCategories: Array<SubCategory>;
   subProductsAmounts: Array<number>;
 }
+
+export interface CategoryDto extends Category {
+  productsAmount: number | undefined;
+}
