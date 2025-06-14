@@ -10,6 +10,7 @@ const modelGetter = () => {
             ...schemas_1.createdAtSchemaDefinition,
             title: { type: String, required: true },
             content: { type: String, required: true },
+            description: { type: String },
             helperSlug: { type: String, required: true, unique: true },
             hidden: { type: Boolean, default: false },
             relatedIds: [{ type: mongoose_1.Schema.Types.ObjectId, ref: 'helper' }]

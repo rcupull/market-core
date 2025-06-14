@@ -9,7 +9,7 @@ import { getAllImageSrcFromRichText } from '../../utils/ckeditor';
 
 export class HelperServices extends ModelCrudTemplate<
   Helper,
-  Pick<Helper, 'title' | 'content' | 'hidden' | 'relatedIds' | 'helperSlug'>,
+  Pick<Helper, 'title' | 'content' | 'hidden' | 'relatedIds' | 'helperSlug' | 'description'>,
   GetAllHelpersArgs
 > {
   constructor(private readonly fileServices: FileServices) {

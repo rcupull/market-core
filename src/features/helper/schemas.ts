@@ -10,6 +10,7 @@ export const modelGetter = () => {
       ...createdAtSchemaDefinition,
       title: { type: String, required: true },
       content: { type: String, required: true },
+      description: { type: String },
       helperSlug: { type: String, required: true, unique: true },
       hidden: { type: Boolean, default: false },
       relatedIds: [{ type: Schema.Types.ObjectId, ref: 'helper' }]
