@@ -79,6 +79,14 @@ export const modelGetter = () => {
           savedAt: { type: Date }
         }
       ],
+      helperPage: { type: String },
+      helperPageRecord: [
+        {
+          _id: false,
+          value: { type: String },
+          savedAt: { type: Date }
+        }
+      ],
       ////////////////////////////////////////
       features: {
         type: [

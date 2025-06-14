@@ -50,6 +50,11 @@ export interface AdminConfig extends BaseIdentity {
     value: string;
     savedAt: Date;
   }>;
+  helperPage?: string;
+  helperPageRecord?: Array<{
+    value: string;
+    savedAt: Date;
+  }>;
   features?: Array<{
     key: string;
     enabled: boolean;
