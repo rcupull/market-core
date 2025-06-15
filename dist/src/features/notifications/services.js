@@ -9,14 +9,14 @@ const schemas_1 = require("./schemas");
 const utils_1 = require("./utils");
 const ModelCrudTemplate_1 = require("../../utils/ModelCrudTemplate");
 const schemas_2 = require("../../utils/schemas");
-const types_1 = require("../auth/types");
 const general_1 = require("../../utils/general");
+const types_1 = require("../auth-session/types");
 class NotificationsServices extends ModelCrudTemplate_1.ModelCrudTemplate {
-    constructor(businessServices, userServices, authServices) {
+    constructor(businessServices, userServices, authSessionServices) {
         super(schemas_1.modelGetter, utils_1.getAllFilterQuery);
         this.businessServices = businessServices;
         this.userServices = userServices;
-        this.authServices = authServices;
+        this.authSessionServices = authSessionServices;
         this.firebaseInstance = firebase_admin_1.default;
         this.notificationsServicesInit = () => {
             firebase_admin_1.default.initializeApp({
@@ -77,7 +77,7 @@ class NotificationsServices extends ModelCrudTemplate_1.ModelCrudTemplate {
                     phone: 1
                 }
             });
-            const sessions = (await this.authServices.getAll({
+            const sessions = (await this.authSessionServices.getAll({
                 query: {
                     userId: (0, schemas_2.getInArrayQuery)(users.map((user) => user._id.toString())),
                     state: types_1.AuthSessionState.OPEN

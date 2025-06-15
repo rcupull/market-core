@@ -19,6 +19,8 @@ __exportStar(require("./src/utils/ModelCrudWithQdrant"), exports);
 __exportStar(require("./src/utils/general"), exports);
 __exportStar(require("./src/features/auth/types"), exports);
 __exportStar(require("./src/features/auth/services"), exports);
+__exportStar(require("./src/features/auth-session/types"), exports);
+__exportStar(require("./src/features/auth-session/services"), exports);
 __exportStar(require("./src/features/categories/types"), exports);
 __exportStar(require("./src/features/categories/services"), exports);
 __exportStar(require("./src/features/user/types"), exports);

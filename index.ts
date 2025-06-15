@@ -5,6 +5,9 @@ export * from './src/utils/general';
 export * from './src/features/auth/types';
 export * from './src/features/auth/services';
 
+export * from './src/features/auth-session/types';
+export * from './src/features/auth-session/services';
+
 export * from './src/features/categories/types';
 export * from './src/features/categories/services';
 

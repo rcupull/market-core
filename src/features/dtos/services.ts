@@ -1,7 +1,7 @@
 import { compact, deepJsonCopy, isEqualIds } from '../../utils/general';
 import { getInArrayQuery, lastUpQuerySort } from '../../utils/schemas';
-import { AuthServices } from '../auth/services';
-import { AuthSessionState } from '../auth/types';
+import { AuthSessionServices } from '../auth-session/services';
+import { AuthSessionState } from '../auth-session/types';
 import { BusinessServices } from '../business/services';
 import { BusinessType } from '../business/types';
 import { ConfigServices } from '../config/services';
@@ -22,7 +22,7 @@ import { User, UserDto } from '../user/types';
 export class DtosServices {
   constructor(
     private readonly businessServices: BusinessServices,
-    private readonly authServices: AuthServices,
+    private readonly authSessionServices: AuthSessionServices,
     private readonly userServices: UserServices,
     private readonly paymentServices: PaymentServices,
     private readonly paymentProofServices: PaymentProofServices,
@@ -137,7 +137,7 @@ export class DtosServices {
         lastAccessAt: undefined
       };
 
-      const lastSession = await this.authServices.getOne({
+      const lastSession = await this.authSessionServices.getOne({
         query: { userId: user._id },
         sort: lastUpQuerySort
       });

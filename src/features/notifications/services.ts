@@ -8,13 +8,13 @@ import { getAllFilterQuery, GetAllNotificationsArgs, getNotificationsCredentials
 import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
 import { BusinessServices } from '../business/services';
 import { UserServices } from '../user/services';
-import { AuthServices } from '../auth/services';
 import { Business } from '../business/types';
 import { FilterQuery } from 'mongoose';
 import { User } from '../user/types';
 import { getInArrayQuery } from '../../utils/schemas';
-import { AuthSession, AuthSessionState } from '../auth/types';
 import { compact, excludeRepetedValues, isEqualIds } from '../../utils/general';
+import { AuthSession, AuthSessionState } from '../auth-session/types';
+import { AuthSessionServices } from '../auth-session/services';
 
 export class NotificationsServices extends ModelCrudTemplate<
   PushNotification,
@@ -39,7 +39,7 @@ export class NotificationsServices extends ModelCrudTemplate<
   constructor(
     private readonly businessServices: BusinessServices,
     private readonly userServices: UserServices,
-    private readonly authServices: AuthServices
+    private readonly authSessionServices: AuthSessionServices
   ) {
     super(modelGetter, getAllFilterQuery);
     this.notificationsServicesInit();
@@ -131,7 +131,7 @@ export class NotificationsServices extends ModelCrudTemplate<
       }
     );
 
-    const sessions = (await this.authServices.getAll({
+    const sessions = (await this.authSessionServices.getAll({
       query: {
         userId: getInArrayQuery(users.map((user) => user._id.toString())),
         state: AuthSessionState.OPEN

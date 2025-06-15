@@ -1,8 +1,5 @@
-import { ModelDocument, QueryHandle } from '../../types/general';
-import { FilterQuery } from 'mongoose';
-import { modelGetter } from './schemas';
-import { AuthenticateCallback, AuthSession, AuthSessionState } from './types';
-import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
+import { QueryHandle } from '../../types/general';
+import { AuthenticateCallback } from './types';
 import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcrypt';
 import passportJWT from 'passport-jwt';
@@ -12,16 +9,15 @@ import { ValidationCodeServices } from '../validation-code/services';
 import { Logger } from '../../utils/general';
 import jwt from 'jsonwebtoken';
 import { User } from '../user/types';
+import { AuthSession } from '../auth-session/types';
+import { AuthSessionServices } from '../auth-session/services';
 
 const { Strategy: JWTStrategy, ExtractJwt } = passportJWT;
 
-export class AuthServices extends ModelCrudTemplate<
-  AuthSession,
-  Pick<AuthSession, 'refreshToken' | 'userId' | 'typeDevice' | 'descriptionDevice'>,
-  FilterQuery<AuthSession>
-> {
+export class AuthServices {
   steat: number;
   constructor(
+    private readonly authSessionServices: AuthSessionServices,
     private readonly userServices: UserServices,
     private readonly validationCodeServices: ValidationCodeServices,
     private readonly options: {
@@ -31,8 +27,6 @@ export class AuthServices extends ModelCrudTemplate<
       steat: number;
     }
   ) {
-    super(modelGetter);
-
     this.steat = this.options.steat;
     this.init();
   }
@@ -108,7 +102,7 @@ export class AuthServices extends ModelCrudTemplate<
           secretOrKey: SECRET_ACCESS_TOKEN
         },
         async (jwt_payload, done) => {
-          const authSession = await this.getOne({
+          const authSession = await this.authSessionServices.getOne({
             query: { userId: jwt_payload.id }
           });
 
@@ -181,13 +175,13 @@ export class AuthServices extends ModelCrudTemplate<
           /**
            * Cuando falla la verificación del token de refresco, se elimina la sesión
            */
-          await this.close({ refreshToken });
+          await this.authSessionServices.close({ refreshToken });
 
           resolve({
             accessToken: null
           });
         } else {
-          await this.updateOne({
+          await this.authSessionServices.updateOne({
             query: {
               _id: currentSession._id
             },
@@ -202,31 +196,6 @@ export class AuthServices extends ModelCrudTemplate<
         }
       });
     });
-  };
-
-  close: QueryHandle<
-    {
-      refreshToken: string;
-    },
-    ModelDocument<AuthSession> | null
-  > = async ({ refreshToken }) => {
-    const Model = modelGetter();
-
-    const authSession = await Model.findOneAndUpdate(
-      {
-        refreshToken,
-        state: AuthSessionState.OPEN
-      },
-      {
-        state: AuthSessionState.CLOSED,
-        closedAt: new Date()
-      },
-      {
-        returnDocument: 'after'
-      }
-    );
-
-    return authSession;
   };
 
   passportMiddlewareAutenticateLocal = (callback: AuthenticateCallback) => {

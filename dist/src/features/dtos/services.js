@@ -3,13 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DtosServices = void 0;
 const general_1 = require("../../utils/general");
 const schemas_1 = require("../../utils/schemas");
-const types_1 = require("../auth/types");
+const types_1 = require("../auth-session/types");
 const types_2 = require("../business/types");
 const types_3 = require("../search/types");
 class DtosServices {
-    constructor(businessServices, authServices, userServices, paymentServices, paymentProofServices, configServices, shoppingServices, postServices, helperServices) {
+    constructor(businessServices, authSessionServices, userServices, paymentServices, paymentProofServices, configServices, shoppingServices, postServices, helperServices) {
         this.businessServices = businessServices;
-        this.authServices = authServices;
+        this.authSessionServices = authSessionServices;
         this.userServices = userServices;
         this.paymentServices = paymentServices;
         this.paymentProofServices = paymentProofServices;
@@ -102,7 +102,7 @@ class DtosServices {
                     hasOpenSession: false,
                     lastAccessAt: undefined
                 };
-                const lastSession = await this.authServices.getOne({
+                const lastSession = await this.authSessionServices.getOne({
                     query: { userId: user._id },
                     sort: schemas_1.lastUpQuerySort
                 });

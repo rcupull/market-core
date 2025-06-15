@@ -1,17 +1,18 @@
-import { ModelDocument, QueryHandle } from '../../types/general';
-import { FilterQuery } from 'mongoose';
-import { AuthenticateCallback, AuthSession } from './types';
-import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
+import { QueryHandle } from '../../types/general';
+import { AuthenticateCallback } from './types';
 import { UserServices } from '../user/services';
 import { ValidationCodeServices } from '../validation-code/services';
 import { Logger } from '../../utils/general';
 import { User } from '../user/types';
-export declare class AuthServices extends ModelCrudTemplate<AuthSession, Pick<AuthSession, 'refreshToken' | 'userId' | 'typeDevice' | 'descriptionDevice'>, FilterQuery<AuthSession>> {
+import { AuthSession } from '../auth-session/types';
+import { AuthSessionServices } from '../auth-session/services';
+export declare class AuthServices {
+    private readonly authSessionServices;
     private readonly userServices;
     private readonly validationCodeServices;
     private readonly options;
     steat: number;
-    constructor(userServices: UserServices, validationCodeServices: ValidationCodeServices, options: {
+    constructor(authSessionServices: AuthSessionServices, userServices: UserServices, validationCodeServices: ValidationCodeServices, options: {
         logger: Logger;
         SECRET_ACCESS_TOKEN: string;
         SECRET_REFRESH_TOKEN: string;
@@ -30,9 +31,6 @@ export declare class AuthServices extends ModelCrudTemplate<AuthSession, Pick<Au
     }, {
         accessToken: string | null;
     }>;
-    close: QueryHandle<{
-        refreshToken: string;
-    }, ModelDocument<AuthSession> | null>;
     passportMiddlewareAutenticateLocal: (callback: AuthenticateCallback) => any;
     passportMiddlewareAutenticateJWT: (callback: AuthenticateCallback) => any;
     isDeprecatedPassword: (user: User, newPassword: string) => Promise<boolean>;
