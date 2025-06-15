@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 import { Currency, ModelDocument, QueryHandle } from '../../types/general';
 import { modelGetter } from './schemas';
-import { GetAllPostArgs, Post, PostDto, PostReviewDto, PostReviewSummary } from './types';
+import { GetAllPostArgs, Post, PostReviewDto, PostReviewSummary } from './types';
 
 import { getAllFilterQuery, getPostSlugFromName } from './utils';
 import { deepJsonCopy, isEqualIds, isNumber } from '../../utils/general';
@@ -15,6 +15,7 @@ import { ShoppingPostData } from '../shopping/types';
 import { ConfigServices } from '../config/services';
 import { AdminConfig } from '../config/types';
 import { getConvertedPrice } from '../../utils/price';
+import { PostDto } from '../post-dtos/types';
 
 interface PostQdrantPayload {
   productId: string;

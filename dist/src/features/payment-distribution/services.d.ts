@@ -18,8 +18,8 @@ export declare class PaymentDistributionServices {
         allowedPayments: import("../payment/types").Payment[];
         allowedShopping: Shopping[];
         getOneShoppingPaymentData: (shopping: Shopping) => {
-            paymentCompleted: import("../shopping/types").ShoppingDto["paymentCompleted"];
-            paymentHistory: import("../shopping/types").ShoppingDto["paymentHistory"];
+            paymentCompleted: import("../shopping-dtos/types").ShoppingDto["paymentCompleted"];
+            paymentHistory: import("../shopping-dtos/types").ShoppingDto["paymentHistory"];
             shoppingAllPayments: Array<import("../payment/types").Payment>;
         };
     }>;

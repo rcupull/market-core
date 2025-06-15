@@ -1,12 +1,13 @@
 import { Schema } from 'mongoose';
 import { ModelDocument, QueryHandle } from '../../types/general';
-import { GetAllPostArgs, Post, PostDto, PostReviewDto, PostReviewSummary } from './types';
+import { GetAllPostArgs, Post, PostReviewDto, PostReviewSummary } from './types';
 import { getPostSlugFromName } from './utils';
 import { ModelCrudWithQdrant, ModelCrudWithQdrantOptions } from '../../utils/ModelCrudWithQdrant';
 import { UserServices } from '../user/services';
 import { ReviewServices } from '../review/services';
 import { ShoppingPostData } from '../shopping/types';
 import { ConfigServices } from '../config/services';
+import { PostDto } from '../post-dtos/types';
 interface PostQdrantPayload {
     productId: string;
     productName: string;

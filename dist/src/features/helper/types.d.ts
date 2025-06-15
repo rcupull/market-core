@@ -8,6 +8,3 @@ export interface Helper extends BaseIdentity {
     hidden?: boolean;
     relatedIds?: Array<Schema.Types.ObjectId>;
 }
-export interface HelperDto extends Helper {
-    relatedHelpers: Array<Pick<Helper, 'helperSlug' | 'title'>> | undefined;
-}

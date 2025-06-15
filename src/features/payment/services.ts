@@ -6,9 +6,10 @@ import { getConvertedPrice } from '../../utils/price';
 import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
 import { Payment } from './types';
 import { ShoppingServices } from '../shopping/services';
-import { Shopping, ShoppingDto } from '../shopping/types';
+import { Shopping } from '../shopping/types';
 import { bigEq, bigGt } from '../../utils/big';
 import { User } from '../user/types';
+import { ShoppingDto } from '../shopping-dtos/types';
 
 export class PaymentServices extends ModelCrudTemplate<
   Payment,

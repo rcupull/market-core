@@ -6,18 +6,23 @@ import { BusinessServices } from '../business/services';
 import { BusinessType } from '../business/types';
 import { ConfigServices } from '../config/services';
 import { AdminConfig } from '../config/types';
+import { HelperDto } from '../helper-dtos/types';
 import { HelperServices } from '../helper/services';
-import { Helper, HelperDto } from '../helper/types';
+import { Helper } from '../helper/types';
+import { PaymentProofDto } from '../payment-proof-dtos/types';
 import { PaymentProofServices } from '../payment-proof/services';
-import { PaymentProof, PaymentProofDto } from '../payment-proof/types';
+import { PaymentProof } from '../payment-proof/types';
 import { PaymentServices } from '../payment/services';
+import { PostDto } from '../post-dtos/types';
 import { PostServices } from '../post/services';
-import { Post, PostDto } from '../post/types';
-import { NlpSearchReturnType, SearchDto, SearchPostDto } from '../search/types';
+import { Post } from '../post/types';
+import { NlpSearchReturnType, SearchDto, SearchPostDto } from '../search-dtos/types';
+import { ShoppingCartDto, ShoppingDto } from '../shopping-dtos/types';
 import { ShoppingServices } from '../shopping/services';
-import { Shopping, ShoppingCartDto, ShoppingDto } from '../shopping/types';
+import { Shopping } from '../shopping/types';
+import { UserDto } from '../user-dtos/types';
 import { UserServices } from '../user/services';
-import { User, UserDto } from '../user/types';
+import { User } from '../user/types';
 
 export class DtosServices {
   constructor(

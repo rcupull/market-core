@@ -1,7 +1,6 @@
 import { FilterQuery, Schema } from 'mongoose';
 import { BaseIdentity, Currency, Image } from '../../types/general';
 import { Review } from '../review/types';
-import { BusinessType } from '../business/types';
 
 export type PostType = 'product' | 'link'; // el tipo de publicaciones que posee
 
@@ -68,18 +67,6 @@ export interface Post extends BaseIdentity {
     type: PostLinkType;
     value: string;
   };
-}
-
-export interface PostDto extends Post {
-  stockAmountAvailable: number | undefined;
-  amountInProcess: number | undefined;
-  businessType: BusinessType | undefined;
-  businessName: string | undefined;
-  businessAllowedOnlyCUPinCash: boolean | undefined;
-
-  reviewSummary: PostReviewSummary | undefined;
-  reviews: Array<Review> | undefined;
-  hiddenToCustomers?: boolean;
 }
 
 export interface DeletePostQuery extends FilterQuery<Post> {

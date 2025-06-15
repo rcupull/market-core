@@ -5,7 +5,7 @@ const general_1 = require("../../utils/general");
 const schemas_1 = require("../../utils/schemas");
 const types_1 = require("../auth-session/types");
 const types_2 = require("../business/types");
-const types_3 = require("../search/types");
+const types_3 = require("../search-dtos/types");
 class DtosServices {
     constructor(businessServices, authSessionServices, userServices, paymentServices, paymentProofServices, configServices, shoppingServices, postServices, helperServices) {
         this.businessServices = businessServices;

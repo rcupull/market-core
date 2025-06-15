@@ -1,10 +1,9 @@
 import { FilterQuery, Schema } from 'mongoose';
-import { Address, BaseIdentity, Currency } from '../../types/general';
+import { Address, BaseIdentity } from '../../types/general';
 import { Commissions } from '../../types/commision';
 import { Post, PostPurshaseNotes } from '../post/types';
 import { ExchangeRates } from '../config/types';
-import { BusinessType, DeliveryConfig, DeliveryConfigType } from '../business/types';
-import { PaymentWay } from '../payment/types';
+import { BusinessType, DeliveryConfigType } from '../business/types';
 
 export enum ShoppingState {
   CONSTRUCTION = 'CONSTRUCTION',
@@ -109,39 +108,4 @@ export interface Shopping extends BaseIdentity {
     createdAt: Date;
     createdBy: Schema.Types.ObjectId;
   };
-}
-
-export interface ShoppingDto extends Shopping {
-  purchaserName: string | undefined;
-  purchaserAddress: Address | undefined;
-  purchaserPhone: string | undefined;
-
-  businessName: string | undefined;
-  businessAllowedOnlyCUPinCash: boolean | undefined;
-  businessAddress: Address | undefined;
-  businessTermsAndConditions: string | undefined;
-
-  paymentCompleted: boolean | undefined;
-  deliveryConfigToUse: DeliveryConfig | undefined;
-
-  /**
-   * Cuando la orden de compra no tiene delivery y
-   * esta en listo para entregar debe agregarse la direccion de recogida
-   */
-  addressToPickUp: Address | undefined;
-
-  //
-  paymentProofId: Schema.Types.ObjectId | undefined;
-  paymentProofCode: string | undefined;
-  //
-  paymentHistory: Array<{
-    paymentCurrency: Currency;
-    paymentWay: PaymentWay;
-    paymentId: Schema.Types.ObjectId;
-    hasValidation: boolean;
-  }>;
-}
-
-export interface ShoppingCartDto extends ShoppingDto {
-  posts: Array<ShoppingPostMeta & { stockAmountAvailable: number | undefined }>; // only used in the cart
 }

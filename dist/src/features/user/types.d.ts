@@ -1,5 +1,4 @@
 import { Address, BankAccount, BaseIdentity, Image } from '../../types/general';
-import { Business } from '../business/types';
 export declare enum UserRole {
     USER = "user",
     ADMIN = "admin"
@@ -30,9 +29,4 @@ export interface User extends BaseIdentity {
     isMessengerOf: Array<string>;
     messengerBankAccountCUP?: BankAccount;
     messengerBankAccountMLC?: BankAccount;
-}
-export interface UserDto extends User {
-    favoritesBusiness: Array<Pick<Business, 'routeName' | 'name'>>;
-    hasOpenSession: boolean | undefined;
-    lastAccessAt: Date | undefined;
 }

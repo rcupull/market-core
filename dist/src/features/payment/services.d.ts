@@ -3,8 +3,9 @@ import { GetAllPaymentArgs } from './utils';
 import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
 import { Payment } from './types';
 import { ShoppingServices } from '../shopping/services';
-import { Shopping, ShoppingDto } from '../shopping/types';
+import { Shopping } from '../shopping/types';
 import { User } from '../user/types';
+import { ShoppingDto } from '../shopping-dtos/types';
 export declare class PaymentServices extends ModelCrudTemplate<Payment, Pick<Payment, 'saleProductsPrice' | 'saleDeliveryPrice' | 'saleTotalPrice' | 'bankAccountNumberFrom' | 'paymentWay' | 'shoppingId' | 'createdBy' | 'transactionCode' | 'wasTransactionCodeAutoCompleted' | 'currency' | 'validation'>, GetAllPaymentArgs> {
     private readonly shoppingAppServices;
     constructor(shoppingAppServices: ShoppingServices);
