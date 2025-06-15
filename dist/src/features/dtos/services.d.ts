@@ -1,4 +1,4 @@
-import { AuthServices } from '../auth/services';
+import { AuthSessionServices } from '../auth-session/services';
 import { BusinessServices } from '../business/services';
 import { ConfigServices } from '../config/services';
 import { HelperServices } from '../helper/services';
@@ -15,7 +15,7 @@ import { UserServices } from '../user/services';
 import { User, UserDto } from '../user/types';
 export declare class DtosServices {
     private readonly businessServices;
-    private readonly authServices;
+    private readonly authSessionServices;
     private readonly userServices;
     private readonly paymentServices;
     private readonly paymentProofServices;
@@ -23,7 +23,7 @@ export declare class DtosServices {
     private readonly shoppingServices;
     private readonly postServices;
     private readonly helperServices;
-    constructor(businessServices: BusinessServices, authServices: AuthServices, userServices: UserServices, paymentServices: PaymentServices, paymentProofServices: PaymentProofServices, configServices: ConfigServices, shoppingServices: ShoppingServices, postServices: PostServices, helperServices: HelperServices);
+    constructor(businessServices: BusinessServices, authSessionServices: AuthSessionServices, userServices: UserServices, paymentServices: PaymentServices, paymentProofServices: PaymentProofServices, configServices: ConfigServices, shoppingServices: ShoppingServices, postServices: PostServices, helperServices: HelperServices);
     /**
      * //////////////////////////////////////////////////////////////
      * //////////////////////////////////////////////////////////////

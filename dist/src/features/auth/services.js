@@ -4,18 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthServices = void 0;
-const schemas_1 = require("./schemas");
-const types_1 = require("./types");
-const ModelCrudTemplate_1 = require("../../utils/ModelCrudTemplate");
 const passport_local_1 = require("passport-local");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const passport_jwt_1 = __importDefault(require("passport-jwt"));
 const passport_1 = __importDefault(require("passport"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const { Strategy: JWTStrategy, ExtractJwt } = passport_jwt_1.default;
-class AuthServices extends ModelCrudTemplate_1.ModelCrudTemplate {
-    constructor(userServices, validationCodeServices, options) {
-        super(schemas_1.modelGetter);
+class AuthServices {
+    constructor(authSessionServices, userServices, validationCodeServices, options) {
+        this.authSessionServices = authSessionServices;
         this.userServices = userServices;
         this.validationCodeServices = validationCodeServices;
         this.options = options;
@@ -77,7 +74,7 @@ class AuthServices extends ModelCrudTemplate_1.ModelCrudTemplate {
                 jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
                 secretOrKey: SECRET_ACCESS_TOKEN
             }, async (jwt_payload, done) => {
-                const authSession = await this.getOne({
+                const authSession = await this.authSessionServices.getOne({
                     query: { userId: jwt_payload.id }
                 });
                 if (!authSession) {
@@ -123,13 +120,13 @@ class AuthServices extends ModelCrudTemplate_1.ModelCrudTemplate {
                         /**
                          * Cuando falla la verificación del token de refresco, se elimina la sesión
                          */
-                        await this.close({ refreshToken });
+                        await this.authSessionServices.close({ refreshToken });
                         resolve({
                             accessToken: null
                         });
                     }
                     else {
-                        await this.updateOne({
+                        await this.authSessionServices.updateOne({
                             query: {
                                 _id: currentSession._id
                             },
@@ -143,19 +140,6 @@ class AuthServices extends ModelCrudTemplate_1.ModelCrudTemplate {
                     }
                 });
             });
-        };
-        this.close = async ({ refreshToken }) => {
-            const Model = (0, schemas_1.modelGetter)();
-            const authSession = await Model.findOneAndUpdate({
-                refreshToken,
-                state: types_1.AuthSessionState.OPEN
-            }, {
-                state: types_1.AuthSessionState.CLOSED,
-                closedAt: new Date()
-            }, {
-                returnDocument: 'after'
-            });
-            return authSession;
         };
         this.passportMiddlewareAutenticateLocal = (callback) => {
             return passport_1.default.authenticate('local', {
