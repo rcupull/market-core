@@ -15,8 +15,8 @@ export const modelGetter = () => {
     const UserSchema = new Schema<User>({
       ...createdAtSchemaDefinition,
       name: { type: String, required: true },
-      phone: { type: String, unique: true, required: true },
-      email: { type: String, default: null },
+      phone: { type: String, unique: true, sparse: true, default: null },
+      email: { type: String, unique: true, sparse: true, default: null },
       password: { type: String, required: true, select: false },
       passwordHistory: [
         {
@@ -76,6 +76,29 @@ export const modelGetter = () => {
         });
       });
     };
+
+    UserSchema.pre('validate', function (next) {
+      // `this` se refiere al documento actual que se está validando/guardando
+      if (!this.phone && !this.email) {
+        // Si ni el teléfono ni el email están presentes, lanza un error de validación
+        this.invalidate(
+          'phone',
+          'Debe proporcionar al menos un número de teléfono o una dirección de correo electrónico.',
+          undefined
+        );
+        this.invalidate(
+          'email',
+          'Debe proporcionar al menos un número de teléfono o una dirección de correo electrónico.',
+          undefined
+        );
+        next(
+          new Error('Validation failed: Must provide either a phone number or an email address.')
+        );
+      } else {
+        // Si al menos uno está presente, continúa con la validación normal
+        next();
+      }
+    });
 
     UserSchema.pre('save', async function (next) {
       //eslint-disable-next-line

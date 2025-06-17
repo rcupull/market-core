@@ -4,7 +4,8 @@ import { ModelCrudTemplate } from '../../utils/ModelCrudTemplate';
 import { Address, QueryHandle } from '../../types/general';
 import { Schema } from 'mongoose';
 export declare class UserServices extends ModelCrudTemplate<User, {
-    phone: string;
+    phone?: string;
+    email?: string;
     password: string;
     name: string;
 }, GetAllUsersArgs> {

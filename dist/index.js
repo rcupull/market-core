@@ -91,5 +91,6 @@ __exportStar(require("./src/features/web-tracking/services"), exports);
 __exportStar(require("./src/features/web-tracking/types"), exports);
 __exportStar(require("./src/features/dtos/services"), exports);
 __exportStar(require("./src/features/google-images/services"), exports);
+__exportStar(require("./src/features/email/services"), exports);
 __exportStar(require("./src/db"), exports);
 __exportStar(require("./src/utils/constants"), exports);

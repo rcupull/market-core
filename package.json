@@ -1,6 +1,6 @@
 {
   "name": "market-core",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,7 +45,7 @@
     "multer": "1.4.5-lts.1",
     "multer-s3": "^3.0.1",
     "node-nlp": "^4.27.0",
-    "nodemailer": "^6.9.8",
+    "nodemailer": "^6.10.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",

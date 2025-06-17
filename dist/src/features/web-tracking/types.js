@@ -4,11 +4,13 @@ exports.webTrackingTypeRecord = void 0;
 exports.webTrackingTypeRecord = {
     // Sign In
     'page.signIn.phone.focus': 'page.signIn.phone.focus',
+    'page.signIn.email.focus': 'page.signIn.email.focus',
     'page.signIn.password.focus': 'page.signIn.password.focus',
     'page.signIn.button.click': 'page.signIn.button.click',
     // Sign Up
     'page.signUp.name.focus': 'page.signUp.name.focus',
     'page.signUp.phone.focus': 'page.signUp.phone.focus',
+    'page.signUp.email.focus': 'page.signUp.email.focus',
     'page.signUp.password.focus': 'page.signUp.password.focus',
     'page.signUp.button.click': 'page.signUp.button.click',
     // Auth

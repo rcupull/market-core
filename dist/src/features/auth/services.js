@@ -22,7 +22,7 @@ class AuthServices {
                 try {
                     const user = await this.userServices.getOne({
                         query: {
-                            phone: username
+                            $or: [{ phone: username }, { email: username }]
                         },
                         select: {
                             password: true
@@ -63,7 +63,7 @@ class AuthServices {
                         });
                     }
                     const { logger } = this.options;
-                    logger.info(`User ${user.phone} logged in.`);
+                    logger.info(`User ${user.phone || user.email} logged in.`);
                     return done(null, user);
                 }
                 catch (err) {

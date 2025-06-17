@@ -9,7 +9,8 @@ import { isEqualIds, isNumber } from '../../utils/general';
 export class UserServices extends ModelCrudTemplate<
   User,
   {
-    phone: string;
+    phone?: string;
+    email?: string;
     password: string;
     name: string;
   },

@@ -3,10 +3,12 @@ import { AnyRecord, BaseIdentity, Currency } from '../../types/general';
 import { PaymentWay } from '../payment/types';
 export declare const webTrackingTypeRecord: {
     'page.signIn.phone.focus': string;
+    'page.signIn.email.focus': string;
     'page.signIn.password.focus': string;
     'page.signIn.button.click': string;
     'page.signUp.name.focus': string;
     'page.signUp.phone.focus': string;
+    'page.signUp.email.focus': string;
     'page.signUp.password.focus': string;
     'page.signUp.button.click': string;
     'auth.signOut.success': string;
