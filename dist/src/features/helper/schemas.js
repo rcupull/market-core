@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.modelGetter = void 0;
+const types_1 = require("./types");
 const schemas_1 = require("../../utils/schemas");
 const mongoose_1 = require("mongoose");
 let HelperModel;
@@ -10,6 +11,7 @@ const modelGetter = () => {
             ...schemas_1.createdAtSchemaDefinition,
             title: { type: String, required: true },
             content: { type: String, required: true },
+            type: { type: String, enum: Object.values(types_1.HelperType) },
             description: { type: String },
             helperSlug: { type: String, required: true, unique: true },
             hidden: { type: Boolean, default: false },

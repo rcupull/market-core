@@ -1,4 +1,4 @@
-import { Helper } from './types';
+import { Helper, HelperType } from './types';
 import { createdAtSchemaDefinition, getMongoModel } from '../../utils/schemas';
 import { Schema } from 'mongoose';
 
@@ -10,6 +10,7 @@ export const modelGetter = () => {
       ...createdAtSchemaDefinition,
       title: { type: String, required: true },
       content: { type: String, required: true },
+      type: { type: String, enum: Object.values(HelperType) },
       description: { type: String },
       helperSlug: { type: String, required: true, unique: true },
       hidden: { type: Boolean, default: false },
