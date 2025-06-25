@@ -18,6 +18,7 @@ export declare class FileServices {
     uploadImage: QueryHandle<{
         routeName?: string;
         postId?: string;
+        professionalJobId?: string;
         userId?: string;
         customKey?: string;
         imageBuffer: Buffer;

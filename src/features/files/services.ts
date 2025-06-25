@@ -131,6 +131,7 @@ export class FileServices {
     {
       routeName?: string;
       postId?: string;
+      professionalJobId?: string;
       userId?: string;
       customKey?: string;
       imageBuffer: Buffer;
@@ -138,11 +139,12 @@ export class FileServices {
     {
       imageSrc: string | null;
     }
-  > = async ({ customKey, postId, routeName, userId, imageBuffer }) => {
+  > = async ({ customKey, postId, professionalJobId, routeName, userId, imageBuffer }) => {
     const { S3_BUCKET_APP, logger } = this.options;
 
     const pathToSave = getPathToSave({
       postId,
+      professionalJobId,
       routeName,
       userId,
       customKey

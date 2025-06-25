@@ -1,6 +1,7 @@
 export interface GetPathToSaveArgs {
     routeName?: string;
     postId?: string;
+    professionalJobId?: string;
     userId?: string;
     customKey?: string;
 }

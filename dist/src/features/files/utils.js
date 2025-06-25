@@ -2,11 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPathToSave = void 0;
 const getPathToSave = (args) => {
-    const { routeName, postId, userId, customKey } = args;
+    const { routeName, postId, professionalJobId, userId, customKey } = args;
     if (routeName) {
         let out = `business/${routeName}`;
         if (postId) {
             out = `${out}/posts/${postId}`;
+        }
+        if (professionalJobId) {
+            out = `${out}/professionalJobs/${professionalJobId}`;
         }
         if (customKey) {
             out = `${out}/${customKey}`;

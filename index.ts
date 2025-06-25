@@ -34,6 +34,12 @@ export * from './src/features/post/services';
 export * from './src/features/post-dtos/types';
 export * from './src/features/post-dtos/services';
 
+export * from './src/features/professional-job/types';
+export * from './src/features/professional-job/services';
+
+export * from './src/features/professional-job-dtos/types';
+export * from './src/features/professional-job-dtos/services';
+
 export * from './src/features/business/types';
 export * from './src/features/business/services';
 export * from './src/features/business/utils';

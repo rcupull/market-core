@@ -26,10 +26,11 @@ class FileServices {
                 return [];
             }
         };
-        this.uploadImage = async ({ customKey, postId, routeName, userId, imageBuffer }) => {
+        this.uploadImage = async ({ customKey, postId, professionalJobId, routeName, userId, imageBuffer }) => {
             const { S3_BUCKET_APP, logger } = this.options;
             const pathToSave = (0, utils_1.getPathToSave)({
                 postId,
+                professionalJobId,
                 routeName,
                 userId,
                 customKey
