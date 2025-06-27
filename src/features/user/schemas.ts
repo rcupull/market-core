@@ -58,7 +58,8 @@ export const modelGetter = () => {
       messengerBankAccountMLC: {
         _id: false,
         type: BankAccountDefinition
-      }
+      },
+      messengerAvailable: { type: Boolean }
     });
 
     const updateUserPassword = (user: User): Promise<void> => {

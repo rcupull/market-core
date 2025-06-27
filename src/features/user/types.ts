@@ -27,6 +27,8 @@ export interface User extends BaseIdentity {
   defaultAddressIndex?: number;
   addresses?: Array<Address>;
   //
+  messengerAvailable?: boolean;
+  //
   checks?: UserChecks;
   lastGeolocation?: Geolocation;
   isOwnerOf: Array<string>; // list of business routeNames

@@ -57,7 +57,8 @@ const modelGetter = () => {
             messengerBankAccountMLC: {
                 _id: false,
                 type: schemas_1.BankAccountDefinition
-            }
+            },
+            messengerAvailable: { type: Boolean }
         });
         const updateUserPassword = (user) => {
             return new Promise((resolve, reject) => {

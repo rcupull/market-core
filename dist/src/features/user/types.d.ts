@@ -23,6 +23,7 @@ export interface User extends BaseIdentity {
     specialAccess?: Array<string>;
     defaultAddressIndex?: number;
     addresses?: Array<Address>;
+    messengerAvailable?: boolean;
     checks?: UserChecks;
     lastGeolocation?: Geolocation;
     isOwnerOf: Array<string>;
