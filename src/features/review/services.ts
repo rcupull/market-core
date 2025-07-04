@@ -6,7 +6,7 @@ import { GetAllReviewArgs, getAllFilterQuery } from './utils';
 
 export class ReviewServices extends ModelCrudTemplate<
   Review,
-  Pick<Review, 'reviewerId' | 'comment' | 'star' | 'postId'>,
+  Pick<Review, 'reviewerId' | 'comment' | 'star' | 'postId' | 'images'>,
   GetAllReviewArgs
 > {
   constructor() {

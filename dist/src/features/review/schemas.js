@@ -11,7 +11,8 @@ const modelGetter = () => {
             reviewerId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true },
             postId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Post', required: true },
             comment: { type: String, required: true },
-            star: { type: Number, required: true }
+            star: { type: Number, required: true },
+            images: { type: [String], required: false }
         });
         ReviewModel = (0, schemas_1.getMongoModel)('Review', ReviewSchema, 'reviews');
     }

@@ -11,7 +11,8 @@ export const modelGetter = () => {
       reviewerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
       postId: { type: Schema.Types.ObjectId, ref: 'Post', required: true },
       comment: { type: String, required: true },
-      star: { type: Number, required: true }
+      star: { type: Number, required: true },
+      images: { type: [String], required: false }
     });
 
     ReviewModel = getMongoModel<Review>('Review', ReviewSchema, 'reviews');

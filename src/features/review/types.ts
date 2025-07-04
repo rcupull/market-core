@@ -6,4 +6,5 @@ export interface Review extends BaseIdentity {
   postId: Schema.Types.ObjectId;
   star: number;
   comment: string;
+  images?: string[];
 }
