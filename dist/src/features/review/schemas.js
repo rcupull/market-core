@@ -13,12 +13,15 @@ const modelGetter = () => {
             comment: { type: String, required: true },
             star: { type: Number, required: true },
             images: {
-                type: [{
+                type: [
+                    {
                         src: String,
                         width: Number,
                         height: Number,
                         href: { type: String, required: false }
-                    }], required: false
+                    }
+                ],
+                required: false
             }
         });
         ReviewModel = (0, schemas_1.getMongoModel)('Review', ReviewSchema, 'reviews');
